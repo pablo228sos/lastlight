@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Color, MathUtils, MeshBasicMaterial, MeshStandardMaterial, Object3D, type InstancedMesh } from 'three'
 import type { SceneLayer, ScenePhase, VisualRehearsalState } from '../app/useMissionState'
 import type { SiteId } from '../features/sites'
+import { SchoolDetails } from './SchoolDetails'
 
 type Building = { x: number; z: number; w: number; d: number; h: number; tone: number }
 type MatrixItem = { x: number; y: number; z: number; sx: number; sy: number; sz: number; ry?: number }
@@ -22,7 +23,6 @@ const buildings: Building[] = parcelX.flatMap((x, ix) => parcelZ.flatMap((z, iz)
     w: 7 + seeded(i + 12) * 6, d: 8 + seeded(i + 13) * 6,
     h: 5 + seeded(i + 14) * (seeded(i + 15) > .74 ? 23 : 13), tone: i % 4 }]
 }))
-const buildingBodies: MatrixItem[] = buildings.map(b => ({ x: b.x, y: b.h / 2, z: b.z, sx: b.w, sy: b.h, sz: b.d }))
 const facadeBands: MatrixItem[] = buildings.flatMap(b => Array.from({ length: Math.max(1, Math.floor(b.h / 2.9)) }, (_, floor) => ({
   x: b.x, y: 2.85 + floor * 2.9, z: b.z, sx: b.w + .09, sy: .09, sz: b.d + .09,
 })))
@@ -59,6 +59,10 @@ const trees: MatrixItem[] = Array.from({ length: 186 }, (_, i) => {
 const lampSites = [-111, -66, -18, 31, 77, 119].flatMap(x => [-80, -33, 55, 100].map(z => ({ x, z })))
   .concat([-111, -66, -18, 31, 77, 119].flatMap(z => [-80, -33, 55, 100].map(x => ({ x, z }))))
 const lamps: MatrixItem[] = lampSites.map(({ x, z }) => ({ x, y: 5.2, z, sx: .45, sy: .45, sz: .45 }))
+const roadMarkings: MatrixItem[] = [-80, -33, 55, 100].flatMap(at => Array.from({ length: 26 }, (_, j) => [
+  { x: at, y: .047, z: -128 + j * 10, sx: .13, sy: .015, sz: 2.5 },
+  { x: -128 + j * 10, y: .047, z: at, sx: 2.5, sy: .015, sz: .13 },
+]).flat())
 const campusFencePosts: MatrixItem[] = [
   ...Array.from({ length: 13 }, (_, i) => [-30 + i * 5, -25] as const),
   ...Array.from({ length: 13 }, (_, i) => [-30 + i * 5, 25] as const).filter(([x]) => x < -27 || x > -9),
@@ -75,8 +79,8 @@ const campusFenceRails: MatrixItem[] = [.5, 1.35].flatMap(y => [
 const schoolLit = new MeshStandardMaterial({ color: '#7c5a37', emissive: '#ffbc70', emissiveIntensity: 1.6, toneMapped: false })
 const schoolEmergency = new MeshStandardMaterial({ color: '#386566', emissive: '#65d4c8', emissiveIntensity: 3.5, toneMapped: false })
 
-function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 1 }: {
-  items: MatrixItem[]; color: string; emissive?: string; emissiveIntensity?: number; roughness?: number
+function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 1, castShadow = true }: {
+  items: MatrixItem[]; color: string; emissive?: string; emissiveIntensity?: number; roughness?: number; castShadow?: boolean
 }) {
   const ref = useRef<InstancedMesh>(null)
   useLayoutEffect(() => {
@@ -90,10 +94,64 @@ function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 
     })
     if (ref.current) { ref.current.instanceMatrix.needsUpdate = true; ref.current.computeBoundingSphere() }
   }, [items])
-  return <instancedMesh ref={ref} args={[undefined, undefined, items.length]} castShadow receiveShadow>
+  return <instancedMesh ref={ref} args={[undefined, undefined, items.length]} castShadow={castShadow} receiveShadow>
     <boxGeometry args={[1, 1, 1]} />
     <meshStandardMaterial color={color} emissive={emissive} emissiveIntensity={emissiveIntensity} roughness={roughness} />
   </instancedMesh>
+}
+
+function BuildingMasses() {
+  const ref = useRef<InstancedMesh>(null)
+  useLayoutEffect(() => {
+    const object = new Object3D()
+    const palette = ['#314046', '#364447', '#29383f', '#3a4645']
+    buildings.forEach((item, index) => {
+      object.position.set(item.x, item.h / 2, item.z)
+      object.scale.set(item.w, item.h, item.d)
+      object.updateMatrix()
+      ref.current?.setMatrixAt(index, object.matrix)
+      ref.current?.setColorAt(index, new Color(palette[item.tone]))
+    })
+    if (ref.current) {
+      ref.current.instanceMatrix.needsUpdate = true
+      if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true
+      ref.current.computeBoundingSphere()
+    }
+  }, [])
+  return <instancedMesh ref={ref} args={[undefined, undefined, buildings.length]} castShadow receiveShadow>
+    <boxGeometry args={[1, 1, 1]} /><meshStandardMaterial roughness={.92} metalness={.06} />
+  </instancedMesh>
+}
+
+function StreetTrees() {
+  const trunks = useRef<InstancedMesh>(null)
+  const crowns = useRef<InstancedMesh>(null)
+  useLayoutEffect(() => {
+    const object = new Object3D()
+    trees.forEach((tree, index) => {
+      object.position.set(tree.x, 1.45, tree.z)
+      object.scale.set(.25, 2.9, .25)
+      object.updateMatrix()
+      trunks.current?.setMatrixAt(index, object.matrix)
+      const height = 3.8 + seeded(index + 900) * 1.9
+      object.position.set(tree.x, 3.1 + height * .18, tree.z)
+      object.scale.set(1.45 + seeded(index + 611) * .5, height, 1.45 + seeded(index + 611) * .5)
+      object.rotation.y = seeded(index + 391) * Math.PI
+      object.updateMatrix()
+      crowns.current?.setMatrixAt(index, object.matrix)
+    })
+    for (const mesh of [trunks.current, crowns.current]) {
+      if (mesh) { mesh.instanceMatrix.needsUpdate = true; mesh.computeBoundingSphere() }
+    }
+  }, [])
+  return <>
+    <instancedMesh ref={trunks} args={[undefined, undefined, trees.length]} castShadow>
+      <cylinderGeometry args={[.65, 1, 1, 6]} /><meshStandardMaterial color="#45433b" roughness={1} />
+    </instancedMesh>
+    <instancedMesh ref={crowns} args={[undefined, undefined, trees.length]} castShadow>
+      <coneGeometry args={[1, 1, 7]} /><meshStandardMaterial color="#28443b" flatShading roughness={1} />
+    </instancedMesh>
+  </>
 }
 
 function CityFabric({ visual }: { visual: VisualRehearsalState }) {
@@ -120,7 +178,7 @@ function CityFabric({ visual }: { visual: VisualRehearsalState }) {
     if (lampMaterial.current) lampMaterial.current.color.lerp(new Color(visual.gridConnected ? '#eeb974' : '#26393c'), Math.min(1, delta * 3))
   })
   return <>
-    <Instances items={buildingBodies} color="#29343a" roughness={.88} />
+    <BuildingMasses />
     <Instances items={facadeBands} color="#465356" roughness={.94} />
     <Instances items={entryCanopies} color="#45555a" roughness={.85} />
     <Instances items={roofCaps} color="#3e474b" roughness={.91} />
@@ -130,7 +188,7 @@ function CityFabric({ visual }: { visual: VisualRehearsalState }) {
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial ref={windowMaterial} color="#966b40" emissive="#e49a4e" emissiveIntensity={1.7} toneMapped={false} />
     </instancedMesh>
-    <Instances items={trees} color="#192e31" />
+    <StreetTrees />
     <Instances items={lampSites.map(({ x, z }) => ({ x, y: 2.8, z, sx: .13, sy: 5.6, sz: .13 }))} color="#4a5556" />
     <instancedMesh ref={lampMesh} args={[undefined, undefined, lamps.length]}>
       <sphereGeometry args={[1, 8, 8]} />
@@ -175,11 +233,8 @@ function Streets() {
     {roads.map((at, i) => <group key={'x' + i}>
       <mesh position={[at, .015, 0]} receiveShadow><boxGeometry args={[10, .03, 270]} /><meshStandardMaterial color="#222a2c" /></mesh>
       <mesh position={[0, .018, at]} receiveShadow><boxGeometry args={[270, .03, 10]} /><meshStandardMaterial color="#222a2c" /></mesh>
-      {Array.from({ length: 26 }, (_, j) => <group key={j}>
-        <mesh position={[at, .047, -128 + j * 10]}><boxGeometry args={[.13, .015, 2.5]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-        <mesh position={[-128 + j * 10, .047, at]}><boxGeometry args={[2.5, .015, .13]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-      </group>)}
     </group>)}
+    <Instances items={roadMarkings} color="#716c5a" emissive="#786849" emissiveIntensity={.08} castShadow={false} />
   </>
 }
 
@@ -231,14 +286,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     {[11.8, 15, 18.2].map(x => <mesh key={'annex' + x} position={[x, 3.4, 15.55]}>
       <boxGeometry args={[1.8, 1.7, .12]} /><primitive object={schoolEmergency} attach="material" />
     </mesh>)}
-    {Array.from({ length: 12 }, (_, i) => {
-      const x = -12 + (i % 6) * 4.5, z = 2.3 + Math.floor(i / 6) * 3.4
-      return <group key={i} position={[x, 8.75, z]} rotation={[-.12, 0, 0]}>
-        <mesh castShadow><boxGeometry args={[3.7, .12, 2.6]} /><meshStandardMaterial color="#102b3c" metalness={.45} roughness={.3} /></mesh>
-        <mesh position={[0, .075, 0]}><boxGeometry args={[3.45, .025, 2.35]} /><meshStandardMaterial color="#234e64" metalness={.62} roughness={.24} /></mesh>
-        <mesh position={[0, .093, 0]}><boxGeometry args={[.045, .01, 2.35]} /><meshBasicMaterial color="#6e9fa9" /></mesh>
-      </group>
-    })}
+    <SchoolDetails visual={visual} layer={layer} />
     <mesh position={[19.4, 1.65, 3.2]} castShadow><boxGeometry args={[2.5, 3.1, 1.8]} /><meshStandardMaterial color="#253d45" metalness={.55} roughness={.5} /></mesh>
     <mesh position={[19.4, 1.8, 4.13]}><boxGeometry args={[1.5, .8, .05]} /><meshStandardMaterial color="#254f56" emissive="#69c8bd" emissiveIntensity={layer === 'power' ? 1.4 : .25} /></mesh>
     <mesh position={[15.7, 1.5, 3.2]} castShadow><boxGeometry args={[2.3, 2.8, 1.7]} /><meshStandardMaterial color="#454d4e" metalness={.5} roughness={.45} /></mesh>

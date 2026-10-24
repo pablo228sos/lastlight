@@ -29,6 +29,7 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
 
   useEffect(() => {
     timeline.current?.kill()
+    document.documentElement.dataset.cameraIdle = 'false'
     const offset = siteId === 'school' ? [0, 0] : siteOffsets[siteId]
     const state = { x: camera.position.x, y: camera.position.y, z: camera.position.z,
       tx: target.current.x, ty: target.current.y, tz: target.current.z }
@@ -52,9 +53,16 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
     if (shot === 'corridor') {
       move('corridor')
       move('district')
-      if (reducedMotion) onDescentComplete()
-      else timeline.current?.eventCallback('onComplete', onDescentComplete)
+      if (reducedMotion) { document.documentElement.dataset.cameraIdle = 'true'; onDescentComplete() }
+      else timeline.current?.eventCallback('onComplete', () => {
+        document.documentElement.dataset.cameraIdle = 'true'
+        onDescentComplete()
+      })
     } else move(shot)
+    if (shot !== 'corridor') {
+      if (!timeline.current) document.documentElement.dataset.cameraIdle = 'true'
+      else timeline.current.eventCallback('onComplete', () => { document.documentElement.dataset.cameraIdle = 'true' })
+    }
     return () => { timeline.current?.kill(); timeline.current = null }
   }, [camera, shot, siteId, reducedMotion, onDescentComplete])
 
