@@ -3,6 +3,8 @@ export default defineConfig({
   testDir: './tests',
   reporter: 'list',
   timeout: 120000,
+  // WebGL scenes share a GPU context; parallel pages can stall camera timing.
+  workers: 1,
   use: {
     baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',

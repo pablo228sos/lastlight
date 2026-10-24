@@ -22,9 +22,14 @@ export function HotspotProjection() {
       const element = document.getElementById(id)
       if (!element) continue
       point.set(x, y, z).project(camera)
-      element.style.visibility = point.z > -1 && point.z < 1 ? 'visible' : 'hidden'
-      element.style.left = `${(point.x + 1) * width / 2}px`
-      element.style.top = `${(1 - point.y) * height / 2}px`
+      const left = (point.x + 1) * width / 2
+      const top = (1 - point.y) * height / 2
+      const districtLabel = id === 'hotspot-clinic' || id === 'hotspot-business' || id === 'hotspot-residential'
+      const underEditorial = districtLabel && left < Math.min(530, width * .4) && top < 315
+      const underControls = districtLabel && top > height - 230
+      element.style.visibility = point.z > -1 && point.z < 1 && !underEditorial && !underControls ? 'visible' : 'hidden'
+      element.style.left = `${left}px`
+      element.style.top = `${top}px`
     }
   })
   return null
