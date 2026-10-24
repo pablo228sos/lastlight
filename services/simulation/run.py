@@ -56,6 +56,7 @@ def main() -> int:
         "--wheelhouse", type=Path, help="Local wheels for offline setup"
     )
     parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--shutdown-file", type=Path, help=argparse.SUPPRESS)
     parser.add_argument(
         "--setup-only",
         action="store_true",
@@ -106,12 +107,14 @@ def main() -> int:
             [
                 str(python),
                 "-m",
-                "uvicorn",
-                "services.simulation.api:app",
-                "--host",
-                "127.0.0.1",
+                "services.simulation.server",
                 "--port",
                 str(args.port),
+                *(
+                    ["--shutdown-file", str(args.shutdown_file)]
+                    if args.shutdown_file
+                    else []
+                ),
             ],
             cwd=root.parents[1],
         )

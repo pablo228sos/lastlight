@@ -13,7 +13,6 @@ import json
 import os
 import platform
 import shutil
-import signal
 import socket
 import subprocess
 import sys
@@ -108,6 +107,8 @@ def closed(port: int) -> bool:
 
 def start(root: Path, port: int, log: Path):
     require(closed(port), f"Port {port} is in use; choose --port")
+    shutdown_file = log.with_suffix(".shutdown")
+    shutdown_file.unlink(missing_ok=True)
     environment = {**os.environ, "PIP_NO_INDEX": "1", "PYTHONUNBUFFERED": "1"}
     options = (
         {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
@@ -116,7 +117,14 @@ def start(root: Path, port: int, log: Path):
     )
     with log.open("w", encoding="utf-8") as output:
         process = subprocess.Popen(
-            launcher(root, "--offline", "--port", str(port)),
+            launcher(
+                root,
+                "--offline",
+                "--port",
+                str(port),
+                "--shutdown-file",
+                str(shutdown_file),
+            ),
             cwd=root,
             stdout=output,
             stderr=subprocess.STDOUT,
@@ -142,9 +150,7 @@ def ready(process, base: str, log: Path) -> None:
 
 def stop(process, port: int, log: Path) -> int:
     if process.poll() is None:
-        process.send_signal(
-            signal.CTRL_BREAK_EVENT if os.name == "nt" else signal.SIGINT
-        )
+        log.with_suffix(".shutdown").write_text("stop\n", encoding="utf-8")
     deadline = time.monotonic() + 20
     while time.monotonic() < deadline:
         if process.poll() is not None and closed(port):
@@ -331,8 +337,13 @@ def main() -> int:
     checks = report["checks"]
     try:
         with tempfile.TemporaryDirectory(prefix="lastlight release ") as temporary:
-            checkout = fresh_source(Path(temporary) / "online setup")
-            setup(checkout, evidence / "fresh-install.log")
+            checkout = fresh_source(Path(temporary) / "fresh setup")
+            install_args = (
+                ("--offline", "--wheelhouse", str(args.wheelhouse.resolve()))
+                if args.wheelhouse
+                else ()
+            )
+            setup(checkout, evidence / "fresh-install.log", *install_args)
             checks.append(
                 "fresh hash-locked launcher installation in path containing spaces"
             )

@@ -10,6 +10,7 @@ from starlette.exceptions import HTTPException
 
 from . import MODEL_VERSION
 from .engine import EnergyBalanceError, compare, simulate
+from .frontier import FrontierRequest, physics_frontier
 from .schemas import (
     ComparisonRequest,
     ComparisonResult,
@@ -101,3 +102,9 @@ def run_simulation(request: SimulationRequest) -> SimulationResult:
 @app.post("/api/v1/comparisons", response_model=ComparisonResult)
 def run_comparison(request: ComparisonRequest) -> ComparisonResult:
     return compare(request)
+
+
+@app.post("/api/v1/frontiers")
+def run_frontier(request: FrontierRequest) -> dict:
+    """Return only official-physics cells; incompatible ML proposals stay absent."""
+    return physics_frontier(request)

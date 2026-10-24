@@ -139,6 +139,57 @@
           }
         }
       }
+    },
+    "/api/v1/frontiers": {
+      "post": {
+        "summary": "Run Frontier",
+        "description": "Return only official-physics cells; incompatible ML proposals stay absent.",
+        "operationId": "run_frontier_api_v1_frontiers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FrontierRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Run Frontier Api V1 Frontiers Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -376,6 +427,42 @@
           "error"
         ],
         "title": "ErrorResponse"
+      },
+      "FrontierRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "soc_points": {
+            "type": "integer",
+            "maximum": 41.0,
+            "minimum": 3.0,
+            "title": "Soc Points",
+            "default": 13
+          },
+          "duration_points": {
+            "type": "integer",
+            "maximum": 49.0,
+            "minimum": 3.0,
+            "title": "Duration Points",
+            "default": 21
+          },
+          "maximum_hours": {
+            "type": "number",
+            "maximum": 48.0,
+            "minimum": 0.25,
+            "title": "Maximum Hours",
+            "default": 12
+          },
+          "include_ml": {
+            "type": "boolean",
+            "title": "Include Ml",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FrontierRequest"
       },
       "Grid": {
         "properties": {
