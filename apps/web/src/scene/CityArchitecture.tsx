@@ -20,11 +20,6 @@ type Decoration = {
 }
 
 const TONES = ['#c0c1b6', '#afb9b8', '#c2b6a8', '#b8bec0']
-const shotStableNoise = (n: number) => {
-  const t = Math.sin(n * 93.731 + 18.61) * 43758.5453
-  return t - Math.floor(t)
-}
-
 function createMineralWallMap() {
   const canvas = document.createElement('canvas')
   canvas.width = canvas.height = 512
