@@ -21,8 +21,8 @@ This is a real baseline capture committed earlier by the team; do not confuse it
 
 **Important provenance:** An earlier independently generated 34 MB ChatGPT Visual Kit, including cinematic concept PNGs, was prepared for this issue; its original PNG binaries are **not present in this PR**. The PNG maps here are a new deterministic procedural substitute made for direct GitHub review and are NOT the originals. Do not present this PR as publishing *all* original creative assets. The original package is still supplied in the ChatGPT conversation.
 
-**Review before merge:** No live in-app build/test has been run in this chat environment (GitHub connector access only). Abai should inspect the PR in real Chrome/WebGL and run build/lint/smoke before merging. Leave Issue #4 open until live screenshot-locked approval.
+**Review status:** A real Chromium WebGL capture run and regular build/lint/smoke CI are now green. See [actual browser captures, downloadable as a GitHub Actions artifact](https://github.com/pablo228sos/lastlight/actions/runs/40094128540) and [observed results / limitations](WEBGL_REVIEW_RESULTS.md). The facade is **not yet visually approved**: its gray concrete remains too blotchy. Abai must review the captures and request a focused color-material correction before merge. Leave Issue #4 open.
 
-Full checklist: [Continuity and QA](CONTINUITY_AND_QA.md).
+Full checklist: [Continuity and QA](CONTINUITY_AND_QA.md). Capture instructions: [WebGL screenshot QA](WEBGL_CAPTURE_QA.md).
 
 Issue: [#4](https://github.com/pablo228sos/lastlight/issues/4)
