@@ -159,7 +159,7 @@ function SchoolEquipmentDetails({ powerVisible, criticalLit }: { powerVisible: b
       {i===0 && <mesh position={[x,1.85,4.24]}>
         <boxGeometry args={[.95,.38,.09]}/>
         <meshStandardMaterial color="#30464a" emissive="#4eaea5"
-          emissiveIntensity={powerVisible&&criticalLit?.34:0}/>
+          emissiveIntensity={powerVisible && criticalLit ? .34 : 0}/>
       </mesh>}
     </group>)}
   </group>
@@ -181,7 +181,7 @@ export function SchoolHeroDetails({visual, powerVisible}:{
     {FRONT_POSITIONS.map(([x,y])=><mesh key={'front-glass-'+x+'-'+y} position={[x,y,13.218]}>
       <boxGeometry args={[1.84,1.36,.055]}/>
       <meshStandardMaterial color={visual.noncriticalLit?'#725a49':'#1d3038'}
-        emissive="#f5ae66" emissiveIntensity={visual.noncriticalLit?.78:0}
+        emissive="#f5ae66" emissiveIntensity={visual.noncriticalLit ? .78 : 0}
         metalness={.22} roughness={.24}/>
     </mesh>)}
     {EMERGENCY_POSITIONS.map(([x,y])=><mesh key={'critical-glass-'+x} position={[x,y,15.71]}>
