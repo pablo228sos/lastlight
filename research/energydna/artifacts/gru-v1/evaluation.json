@@ -1,0 +1,1182 @@
+{
+  "model_version": "energydna-gru-v1-56d366ec3532",
+  "weights_sha256": "56d366ec3532a6e7267e819be86c7044e6c10b9505d163b9b395d222f3c2f5b6",
+  "source_sha256": "3235b9d58d74471c31fa61a1c0524b32a99c0719e706735e39dce7ec5cc201b2",
+  "preferred_method": "persistence",
+  "selection_split": "validation",
+  "training": {
+    "seed": 20261024,
+    "max_epochs": 100,
+    "epochs_run": 77,
+    "best_epoch": 65,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.001,
+    "batch_size": 128,
+    "patience": 12,
+    "loss": "SmoothL1 on per-origin history-scaled targets",
+    "selection": "minimum validation macro-building history-scaled MAE; no test selection",
+    "weight_update_l1": 243.44747924804688,
+    "history": [
+      {
+        "epoch": 1,
+        "train_smooth_l1": 0.030462782917233845,
+        "validation_macro_history_scaled_mae": 0.2070664099870751
+      },
+      {
+        "epoch": 2,
+        "train_smooth_l1": 0.023919245020843034,
+        "validation_macro_history_scaled_mae": 0.18836732275917145
+      },
+      {
+        "epoch": 3,
+        "train_smooth_l1": 0.01745178511415657,
+        "validation_macro_history_scaled_mae": 0.16385799253508257
+      },
+      {
+        "epoch": 4,
+        "train_smooth_l1": 0.012839436903288596,
+        "validation_macro_history_scaled_mae": 0.14286251924352356
+      },
+      {
+        "epoch": 5,
+        "train_smooth_l1": 0.010584594312592394,
+        "validation_macro_history_scaled_mae": 0.1368168619398531
+      },
+      {
+        "epoch": 6,
+        "train_smooth_l1": 0.009767463631589434,
+        "validation_macro_history_scaled_mae": 0.1258755372473211
+      },
+      {
+        "epoch": 7,
+        "train_smooth_l1": 0.009458407923732407,
+        "validation_macro_history_scaled_mae": 0.12637581291485833
+      },
+      {
+        "epoch": 8,
+        "train_smooth_l1": 0.009181276446849964,
+        "validation_macro_history_scaled_mae": 0.12299396921385275
+      },
+      {
+        "epoch": 9,
+        "train_smooth_l1": 0.00901226952295173,
+        "validation_macro_history_scaled_mae": 0.1215829282530562
+      },
+      {
+        "epoch": 10,
+        "train_smooth_l1": 0.008990692854663309,
+        "validation_macro_history_scaled_mae": 0.12173317806554934
+      },
+      {
+        "epoch": 11,
+        "train_smooth_l1": 0.008855219366226777,
+        "validation_macro_history_scaled_mae": 0.1259842408469476
+      },
+      {
+        "epoch": 12,
+        "train_smooth_l1": 0.008918841366258607,
+        "validation_macro_history_scaled_mae": 0.12047965138564297
+      },
+      {
+        "epoch": 13,
+        "train_smooth_l1": 0.008759384950014644,
+        "validation_macro_history_scaled_mae": 0.1214330941323414
+      },
+      {
+        "epoch": 14,
+        "train_smooth_l1": 0.008675760119209694,
+        "validation_macro_history_scaled_mae": 0.12090737874684361
+      },
+      {
+        "epoch": 15,
+        "train_smooth_l1": 0.008619714755094952,
+        "validation_macro_history_scaled_mae": 0.12038781622744546
+      },
+      {
+        "epoch": 16,
+        "train_smooth_l1": 0.008574246843799954,
+        "validation_macro_history_scaled_mae": 0.11947140254297758
+      },
+      {
+        "epoch": 17,
+        "train_smooth_l1": 0.008578364866646107,
+        "validation_macro_history_scaled_mae": 0.12032835875513587
+      },
+      {
+        "epoch": 18,
+        "train_smooth_l1": 0.008509877174128159,
+        "validation_macro_history_scaled_mae": 0.123081255387325
+      },
+      {
+        "epoch": 19,
+        "train_smooth_l1": 0.008520760843156776,
+        "validation_macro_history_scaled_mae": 0.11993720322933955
+      },
+      {
+        "epoch": 20,
+        "train_smooth_l1": 0.008429792991799514,
+        "validation_macro_history_scaled_mae": 0.11907169267979106
+      },
+      {
+        "epoch": 21,
+        "train_smooth_l1": 0.00851930742937968,
+        "validation_macro_history_scaled_mae": 0.11942598065227264
+      },
+      {
+        "epoch": 22,
+        "train_smooth_l1": 0.008252009741921413,
+        "validation_macro_history_scaled_mae": 0.12225496221349372
+      },
+      {
+        "epoch": 23,
+        "train_smooth_l1": 0.008152458800572908,
+        "validation_macro_history_scaled_mae": 0.11954823744541147
+      },
+      {
+        "epoch": 24,
+        "train_smooth_l1": 0.008124075708765433,
+        "validation_macro_history_scaled_mae": 0.11987650012177185
+      },
+      {
+        "epoch": 25,
+        "train_smooth_l1": 0.007952032777617779,
+        "validation_macro_history_scaled_mae": 0.11888081514591273
+      },
+      {
+        "epoch": 26,
+        "train_smooth_l1": 0.00786674655776512,
+        "validation_macro_history_scaled_mae": 0.1190528589347472
+      },
+      {
+        "epoch": 27,
+        "train_smooth_l1": 0.007906238950230111,
+        "validation_macro_history_scaled_mae": 0.12454215888053081
+      },
+      {
+        "epoch": 28,
+        "train_smooth_l1": 0.007918650698120528,
+        "validation_macro_history_scaled_mae": 0.11858165471662019
+      },
+      {
+        "epoch": 29,
+        "train_smooth_l1": 0.007837574614519482,
+        "validation_macro_history_scaled_mae": 0.11969579395168478
+      },
+      {
+        "epoch": 30,
+        "train_smooth_l1": 0.007797611787014994,
+        "validation_macro_history_scaled_mae": 0.118551500643009
+      },
+      {
+        "epoch": 31,
+        "train_smooth_l1": 0.007800571989376339,
+        "validation_macro_history_scaled_mae": 0.11990534110728185
+      },
+      {
+        "epoch": 32,
+        "train_smooth_l1": 0.007734088940272395,
+        "validation_macro_history_scaled_mae": 0.12024818475415627
+      },
+      {
+        "epoch": 33,
+        "train_smooth_l1": 0.007756815528820267,
+        "validation_macro_history_scaled_mae": 0.12424455645795775
+      },
+      {
+        "epoch": 34,
+        "train_smooth_l1": 0.007721038217920972,
+        "validation_macro_history_scaled_mae": 0.121088354754957
+      },
+      {
+        "epoch": 35,
+        "train_smooth_l1": 0.007730944122064034,
+        "validation_macro_history_scaled_mae": 0.11899523617787507
+      },
+      {
+        "epoch": 36,
+        "train_smooth_l1": 0.007695661983137726,
+        "validation_macro_history_scaled_mae": 0.11956854883071333
+      },
+      {
+        "epoch": 37,
+        "train_smooth_l1": 0.0076510819068304065,
+        "validation_macro_history_scaled_mae": 0.11946484859722942
+      },
+      {
+        "epoch": 38,
+        "train_smooth_l1": 0.007630028029182021,
+        "validation_macro_history_scaled_mae": 0.11851854573704255
+      },
+      {
+        "epoch": 39,
+        "train_smooth_l1": 0.007620607891114934,
+        "validation_macro_history_scaled_mae": 0.11839856163694512
+      },
+      {
+        "epoch": 40,
+        "train_smooth_l1": 0.0074907006912296546,
+        "validation_macro_history_scaled_mae": 0.12022515082486424
+      },
+      {
+        "epoch": 41,
+        "train_smooth_l1": 0.007525863238301935,
+        "validation_macro_history_scaled_mae": 0.12080504978147383
+      },
+      {
+        "epoch": 42,
+        "train_smooth_l1": 0.007633709485026419,
+        "validation_macro_history_scaled_mae": 0.12283277475004085
+      },
+      {
+        "epoch": 43,
+        "train_smooth_l1": 0.007419569935061691,
+        "validation_macro_history_scaled_mae": 0.1274971682793637
+      },
+      {
+        "epoch": 44,
+        "train_smooth_l1": 0.0074487890501089725,
+        "validation_macro_history_scaled_mae": 0.12096003563149077
+      },
+      {
+        "epoch": 45,
+        "train_smooth_l1": 0.007388380527291137,
+        "validation_macro_history_scaled_mae": 0.11766096406300627
+      },
+      {
+        "epoch": 46,
+        "train_smooth_l1": 0.0072570094134365905,
+        "validation_macro_history_scaled_mae": 0.11701191237284841
+      },
+      {
+        "epoch": 47,
+        "train_smooth_l1": 0.007215529536162443,
+        "validation_macro_history_scaled_mae": 0.11911511625014512
+      },
+      {
+        "epoch": 48,
+        "train_smooth_l1": 0.007175517500688948,
+        "validation_macro_history_scaled_mae": 0.11873613538705065
+      },
+      {
+        "epoch": 49,
+        "train_smooth_l1": 0.007196568856000435,
+        "validation_macro_history_scaled_mae": 0.11803682401841992
+      },
+      {
+        "epoch": 50,
+        "train_smooth_l1": 0.007099969554628677,
+        "validation_macro_history_scaled_mae": 0.1178929698724916
+      },
+      {
+        "epoch": 51,
+        "train_smooth_l1": 0.007047367440190283,
+        "validation_macro_history_scaled_mae": 0.11818682021461901
+      },
+      {
+        "epoch": 52,
+        "train_smooth_l1": 0.007006808229004471,
+        "validation_macro_history_scaled_mae": 0.11694872801373937
+      },
+      {
+        "epoch": 53,
+        "train_smooth_l1": 0.006959719141666993,
+        "validation_macro_history_scaled_mae": 0.11622555755757016
+      },
+      {
+        "epoch": 54,
+        "train_smooth_l1": 0.006907345906459339,
+        "validation_macro_history_scaled_mae": 0.11749606368902085
+      },
+      {
+        "epoch": 55,
+        "train_smooth_l1": 0.006893780910979608,
+        "validation_macro_history_scaled_mae": 0.11872061197132344
+      },
+      {
+        "epoch": 56,
+        "train_smooth_l1": 0.006909307307203321,
+        "validation_macro_history_scaled_mae": 0.11726799879046126
+      },
+      {
+        "epoch": 57,
+        "train_smooth_l1": 0.006852215610036508,
+        "validation_macro_history_scaled_mae": 0.11674663507370114
+      },
+      {
+        "epoch": 58,
+        "train_smooth_l1": 0.006790593945150475,
+        "validation_macro_history_scaled_mae": 0.11956857197892058
+      },
+      {
+        "epoch": 59,
+        "train_smooth_l1": 0.006782743622677601,
+        "validation_macro_history_scaled_mae": 0.11743152622422814
+      },
+      {
+        "epoch": 60,
+        "train_smooth_l1": 0.0067197440394762675,
+        "validation_macro_history_scaled_mae": 0.11704659434113324
+      },
+      {
+        "epoch": 61,
+        "train_smooth_l1": 0.0068420261884116935,
+        "validation_macro_history_scaled_mae": 0.11816469531818152
+      },
+      {
+        "epoch": 62,
+        "train_smooth_l1": 0.006716037029323636,
+        "validation_macro_history_scaled_mae": 0.11610007598420709
+      },
+      {
+        "epoch": 63,
+        "train_smooth_l1": 0.006741885148316929,
+        "validation_macro_history_scaled_mae": 0.11890156287890583
+      },
+      {
+        "epoch": 64,
+        "train_smooth_l1": 0.006614464573500207,
+        "validation_macro_history_scaled_mae": 0.11613585469589484
+      },
+      {
+        "epoch": 65,
+        "train_smooth_l1": 0.006590637717401222,
+        "validation_macro_history_scaled_mae": 0.11526809585991729
+      },
+      {
+        "epoch": 66,
+        "train_smooth_l1": 0.00667044049962104,
+        "validation_macro_history_scaled_mae": 0.11666762682099537
+      },
+      {
+        "epoch": 67,
+        "train_smooth_l1": 0.006675526283554679,
+        "validation_macro_history_scaled_mae": 0.11591568737566715
+      },
+      {
+        "epoch": 68,
+        "train_smooth_l1": 0.006535934195204244,
+        "validation_macro_history_scaled_mae": 0.11599301025876602
+      },
+      {
+        "epoch": 69,
+        "train_smooth_l1": 0.006508431447496578,
+        "validation_macro_history_scaled_mae": 0.11528641588442723
+      },
+      {
+        "epoch": 70,
+        "train_smooth_l1": 0.0065171355079894485,
+        "validation_macro_history_scaled_mae": 0.1166824874366911
+      },
+      {
+        "epoch": 71,
+        "train_smooth_l1": 0.006469099491923057,
+        "validation_macro_history_scaled_mae": 0.11630238161122
+      },
+      {
+        "epoch": 72,
+        "train_smooth_l1": 0.006500106718417657,
+        "validation_macro_history_scaled_mae": 0.11559579006267832
+      },
+      {
+        "epoch": 73,
+        "train_smooth_l1": 0.006513557843518811,
+        "validation_macro_history_scaled_mae": 0.11709194594221198
+      },
+      {
+        "epoch": 74,
+        "train_smooth_l1": 0.006390591357567616,
+        "validation_macro_history_scaled_mae": 0.11659493732792668
+      },
+      {
+        "epoch": 75,
+        "train_smooth_l1": 0.0066865746890254875,
+        "validation_macro_history_scaled_mae": 0.12209880562566926
+      },
+      {
+        "epoch": 76,
+        "train_smooth_l1": 0.006576951082523046,
+        "validation_macro_history_scaled_mae": 0.11542149876937498
+      },
+      {
+        "epoch": 77,
+        "train_smooth_l1": 0.006444235954945263,
+        "validation_macro_history_scaled_mae": 0.1159236251016943
+      }
+    ]
+  },
+  "metrics": {
+    "validation": {
+      "seasonal_week": {
+        "n": 3436,
+        "mae_kw": 7.38129068412019,
+        "rmse_kw": 18.37177412794533,
+        "macro_history_scaled_mae": 0.20868110146832541,
+        "nonconstant_macro_mae_kw": 7.389849439186456,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 418,
+            "mae_kw": 7.868421200267323,
+            "rmse_kw": 15.137566969222089,
+            "history_scaled_mae": 0.2183081421948161,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 12.405546055380707,
+            "rmse_kw": 19.351667131398546,
+            "history_scaled_mae": 0.15999409059078692,
+            "training_prefix_constant": false
+          },
+          "Fox_warehouse_Lorretta": {
+            "n": 429,
+            "mae_kw": 17.05431234583886,
+            "rmse_kw": 39.0044715476008,
+            "history_scaled_mae": 0.9274802712886646,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 12.10717595334615,
+            "rmse_kw": 22.029432661025492,
+            "history_scaled_mae": 0.196854737667669,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.01805902761529993,
+            "rmse_kw": 0.2228286614913119,
+            "history_scaled_mae": 0.01805902761529993,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 429,
+            "mae_kw": 5.294679116718976,
+            "rmse_kw": 7.1395618720407175,
+            "history_scaled_mae": 0.07796514640849797,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 4.3706018143242735,
+            "rmse_kw": 6.449413067743773,
+            "history_scaled_mae": 0.07078739598086861,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "seasonal_day": {
+        "n": 3436,
+        "mae_kw": 7.011947170027755,
+        "rmse_kw": 18.641661567642092,
+        "macro_history_scaled_mae": 0.17069959913209123,
+        "nonconstant_macro_mae_kw": 7.018931020647907,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 418,
+            "mae_kw": 7.521531201433713,
+            "rmse_kw": 14.49038616934101,
+            "history_scaled_mae": 0.21325505838885572,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 9.42822063774844,
+            "rmse_kw": 17.769246604870744,
+            "history_scaled_mae": 0.11551904859515137,
+            "training_prefix_constant": false
+          },
+          "Fox_warehouse_Lorretta": {
+            "n": 429,
+            "mae_kw": 14.27976691063292,
+            "rmse_kw": 34.28261803104259,
+            "history_scaled_mae": 0.6594876774342066,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 14.893749954868715,
+            "rmse_kw": 31.39244152986927,
+            "history_scaled_mae": 0.2139363483319027,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.010001851652286672,
+            "rmse_kw": 0.1469965981866911,
+            "history_scaled_mae": 0.010001851652286672,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 429,
+            "mae_kw": 5.411464530611147,
+            "rmse_kw": 7.199905434507178,
+            "history_scaled_mae": 0.07972082924403666,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 4.606713078235978,
+            "rmse_kw": 6.400728898778299,
+            "history_scaled_mae": 0.0736759794102901,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "persistence": {
+        "n": 3436,
+        "mae_kw": 4.9176653381045865,
+        "rmse_kw": 11.656042255084671,
+        "macro_history_scaled_mae": 0.10808491420746666,
+        "nonconstant_macro_mae_kw": 4.909681184226802,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 418,
+            "mae_kw": 2.385167621656693,
+            "rmse_kw": 3.408756017952792,
+            "history_scaled_mae": 0.06466563444951695,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 9.307853583518305,
+            "rmse_kw": 17.303279721860424,
+            "history_scaled_mae": 0.11445588966624924,
+            "training_prefix_constant": false
+          },
+          "Fox_warehouse_Lorretta": {
+            "n": 429,
+            "mae_kw": 8.066899788447559,
+            "rmse_kw": 21.833906857990566,
+            "history_scaled_mae": 0.37860442713328357,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 8.174536923552013,
+            "rmse_kw": 13.57046235962741,
+            "history_scaled_mae": 0.12109020375693523,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.010001851652286672,
+            "rmse_kw": 0.1469965981866911,
+            "history_scaled_mae": 0.010001851652286672,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 429,
+            "mae_kw": 4.38900829731091,
+            "rmse_kw": 5.862438479466825,
+            "history_scaled_mae": 0.06458947853993471,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 6.94398140767659,
+            "rmse_kw": 8.846046829083118,
+            "history_scaled_mae": 0.11127182846152663,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "ridge": {
+        "n": 3436,
+        "mae_kw": 4.973144861600426,
+        "rmse_kw": 9.776569541908547,
+        "macro_history_scaled_mae": 0.11563252895729201,
+        "nonconstant_macro_mae_kw": 4.971670239374117,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 418,
+            "mae_kw": 3.6106839070207744,
+            "rmse_kw": 6.014548207158092,
+            "history_scaled_mae": 0.09984129176117375,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 8.252220003314804,
+            "rmse_kw": 12.836368924564036,
+            "history_scaled_mae": 0.10187090588264693,
+            "training_prefix_constant": false
+          },
+          "Fox_warehouse_Lorretta": {
+            "n": 429,
+            "mae_kw": 10.124642292617251,
+            "rmse_kw": 19.38796856160588,
+            "history_scaled_mae": 0.47381574111048913,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 6.215363537147153,
+            "rmse_kw": 9.833433380252293,
+            "history_scaled_mae": 0.0919255187184296,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 2.6722753478943475,
+            "rmse_kw": 3.2518591653561306,
+            "history_scaled_mae": 0.007942596128782663,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.01313852132811357,
+            "rmse_kw": 0.12594382067658272,
+            "history_scaled_mae": 0.01313852132811357,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 429,
+            "mae_kw": 4.481033747245821,
+            "rmse_kw": 6.44680534128525,
+            "history_scaled_mae": 0.0659480791878633,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 4.404004558424664,
+            "rmse_kw": 6.213542761469707,
+            "history_scaled_mae": 0.07057757754083714,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "energydna_gru": {
+        "n": 3436,
+        "mae_kw": 4.986474639512876,
+        "rmse_kw": 10.594611336695575,
+        "macro_history_scaled_mae": 0.11526809585991729,
+        "nonconstant_macro_mae_kw": 4.983131711574291,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 418,
+            "mae_kw": 3.1473037485573383,
+            "rmse_kw": 4.846592203941602,
+            "history_scaled_mae": 0.0873724775659846,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 7.775728118316813,
+            "rmse_kw": 12.240535285644361,
+            "history_scaled_mae": 0.09609898680072114,
+            "training_prefix_constant": false
+          },
+          "Fox_warehouse_Lorretta": {
+            "n": 429,
+            "mae_kw": 10.873090340154226,
+            "rmse_kw": 23.970719035125448,
+            "history_scaled_mae": 0.5260030306426076,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 5.015980648684581,
+            "rmse_kw": 7.5546641639285,
+            "history_scaled_mae": 0.07393574436492176,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.4424537236138555,
+            "rmse_kw": 6.2333211231342975,
+            "history_scaled_mae": 0.0161761818108735,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.0057182644799351695,
+            "rmse_kw": 0.1046436775221077,
+            "history_scaled_mae": 0.0057182644799351695,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 429,
+            "mae_kw": 3.8316034447492937,
+            "rmse_kw": 4.95772382781952,
+            "history_scaled_mae": 0.05638624703273733,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 3.7731754040382923,
+            "rmse_kw": 5.409174292320208,
+            "history_scaled_mae": 0.060453834181557226,
+            "training_prefix_constant": false
+          }
+        }
+      }
+    },
+    "test": {
+      "seasonal_week": {
+        "n": 3013,
+        "mae_kw": 6.9561048165899315,
+        "rmse_kw": 14.62370466199052,
+        "macro_history_scaled_mae": 0.12030176105029199,
+        "nonconstant_macro_mae_kw": 6.952879209428774,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 426,
+            "mae_kw": 5.807511855245194,
+            "rmse_kw": 8.460624019029352,
+            "history_scaled_mae": 0.15527697644688393,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 15.034535416530817,
+            "rmse_kw": 23.117207530597234,
+            "history_scaled_mae": 0.19557108402873855,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 13.175694387001634,
+            "rmse_kw": 25.2514388534265,
+            "history_scaled_mae": 0.24033996476320588,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.005417824074074074,
+            "rmse_kw": 0.11260735875319326,
+            "history_scaled_mae": 0.005417824074074074,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 427,
+            "mae_kw": 6.3835691591364485,
+            "rmse_kw": 8.7112177441842,
+            "history_scaled_mae": 0.09814875012212115,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 8.2634258240132,
+            "rmse_kw": 13.18619501089616,
+            "history_scaled_mae": 0.14735772791702023,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "seasonal_day": {
+        "n": 3013,
+        "mae_kw": 5.209771502901111,
+        "rmse_kw": 13.591682985210559,
+        "macro_history_scaled_mae": 0.08381552063783067,
+        "nonconstant_macro_mae_kw": 5.205847706424577,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 426,
+            "mae_kw": 3.645540003363989,
+            "rmse_kw": 7.249251280940855,
+            "history_scaled_mae": 0.0959834631941311,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 12.168831330456602,
+            "rmse_kw": 21.13944279189705,
+            "history_scaled_mae": 0.1547729334743807,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 11.68680563236889,
+            "rmse_kw": 26.696477626390923,
+            "history_scaled_mae": 0.1882805744656777,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.005417824074074074,
+            "rmse_kw": 0.11260735875319326,
+            "history_scaled_mae": 0.005417824074074074,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 427,
+            "mae_kw": 4.713737193338054,
+            "rmse_kw": 6.701129302341626,
+            "history_scaled_mae": 0.0723451485656986,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 4.220601961370377,
+            "rmse_kw": 5.71272746692264,
+            "history_scaled_mae": 0.0699087006908523,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "persistence": {
+        "n": 3013,
+        "mae_kw": 3.9335707201306143,
+        "rmse_kw": 8.840847101254235,
+        "macro_history_scaled_mae": 0.0627984688951335,
+        "nonconstant_macro_mae_kw": 3.929878343605606,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 426,
+            "mae_kw": 2.2300470845120337,
+            "rmse_kw": 5.782034662581537,
+            "history_scaled_mae": 0.05875667100879022,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 10.316208551036555,
+            "rmse_kw": 18.067731439477765,
+            "history_scaled_mae": 0.13165924489197528,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 5.938888794678341,
+            "rmse_kw": 10.433555036531331,
+            "history_scaled_mae": 0.09473771179588485,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.684341886080802e-14,
+            "rmse_kw": 5.684341886080802e-14,
+            "history_scaled_mae": 1.6895127178656118e-16,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.01083564841747284,
+            "rmse_kw": 0.15925085793002702,
+            "history_scaled_mae": 0.01083564841747284,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 427,
+            "mae_kw": 3.7446497605477678,
+            "rmse_kw": 5.298615501460111,
+            "history_scaled_mae": 0.0574034316646605,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 5.268518566047015,
+            "rmse_kw": 7.006319904427932,
+            "history_scaled_mae": 0.08619657448715061,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "ridge": {
+        "n": 3013,
+        "mae_kw": 4.119412664143852,
+        "rmse_kw": 7.6019075943092185,
+        "macro_history_scaled_mae": 0.06216652531553744,
+        "nonconstant_macro_mae_kw": 4.117001914768825,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 426,
+            "mae_kw": 2.884002776278982,
+            "rmse_kw": 5.8612278899577985,
+            "history_scaled_mae": 0.07548790332499701,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 9.526181475714042,
+            "rmse_kw": 14.449984879686168,
+            "history_scaled_mae": 0.1215474759972044,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 5.320884175368441,
+            "rmse_kw": 8.906737656686062,
+            "history_scaled_mae": 0.08918561539296785,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 2.9948673723622283,
+            "rmse_kw": 3.6181657241382132,
+            "history_scaled_mae": 0.008901411307291003,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.011146587724159789,
+            "rmse_kw": 0.13260380454969994,
+            "history_scaled_mae": 0.011146587724159789,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 427,
+            "mae_kw": 4.14388330756509,
+            "rmse_kw": 6.393515894030415,
+            "history_scaled_mae": 0.06326286582238679,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 3.93804770836883,
+            "rmse_kw": 5.246902281304202,
+            "history_scaled_mae": 0.06563381763975523,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "energydna_gru": {
+        "n": 3013,
+        "mae_kw": 4.18660161222262,
+        "rmse_kw": 7.453041325696774,
+        "macro_history_scaled_mae": 0.05685408808329183,
+        "nonconstant_macro_mae_kw": 4.18188679935147,
+        "per_building": {
+          "Bull_lodging_Leonard": {
+            "n": 426,
+            "mae_kw": 2.4392725132319466,
+            "rmse_kw": 5.367857926030367,
+            "history_scaled_mae": 0.06426991702079905,
+            "training_prefix_constant": false
+          },
+          "Eagle_health_Amy": {
+            "n": 432,
+            "mae_kw": 10.033564221416684,
+            "rmse_kw": 15.31483643357095,
+            "history_scaled_mae": 0.1281384001102297,
+            "training_prefix_constant": false
+          },
+          "Lamb_education_Emery": {
+            "n": 432,
+            "mae_kw": 4.510503020865195,
+            "rmse_kw": 6.494283157078783,
+            "history_scaled_mae": 0.0750291249434957,
+            "training_prefix_constant": false
+          },
+          "Mouse_science_Micheal": {
+            "n": 432,
+            "mae_kw": 5.486145924582655,
+            "rmse_kw": 6.31384831129913,
+            "history_scaled_mae": 0.01630604474080931,
+            "training_prefix_constant": false
+          },
+          "Panther_parking_Lorriane": {
+            "n": 432,
+            "mae_kw": 0.005618677084506662,
+            "rmse_kw": 0.11268471484592708,
+            "history_scaled_mae": 0.005618677084506662,
+            "training_prefix_constant": false
+          },
+          "Peacock_lodging_Mathew": {
+            "n": 427,
+            "mae_kw": 3.431877706539978,
+            "rmse_kw": 4.649620493430362,
+            "history_scaled_mae": 0.052633029293996575,
+            "training_prefix_constant": false
+          },
+          "Robin_lodging_Celia": {
+            "n": 432,
+            "mae_kw": 3.3662255317393233,
+            "rmse_kw": 4.587003260526317,
+            "history_scaled_mae": 0.05598342338920578,
+            "training_prefix_constant": false
+          }
+        }
+      }
+    },
+    "generalization": {
+      "seasonal_week": {
+        "n": 1288,
+        "mae_kw": 1.9934860503903886,
+        "rmse_kw": 3.7072179439371675,
+        "macro_history_scaled_mae": 0.15168372120416151,
+        "nonconstant_macro_mae_kw": 2.9995444309612385,
+        "per_building": {
+          "Hog_education_Cathleen": {
+            "n": 432,
+            "mae_kw": 0.0,
+            "rmse_kw": 0.0,
+            "history_scaled_mae": 0.0,
+            "training_prefix_constant": true
+          },
+          "Rat_assembly_Francine": {
+            "n": 428,
+            "mae_kw": 3.58021036670231,
+            "rmse_kw": 5.364683100935341,
+            "history_scaled_mae": 0.08946038652718188,
+            "training_prefix_constant": false
+          },
+          "Rat_assembly_Silvia": {
+            "n": 428,
+            "mae_kw": 2.418878495220167,
+            "rmse_kw": 3.546690496101014,
+            "history_scaled_mae": 0.36559077708530263,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "seasonal_day": {
+        "n": 1288,
+        "mae_kw": 1.8871117951226215,
+        "rmse_kw": 3.877635401344986,
+        "macro_history_scaled_mae": 0.13189890985908445,
+        "nonconstant_macro_mae_kw": 2.839485972100393,
+        "per_building": {
+          "Hog_education_Cathleen": {
+            "n": 432,
+            "mae_kw": 0.0,
+            "rmse_kw": 0.0,
+            "history_scaled_mae": 0.0,
+            "training_prefix_constant": true
+          },
+          "Rat_assembly_Francine": {
+            "n": 428,
+            "mae_kw": 3.6748364389603143,
+            "rmse_kw": 5.623021165163035,
+            "history_scaled_mae": 0.09184354241714938,
+            "training_prefix_constant": false
+          },
+          "Rat_assembly_Silvia": {
+            "n": 428,
+            "mae_kw": 2.004135505240472,
+            "rmse_kw": 3.691927109807058,
+            "history_scaled_mae": 0.30385318716010395,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "persistence": {
+        "n": 1288,
+        "mae_kw": 1.3528027825340203,
+        "rmse_kw": 3.445283213873856,
+        "macro_history_scaled_mae": 0.10837513457157515,
+        "nonconstant_macro_mae_kw": 2.0355256821306287,
+        "per_building": {
+          "Hog_education_Cathleen": {
+            "n": 432,
+            "mae_kw": 0.0,
+            "rmse_kw": 0.0,
+            "history_scaled_mae": 0.0,
+            "training_prefix_constant": true
+          },
+          "Rat_assembly_Francine": {
+            "n": 428,
+            "mae_kw": 2.3508177182987957,
+            "rmse_kw": 4.004933603957003,
+            "history_scaled_mae": 0.058974360448902696,
+            "training_prefix_constant": false
+          },
+          "Rat_assembly_Silvia": {
+            "n": 428,
+            "mae_kw": 1.7202336459624616,
+            "rmse_kw": 4.436369062465362,
+            "history_scaled_mae": 0.26615104326582273,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "ridge": {
+        "n": 1288,
+        "mae_kw": 1.5848110219869196,
+        "rmse_kw": 3.2636767887312885,
+        "macro_history_scaled_mae": 0.12463924077815715,
+        "nonconstant_macro_mae_kw": 2.3837321183328233,
+        "per_building": {
+          "Hog_education_Cathleen": {
+            "n": 432,
+            "mae_kw": 0.0017636644126289083,
+            "rmse_kw": 0.0037246011071664694,
+            "history_scaled_mae": 0.0017636644126289083,
+            "training_prefix_constant": true
+          },
+          "Rat_assembly_Francine": {
+            "n": 428,
+            "mae_kw": 2.803697122760063,
+            "rmse_kw": 4.203133716589486,
+            "history_scaled_mae": 0.06973164875774582,
+            "training_prefix_constant": false
+          },
+          "Rat_assembly_Silvia": {
+            "n": 428,
+            "mae_kw": 1.9637671139055832,
+            "rmse_kw": 3.79314632415876,
+            "history_scaled_mae": 0.30242240916409674,
+            "training_prefix_constant": false
+          }
+        }
+      },
+      "energydna_gru": {
+        "n": 1288,
+        "mae_kw": 1.4413493664748276,
+        "rmse_kw": 2.945918586498032,
+        "macro_history_scaled_mae": 0.11702552488017381,
+        "nonconstant_macro_mae_kw": 2.1687593271256747,
+        "per_building": {
+          "Hog_education_Cathleen": {
+            "n": 432,
+            "mae_kw": 0.0,
+            "rmse_kw": 0.0,
+            "history_scaled_mae": 0.0,
+            "training_prefix_constant": true
+          },
+          "Rat_assembly_Francine": {
+            "n": 428,
+            "mae_kw": 2.448436676519264,
+            "rmse_kw": 3.264071465260045,
+            "history_scaled_mae": 0.06127773138907663,
+            "training_prefix_constant": false
+          },
+          "Rat_assembly_Silvia": {
+            "n": 428,
+            "mae_kw": 1.8890819777320855,
+            "rmse_kw": 3.9322071799408076,
+            "history_scaled_mae": 0.28979884325144484,
+            "training_prefix_constant": false
+          }
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 138.33690410000008
+}

@@ -28,14 +28,14 @@ simulator; it contains no second dispatch implementation.
   official `physics`, separate `neural`, `physics_authoritative:true` and
   `engineering_clearance:false`.
 - `POST /api/v1/ml/fragility/candidates`: same scenario plus unique sampled
-  `{initial_soc,duration_hours}` points, at most1,600, and limit at most12. Points
+  `{initial_soc,duration_hours}` points, at most 1,600, and limit at most 12. Points
   may be taken from the existing official map. Each returned candidate gets a
   separate official simulation and includes its run ID, hash and full summary.
   No colored map or boundary algorithm is replaced and no speedup is claimed.
 
 Missing ML dependencies or checkpoints, incompatible versions, mismatched source,
 normalizer/catalog drift or corrupted weights produce a warning/status. Physical
-assessment remains available. Unknown1.1 request fields are rejected explicitly.
+assessment remains available. Unknown 1.1 request fields are rejected explicitly.
 An incompatible physical runtime is not disguised as official v1.
 
 Generated [OpenAPI](bridge.openapi.json) and [TypeScript](bridge.contracts.ts)
@@ -62,11 +62,34 @@ No frontend, scene, camera, stylesheet or old UX contract is changed here.
 
 Read [compatibility](OFFICIAL_V1_COMPATIBILITY.md), the
 [model card](FRAGILITY_V1_MODEL_CARD.md), and versioned checkpoint/evaluation reports
-under `ml_bridge/artifacts/`. Test recall is96.63% for neural versus96.96% logistic;
-the20 versus18 false negatives must be disclosed along with the improved F1.
+under `ml_bridge/artifacts/`. Test recall is 96.63% for neural versus 96.96% logistic;
+the 20 versus 18 false negatives must be disclosed along with the improved F1.
 
 P0 requires independent replay, backend/inference tests and green CI before
 EnergyDNA training. The user clarified that these technical checks satisfy the
-transition gate; separate teammate approval is not claimed. Forecast research
-will remain separate from physical profiles until a units/provenance adapter is
+transition gate; separate teammate approval is not claimed. Both workflows on
+P0 commit `ff59170` passed before EnergyDNA training began. Forecast research
+remains separate from physical profiles until a units/provenance adapter is
 reviewed. Real building engineering approval remains outside this research bridge.
+
+## EnergyDNA research handoff
+
+A real 1,377-parameter PyTorch GRU is now trained on the first 90 days of raw
+BDG2 electricity for the same twelve selected IDs, from the already pinned
+commit. Its [model card](ENERGYDNA_MODEL_CARD.md) and
+[commands](../../research/energydna/README.md) document the exact source,
+one-hour horizon, chronological/group holdouts, gaps, baselines and artifact.
+
+The independent test MAE is 4.1866 kW for GRU versus 3.9336 for persistence;
+weekly seasonal-naive is 6.9561. Persistence remains preferred by the predefined
+validation MAE criterion. GRU test RMSE is lower, but does not override that
+selection. Generalization includes a zero-load control; the card also reports
+the two nonconstant never-trained buildings separately.
+
+Beksultan: no forecast is connected to simulation, design-search or critical
+profiles. A future production integration needs explicit units, source/time,
+profile and missingness compatibility review. Abai: if presenting this research,
+label it historical overseas whole-building forecasting; show persistence as
+the current preferred method and keep it separate from the FragilityNet synthetic
+failure estimate and official electrical calculation. Do not reuse the old
+cleaned-data baseline scores or claim validated Kyrgyz school demand.

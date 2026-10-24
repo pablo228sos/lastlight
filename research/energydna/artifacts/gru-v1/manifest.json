@@ -1,0 +1,624 @@
+{
+  "model_version": "energydna-gru-v1-56d366ec3532",
+  "feature_version": "energydna-hourly-1",
+  "source_sha256": "3235b9d58d74471c31fa61a1c0524b32a99c0719e706735e39dce7ec5cc201b2",
+  "weights_sha256": "56d366ec3532a6e7267e819be86c7044e6c10b9505d163b9b395d222f3c2f5b6",
+  "ridge_sha256": "0d6093e2662563c80e63d44650a7ef3569bc6c96128c87902260fc1ae2935e22",
+  "architecture": {
+    "type": "GRU seasonal residual",
+    "input_channels": [
+      "past load / observed-window mean",
+      "observed mask"
+    ],
+    "sequence_hours": 48,
+    "hidden_size": 16,
+    "layers": 1,
+    "static_features": [
+      "lag1 / scale",
+      "lag24 / scale",
+      "lag168 / scale",
+      "missing_fraction_168",
+      "target_hour_sin",
+      "target_hour_cos",
+      "target_dow_sin",
+      "target_dow_cos"
+    ],
+    "head": [
+      24,
+      16,
+      1
+    ],
+    "parameter_count": 1377
+  },
+  "horizon_hours": 1,
+  "lookback_hours": 168,
+  "units": "whole-building hourly average kW (hourly kWh / 1 h)",
+  "data": {
+    "feature_version": "energydna-hourly-1",
+    "horizon_hours": 1,
+    "lookback_hours": 168,
+    "sequence_hours": 48,
+    "hours": 2160,
+    "building_groups": {
+      "train": [
+        "Eagle_health_Amy",
+        "Peacock_lodging_Mathew",
+        "Panther_parking_Lorriane",
+        "Lamb_education_Emery",
+        "Robin_lodging_Celia",
+        "Bull_lodging_Leonard",
+        "Mouse_science_Micheal"
+      ],
+      "validation": [
+        "Fox_warehouse_Lorretta",
+        "Swan_unknown_Isaiah"
+      ],
+      "generalization": [
+        "Hog_education_Cathleen",
+        "Rat_assembly_Francine",
+        "Rat_assembly_Silvia"
+      ]
+    },
+    "train_end": 1296,
+    "validation_end": 1728,
+    "periods": {
+      "start": "2016-01-01 00:00:00",
+      "validation_start": "2016-02-24 00:00:00",
+      "test_start": "2016-03-13 00:00:00",
+      "end_inclusive": "2016-03-30 23:00:00"
+    },
+    "missing_readings": 2184,
+    "invalid_readings": 0,
+    "per_building": {
+      "Bull_lodging_Leonard": {
+        "missing": 10,
+        "zero_readings": 78,
+        "training_prefix_observed": 1291,
+        "training_prefix_constant": false
+      },
+      "Eagle_health_Amy": {
+        "missing": 0,
+        "zero_readings": 4,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Fox_warehouse_Lorretta": {
+        "missing": 10,
+        "zero_readings": 5,
+        "training_prefix_observed": 1293,
+        "training_prefix_constant": false
+      },
+      "Hog_education_Cathleen": {
+        "missing": 0,
+        "zero_readings": 2160,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": true
+      },
+      "Lamb_education_Emery": {
+        "missing": 0,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Mouse_science_Micheal": {
+        "missing": 0,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Panther_parking_Lorriane": {
+        "missing": 0,
+        "zero_readings": 2154,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Peacock_lodging_Mathew": {
+        "missing": 2,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Rat_assembly_Francine": {
+        "missing": 1,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Rat_assembly_Silvia": {
+        "missing": 1,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Robin_lodging_Celia": {
+        "missing": 0,
+        "zero_readings": 0,
+        "training_prefix_observed": 1296,
+        "training_prefix_constant": false
+      },
+      "Swan_unknown_Isaiah": {
+        "missing": 2160,
+        "zero_readings": 0,
+        "training_prefix_observed": 0,
+        "training_prefix_constant": true
+      }
+    },
+    "units": "whole-building hourly average kW (hourly kWh / 1 h)",
+    "timestamp_policy": "source-local naive clock; no timezone conversion or DST/weather join",
+    "missing_policy": "No target imputation. Require observed target/lags 1,24,168 and >=80% observed preceding 168h. Forward-fill inputs inside past window only, leading gaps zero; provide missing mask. Zeros retained; no full-series anomaly filter.",
+    "evaluation_protocol": "one-hour rolling origin; earlier observed test hours may enter later windows; no parameter refitting on validation/test buildings or periods",
+    "source": {
+      "dataset": "Building Data Genome 2",
+      "source_commit": "9b97ccbe90096aff42ed4fd6493bf7ae692d7118",
+      "source_urls": {
+        "metadata.csv": "https://media.githubusercontent.com/media/buds-lab/building-data-genome-project-2/9b97ccbe90096aff42ed4fd6493bf7ae692d7118/data/metadata/metadata.csv",
+        "electricity.csv": "https://media.githubusercontent.com/media/buds-lab/building-data-genome-project-2/9b97ccbe90096aff42ed4fd6493bf7ae692d7118/data/meters/raw/electricity.csv"
+      },
+      "source_file": "data/meters/raw/electricity.csv",
+      "selection": "same 12 IDs as PR7; first requested hours, no outcome selection",
+      "hours": 2160,
+      "buildings": [
+        "Panther_parking_Lorriane",
+        "Robin_lodging_Celia",
+        "Fox_warehouse_Lorretta",
+        "Rat_assembly_Francine",
+        "Rat_assembly_Silvia",
+        "Lamb_education_Emery",
+        "Peacock_lodging_Mathew",
+        "Bull_lodging_Leonard",
+        "Swan_unknown_Isaiah",
+        "Hog_education_Cathleen",
+        "Eagle_health_Amy",
+        "Mouse_science_Micheal"
+      ],
+      "sha256": {
+        "metadata.csv": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+        "electricity.csv": "7d910a7e31289e1fd0e94139574164d7dd3201e96a9e064cf51dfb1543675ac6"
+      },
+      "input_units": "hourly electricity energy, kWh",
+      "target_units": "average kW over next one-hour meter interval",
+      "timestamp_basis": "source local hourly clock; naive, no UTC or weather join",
+      "upstream_license": "https://github.com/buds-lab/building-data-genome-project-2/blob/9b97ccbe90096aff42ed4fd6493bf7ae692d7118/LICENSE",
+      "attribution": "Clayton Miller, Anjukan Kathirgamanathan, Balaji Picchetti et al., Building Data Genome Project 2 (2020), doi:10.1038/s41597-020-00712-x",
+      "modifications": "12 raw electricity columns, bounded first hours; no retrospective cleaned-file filters",
+      "category": "overseas whole-building research meters; not Kyrgyz critical circuits"
+    },
+    "excluded_windows": {
+      "Bull_lodging_Leonard": 37,
+      "Eagle_health_Amy": 0,
+      "Fox_warehouse_Lorretta": 31,
+      "Hog_education_Cathleen": 0,
+      "Lamb_education_Emery": 0,
+      "Mouse_science_Micheal": 0,
+      "Panther_parking_Lorriane": 0,
+      "Peacock_lodging_Mathew": 8,
+      "Rat_assembly_Francine": 4,
+      "Rat_assembly_Silvia": 4,
+      "Robin_lodging_Celia": 0,
+      "Swan_unknown_Isaiah": 1992
+    }
+  },
+  "training": {
+    "seed": 20261024,
+    "max_epochs": 100,
+    "epochs_run": 77,
+    "best_epoch": 65,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.001,
+    "batch_size": 128,
+    "patience": 12,
+    "loss": "SmoothL1 on per-origin history-scaled targets",
+    "selection": "minimum validation macro-building history-scaled MAE; no test selection",
+    "weight_update_l1": 243.44747924804688,
+    "history": [
+      {
+        "epoch": 1,
+        "train_smooth_l1": 0.030462782917233845,
+        "validation_macro_history_scaled_mae": 0.2070664099870751
+      },
+      {
+        "epoch": 2,
+        "train_smooth_l1": 0.023919245020843034,
+        "validation_macro_history_scaled_mae": 0.18836732275917145
+      },
+      {
+        "epoch": 3,
+        "train_smooth_l1": 0.01745178511415657,
+        "validation_macro_history_scaled_mae": 0.16385799253508257
+      },
+      {
+        "epoch": 4,
+        "train_smooth_l1": 0.012839436903288596,
+        "validation_macro_history_scaled_mae": 0.14286251924352356
+      },
+      {
+        "epoch": 5,
+        "train_smooth_l1": 0.010584594312592394,
+        "validation_macro_history_scaled_mae": 0.1368168619398531
+      },
+      {
+        "epoch": 6,
+        "train_smooth_l1": 0.009767463631589434,
+        "validation_macro_history_scaled_mae": 0.1258755372473211
+      },
+      {
+        "epoch": 7,
+        "train_smooth_l1": 0.009458407923732407,
+        "validation_macro_history_scaled_mae": 0.12637581291485833
+      },
+      {
+        "epoch": 8,
+        "train_smooth_l1": 0.009181276446849964,
+        "validation_macro_history_scaled_mae": 0.12299396921385275
+      },
+      {
+        "epoch": 9,
+        "train_smooth_l1": 0.00901226952295173,
+        "validation_macro_history_scaled_mae": 0.1215829282530562
+      },
+      {
+        "epoch": 10,
+        "train_smooth_l1": 0.008990692854663309,
+        "validation_macro_history_scaled_mae": 0.12173317806554934
+      },
+      {
+        "epoch": 11,
+        "train_smooth_l1": 0.008855219366226777,
+        "validation_macro_history_scaled_mae": 0.1259842408469476
+      },
+      {
+        "epoch": 12,
+        "train_smooth_l1": 0.008918841366258607,
+        "validation_macro_history_scaled_mae": 0.12047965138564297
+      },
+      {
+        "epoch": 13,
+        "train_smooth_l1": 0.008759384950014644,
+        "validation_macro_history_scaled_mae": 0.1214330941323414
+      },
+      {
+        "epoch": 14,
+        "train_smooth_l1": 0.008675760119209694,
+        "validation_macro_history_scaled_mae": 0.12090737874684361
+      },
+      {
+        "epoch": 15,
+        "train_smooth_l1": 0.008619714755094952,
+        "validation_macro_history_scaled_mae": 0.12038781622744546
+      },
+      {
+        "epoch": 16,
+        "train_smooth_l1": 0.008574246843799954,
+        "validation_macro_history_scaled_mae": 0.11947140254297758
+      },
+      {
+        "epoch": 17,
+        "train_smooth_l1": 0.008578364866646107,
+        "validation_macro_history_scaled_mae": 0.12032835875513587
+      },
+      {
+        "epoch": 18,
+        "train_smooth_l1": 0.008509877174128159,
+        "validation_macro_history_scaled_mae": 0.123081255387325
+      },
+      {
+        "epoch": 19,
+        "train_smooth_l1": 0.008520760843156776,
+        "validation_macro_history_scaled_mae": 0.11993720322933955
+      },
+      {
+        "epoch": 20,
+        "train_smooth_l1": 0.008429792991799514,
+        "validation_macro_history_scaled_mae": 0.11907169267979106
+      },
+      {
+        "epoch": 21,
+        "train_smooth_l1": 0.00851930742937968,
+        "validation_macro_history_scaled_mae": 0.11942598065227264
+      },
+      {
+        "epoch": 22,
+        "train_smooth_l1": 0.008252009741921413,
+        "validation_macro_history_scaled_mae": 0.12225496221349372
+      },
+      {
+        "epoch": 23,
+        "train_smooth_l1": 0.008152458800572908,
+        "validation_macro_history_scaled_mae": 0.11954823744541147
+      },
+      {
+        "epoch": 24,
+        "train_smooth_l1": 0.008124075708765433,
+        "validation_macro_history_scaled_mae": 0.11987650012177185
+      },
+      {
+        "epoch": 25,
+        "train_smooth_l1": 0.007952032777617779,
+        "validation_macro_history_scaled_mae": 0.11888081514591273
+      },
+      {
+        "epoch": 26,
+        "train_smooth_l1": 0.00786674655776512,
+        "validation_macro_history_scaled_mae": 0.1190528589347472
+      },
+      {
+        "epoch": 27,
+        "train_smooth_l1": 0.007906238950230111,
+        "validation_macro_history_scaled_mae": 0.12454215888053081
+      },
+      {
+        "epoch": 28,
+        "train_smooth_l1": 0.007918650698120528,
+        "validation_macro_history_scaled_mae": 0.11858165471662019
+      },
+      {
+        "epoch": 29,
+        "train_smooth_l1": 0.007837574614519482,
+        "validation_macro_history_scaled_mae": 0.11969579395168478
+      },
+      {
+        "epoch": 30,
+        "train_smooth_l1": 0.007797611787014994,
+        "validation_macro_history_scaled_mae": 0.118551500643009
+      },
+      {
+        "epoch": 31,
+        "train_smooth_l1": 0.007800571989376339,
+        "validation_macro_history_scaled_mae": 0.11990534110728185
+      },
+      {
+        "epoch": 32,
+        "train_smooth_l1": 0.007734088940272395,
+        "validation_macro_history_scaled_mae": 0.12024818475415627
+      },
+      {
+        "epoch": 33,
+        "train_smooth_l1": 0.007756815528820267,
+        "validation_macro_history_scaled_mae": 0.12424455645795775
+      },
+      {
+        "epoch": 34,
+        "train_smooth_l1": 0.007721038217920972,
+        "validation_macro_history_scaled_mae": 0.121088354754957
+      },
+      {
+        "epoch": 35,
+        "train_smooth_l1": 0.007730944122064034,
+        "validation_macro_history_scaled_mae": 0.11899523617787507
+      },
+      {
+        "epoch": 36,
+        "train_smooth_l1": 0.007695661983137726,
+        "validation_macro_history_scaled_mae": 0.11956854883071333
+      },
+      {
+        "epoch": 37,
+        "train_smooth_l1": 0.0076510819068304065,
+        "validation_macro_history_scaled_mae": 0.11946484859722942
+      },
+      {
+        "epoch": 38,
+        "train_smooth_l1": 0.007630028029182021,
+        "validation_macro_history_scaled_mae": 0.11851854573704255
+      },
+      {
+        "epoch": 39,
+        "train_smooth_l1": 0.007620607891114934,
+        "validation_macro_history_scaled_mae": 0.11839856163694512
+      },
+      {
+        "epoch": 40,
+        "train_smooth_l1": 0.0074907006912296546,
+        "validation_macro_history_scaled_mae": 0.12022515082486424
+      },
+      {
+        "epoch": 41,
+        "train_smooth_l1": 0.007525863238301935,
+        "validation_macro_history_scaled_mae": 0.12080504978147383
+      },
+      {
+        "epoch": 42,
+        "train_smooth_l1": 0.007633709485026419,
+        "validation_macro_history_scaled_mae": 0.12283277475004085
+      },
+      {
+        "epoch": 43,
+        "train_smooth_l1": 0.007419569935061691,
+        "validation_macro_history_scaled_mae": 0.1274971682793637
+      },
+      {
+        "epoch": 44,
+        "train_smooth_l1": 0.0074487890501089725,
+        "validation_macro_history_scaled_mae": 0.12096003563149077
+      },
+      {
+        "epoch": 45,
+        "train_smooth_l1": 0.007388380527291137,
+        "validation_macro_history_scaled_mae": 0.11766096406300627
+      },
+      {
+        "epoch": 46,
+        "train_smooth_l1": 0.0072570094134365905,
+        "validation_macro_history_scaled_mae": 0.11701191237284841
+      },
+      {
+        "epoch": 47,
+        "train_smooth_l1": 0.007215529536162443,
+        "validation_macro_history_scaled_mae": 0.11911511625014512
+      },
+      {
+        "epoch": 48,
+        "train_smooth_l1": 0.007175517500688948,
+        "validation_macro_history_scaled_mae": 0.11873613538705065
+      },
+      {
+        "epoch": 49,
+        "train_smooth_l1": 0.007196568856000435,
+        "validation_macro_history_scaled_mae": 0.11803682401841992
+      },
+      {
+        "epoch": 50,
+        "train_smooth_l1": 0.007099969554628677,
+        "validation_macro_history_scaled_mae": 0.1178929698724916
+      },
+      {
+        "epoch": 51,
+        "train_smooth_l1": 0.007047367440190283,
+        "validation_macro_history_scaled_mae": 0.11818682021461901
+      },
+      {
+        "epoch": 52,
+        "train_smooth_l1": 0.007006808229004471,
+        "validation_macro_history_scaled_mae": 0.11694872801373937
+      },
+      {
+        "epoch": 53,
+        "train_smooth_l1": 0.006959719141666993,
+        "validation_macro_history_scaled_mae": 0.11622555755757016
+      },
+      {
+        "epoch": 54,
+        "train_smooth_l1": 0.006907345906459339,
+        "validation_macro_history_scaled_mae": 0.11749606368902085
+      },
+      {
+        "epoch": 55,
+        "train_smooth_l1": 0.006893780910979608,
+        "validation_macro_history_scaled_mae": 0.11872061197132344
+      },
+      {
+        "epoch": 56,
+        "train_smooth_l1": 0.006909307307203321,
+        "validation_macro_history_scaled_mae": 0.11726799879046126
+      },
+      {
+        "epoch": 57,
+        "train_smooth_l1": 0.006852215610036508,
+        "validation_macro_history_scaled_mae": 0.11674663507370114
+      },
+      {
+        "epoch": 58,
+        "train_smooth_l1": 0.006790593945150475,
+        "validation_macro_history_scaled_mae": 0.11956857197892058
+      },
+      {
+        "epoch": 59,
+        "train_smooth_l1": 0.006782743622677601,
+        "validation_macro_history_scaled_mae": 0.11743152622422814
+      },
+      {
+        "epoch": 60,
+        "train_smooth_l1": 0.0067197440394762675,
+        "validation_macro_history_scaled_mae": 0.11704659434113324
+      },
+      {
+        "epoch": 61,
+        "train_smooth_l1": 0.0068420261884116935,
+        "validation_macro_history_scaled_mae": 0.11816469531818152
+      },
+      {
+        "epoch": 62,
+        "train_smooth_l1": 0.006716037029323636,
+        "validation_macro_history_scaled_mae": 0.11610007598420709
+      },
+      {
+        "epoch": 63,
+        "train_smooth_l1": 0.006741885148316929,
+        "validation_macro_history_scaled_mae": 0.11890156287890583
+      },
+      {
+        "epoch": 64,
+        "train_smooth_l1": 0.006614464573500207,
+        "validation_macro_history_scaled_mae": 0.11613585469589484
+      },
+      {
+        "epoch": 65,
+        "train_smooth_l1": 0.006590637717401222,
+        "validation_macro_history_scaled_mae": 0.11526809585991729
+      },
+      {
+        "epoch": 66,
+        "train_smooth_l1": 0.00667044049962104,
+        "validation_macro_history_scaled_mae": 0.11666762682099537
+      },
+      {
+        "epoch": 67,
+        "train_smooth_l1": 0.006675526283554679,
+        "validation_macro_history_scaled_mae": 0.11591568737566715
+      },
+      {
+        "epoch": 68,
+        "train_smooth_l1": 0.006535934195204244,
+        "validation_macro_history_scaled_mae": 0.11599301025876602
+      },
+      {
+        "epoch": 69,
+        "train_smooth_l1": 0.006508431447496578,
+        "validation_macro_history_scaled_mae": 0.11528641588442723
+      },
+      {
+        "epoch": 70,
+        "train_smooth_l1": 0.0065171355079894485,
+        "validation_macro_history_scaled_mae": 0.1166824874366911
+      },
+      {
+        "epoch": 71,
+        "train_smooth_l1": 0.006469099491923057,
+        "validation_macro_history_scaled_mae": 0.11630238161122
+      },
+      {
+        "epoch": 72,
+        "train_smooth_l1": 0.006500106718417657,
+        "validation_macro_history_scaled_mae": 0.11559579006267832
+      },
+      {
+        "epoch": 73,
+        "train_smooth_l1": 0.006513557843518811,
+        "validation_macro_history_scaled_mae": 0.11709194594221198
+      },
+      {
+        "epoch": 74,
+        "train_smooth_l1": 0.006390591357567616,
+        "validation_macro_history_scaled_mae": 0.11659493732792668
+      },
+      {
+        "epoch": 75,
+        "train_smooth_l1": 0.0066865746890254875,
+        "validation_macro_history_scaled_mae": 0.12209880562566926
+      },
+      {
+        "epoch": 76,
+        "train_smooth_l1": 0.006576951082523046,
+        "validation_macro_history_scaled_mae": 0.11542149876937498
+      },
+      {
+        "epoch": 77,
+        "train_smooth_l1": 0.006444235954945263,
+        "validation_macro_history_scaled_mae": 0.1159236251016943
+      }
+    ]
+  },
+  "preferred_method": "persistence",
+  "validation_selection_scores": {
+    "seasonal_week": 0.20868110146832541,
+    "seasonal_day": 0.17069959913209123,
+    "persistence": 0.10808491420746666,
+    "ridge": 0.11563252895729201,
+    "energydna_gru": 0.11526809585991729
+  },
+  "environment": {
+    "python": "3.12.10",
+    "numpy": "2.2.6",
+    "pandas": "3.1.0",
+    "torch": "2.13.0+cpu",
+    "scikit-learn": "1.6.1"
+  },
+  "boundaries": [
+    "Historical overseas whole-building research only",
+    "No critical-circuit equivalence or geographic transfer validation",
+    "No physical trace injection, weather inputs, or API integration",
+    "Preferred method selected on validation; test is independent evidence, not tuning"
+  ],
+  "derived_artifact_license": "CC BY-SA 4.0; upstream attribution and license link in data.source and NOTICE.md"
+}
