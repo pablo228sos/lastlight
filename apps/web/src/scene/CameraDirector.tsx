@@ -33,6 +33,7 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
   useEffect(() => {
     timeline.current?.kill()
     document.documentElement.dataset.cameraIdle = 'false'
+    document.documentElement.dataset.cameraShot = shot
     const offset = siteId === 'school' ? [0, 0] : siteOffsets[siteId]
     const state = { x: camera.position.x, y: camera.position.y, z: camera.position.z,
       tx: target.current.x, ty: target.current.y, tz: target.current.z }
