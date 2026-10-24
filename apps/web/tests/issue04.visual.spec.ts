@@ -29,6 +29,7 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     // Data-shot can switch BEFORE GSAP arrives. Assert actual WebGL camera
     // coordinates, not just the state machine label or a fixed sleep.
     const poses: Record<string, [number, number, number]> = {
+      district: [81, 63, 83],
       facility: [65, 39, 58],
       equipment: [53, 26, 41],
     }
@@ -76,6 +77,8 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
   // Navigate using exactly the same app state machine and virtual camera.
   await page.getByTestId('skip-intro').click()
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT')
+  await page.waitForTimeout(650)
+  await take('00-district-overview', 'district', 'DISTRICT')
   await page.getByTestId('site-school').click()
   await page.waitForTimeout(2400)
   await take('01-facility-connected', 'facility', 'SITE')
