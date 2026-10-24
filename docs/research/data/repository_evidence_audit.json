@@ -1,0 +1,183 @@
+{
+  "snapshot_date": "2026-10-24",
+  "commits": {
+    "official_physics_pr6": "ef23a710ecb7b235ea734171730a4656c40f4615",
+    "candidate_ml_pr7": "7147b3f1d0808886c1ca7dc5954ba94edc1564bd",
+    "integration_pr8": "92613f0b39eec32813a438883e7d4fca18bce0e2"
+  },
+  "scope": "Published artifact arithmetic and fixture identity; no retraining, no field validation, no new ML benchmark timing.",
+  "metric_arithmetic": {
+    "generalization": {
+      "fragility_net": {
+        "n": 1200,
+        "accuracy": 0.9008333333333334,
+        "precision": 0.8858307849133538,
+        "dangerous_recall": 0.9920091324200914,
+        "f1": 0.9359181475498115,
+        "false_negatives": 7,
+        "always_fails_accuracy": 0.73,
+        "confusion_matrix": [
+          [
+            212,
+            112
+          ],
+          [
+            7,
+            869
+          ]
+        ]
+      },
+      "baseline": {
+        "n": 1200,
+        "accuracy": 0.8741666666666666,
+        "precision": 0.8748707342295761,
+        "dangerous_recall": 0.9657534246575342,
+        "f1": 0.9180683667932719,
+        "false_negatives": 30,
+        "always_fails_accuracy": 0.73,
+        "confusion_matrix": [
+          [
+            203,
+            121
+          ],
+          [
+            30,
+            846
+          ]
+        ]
+      }
+    },
+    "test": {
+      "fragility_net": {
+        "n": 600,
+        "accuracy": 0.93,
+        "precision": 0.9257884972170687,
+        "dangerous_recall": 0.9960079840319361,
+        "f1": 0.9596153846153846,
+        "false_negatives": 2,
+        "always_fails_accuracy": 0.835,
+        "confusion_matrix": [
+          [
+            59,
+            40
+          ],
+          [
+            2,
+            499
+          ]
+        ]
+      },
+      "baseline": {
+        "n": 600,
+        "accuracy": 0.9,
+        "precision": 0.9168241965973535,
+        "dangerous_recall": 0.9680638722554891,
+        "f1": 0.941747572815534,
+        "false_negatives": 16,
+        "always_fails_accuracy": 0.835,
+        "confusion_matrix": [
+          [
+            55,
+            44
+          ],
+          [
+            16,
+            485
+          ]
+        ]
+      }
+    }
+  },
+  "published_frontier_comparison": {
+    "battery_only": {
+      "physics_version": "lastlight-dispatch-1.1.0",
+      "ml_model_version": "fragility-1-0e9fbf8a5ba1",
+      "deterministic_trace": {
+        "physics_calls": 17,
+        "seconds": 0.03833979996852577,
+        "mean_boundary_error_hours": 0.0,
+        "missed_unsafe_cells": 0,
+        "classification_error": 0.0
+      },
+      "ml_guided": {
+        "physics_calls": 80,
+        "seconds": 0.1550721999956295,
+        "mean_boundary_error_hours": 2.182904411764706,
+        "missed_unsafe_cells": 51,
+        "classification_error": 0.09090909090909091
+      },
+      "ml_faster_than_exact_in_published_run": false,
+      "ml_more_accurate_than_exact_in_published_run": false
+    },
+    "variable_profiles": {
+      "physics_version": "lastlight-dispatch-1.1.0",
+      "ml_model_version": "fragility-1-0e9fbf8a5ba1",
+      "deterministic_trace": {
+        "physics_calls": 17,
+        "seconds": 0.05305019998922944,
+        "mean_boundary_error_hours": 0.0,
+        "missed_unsafe_cells": 0,
+        "classification_error": 0.0
+      },
+      "ml_guided": {
+        "physics_calls": 80,
+        "seconds": 0.1923790000146255,
+        "mean_boundary_error_hours": 3.0997242647058822,
+        "missed_unsafe_cells": 36,
+        "classification_error": 0.1051693404634581
+      },
+      "ml_faster_than_exact_in_published_run": false,
+      "ml_more_accurate_than_exact_in_published_run": false
+    }
+  },
+  "pr8_fixtures": {
+    "baseline": {
+      "byte_identical_to_pr6": true,
+      "sha256": "ee0882b680a3b31d794506493ecead7bd3337c19582ed9af26ccdb8940b06c40"
+    },
+    "comparison": {
+      "byte_identical_to_pr6": true,
+      "sha256": "035551759d8c378969f4513652a1097f1fe7f26c85fac7e70451a98bf38e34a3"
+    }
+  },
+  "pr8_backend_source_present_in_frontend_checkout": {
+    "services/simulation/__init__.py": false,
+    "services/simulation/engine.py": false,
+    "services/simulation/schemas.py": false
+  },
+  "pr8_live_demo_requires_separate_official_backend_checkout": true,
+  "pr7_exclusive_horizon_reproduction": [
+    {
+      "step_minutes": 1,
+      "duration_hours": 9.12,
+      "first_failure_hours": 9.12,
+      "survived_full_window": false,
+      "unserved_critical_kwh": 2.957634137601417e-13
+    },
+    {
+      "step_minutes": 15,
+      "duration_hours": 9.12,
+      "first_failure_hours": 9.12,
+      "survived_full_window": false,
+      "unserved_critical_kwh": 7.993605777301127e-15
+    },
+    {
+      "step_minutes": 60,
+      "duration_hours": 9.12,
+      "first_failure_hours": null,
+      "survived_full_window": true,
+      "unserved_critical_kwh": 0.0
+    }
+  ],
+  "source_sha256": {
+    "7147b3f1d0808886c1ca7dc5954ba94edc1564bd:ml/artifacts/fragility-v1/independent-test.json": "aaaf172235e41cd2910ebb599851251f3d09c593fba2a15e7fbd185c468097ed",
+    "7147b3f1d0808886c1ca7dc5954ba94edc1564bd:ml/artifacts/fragility-v1/frontier-benchmark.json": "bd5a1f77bbd68f7335755cbf6e52d20277b78c0e13181299e04e85cdc6d8604c",
+    "ef23a710ecb7b235ea734171730a4656c40f4615:docs/physics/fixtures/baseline.result.json": "ee0882b680a3b31d794506493ecead7bd3337c19582ed9af26ccdb8940b06c40",
+    "92613f0b39eec32813a438883e7d4fca18bce0e2:apps/web/src/data/baseline.result.json": "ee0882b680a3b31d794506493ecead7bd3337c19582ed9af26ccdb8940b06c40",
+    "ef23a710ecb7b235ea734171730a4656c40f4615:docs/physics/fixtures/comparison.result.json": "035551759d8c378969f4513652a1097f1fe7f26c85fac7e70451a98bf38e34a3",
+    "92613f0b39eec32813a438883e7d4fca18bce0e2:apps/web/src/data/comparison.result.json": "035551759d8c378969f4513652a1097f1fe7f26c85fac7e70451a98bf38e34a3",
+    "7147b3f1d0808886c1ca7dc5954ba94edc1564bd:services/simulation/__init__.py": "904eadd93d2d6e81f37f7672aec19216e9721cbb537f2f870506f2d7528bd1f5",
+    "7147b3f1d0808886c1ca7dc5954ba94edc1564bd:services/simulation/engine.py": "f92eac592c10238da3d327767d9956efebb1ef997fbae7523d499c089534c51b",
+    "7147b3f1d0808886c1ca7dc5954ba94edc1564bd:services/simulation/schemas.py": "0a12cd76b9eae0ad0fbad46d3f8682bfe914de20eb99c93668492f65887fef2a"
+  }
+}

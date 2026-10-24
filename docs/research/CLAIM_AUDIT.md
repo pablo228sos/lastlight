@@ -15,9 +15,9 @@
 | Утверждение | Код / эксперимент и внешнее подтверждение | Статус | Ограничение | Безопасно сказать жюри |
 | --- | --- | --- | --- | --- |
 | Детерминированно рассчитывает разряд и энергобаланс | PR6 `services/simulation/engine.py`, `tests/simulation/`; 124 локальных теста, 99,44% покрытия engine/schemas/API; trace содержит потери и residual | IMPLEMENTED AND VERIFIED | Одношиновая квазистационарная модель; не AC-сеть | «Получаем воспроизводимую энергетическую трассу с проверками физических ограничений». |
-| Находит критический отказ | PR6: дефицит нагрузки >1e-9 кВт; exact-event trace; новый sensitivity script | IMPLEMENTED AND VERIFIED | Условие заданного сценария, не прогноз аварии сети | «Показываем, когда резерв перестаёт полностью питать выбранные критические нагрузки». |
+| Находит критический отказ | PR6: дефицит нагрузки >1e-9 кВт; exact-event trace; [75 новых расчётов](SENSITIVITY_STUDY.md) | IMPLEMENTED AND VERIFIED | Условие заданного сценария, не прогноз аварии сети | «Показываем, когда резерв перестаёт полностью питать выбранные критические нагрузки». |
 | 24 кВт·ч дают 9,12 часа | PR6 baseline и независимое C·(SOC0−SOCmin)·η/P | IMPLEMENTED AND VERIFIED | Только при .8/.2/.95/1.5 кВт, без PV и ограничений по мощности | «В нашем синтетическом эталоне первый дефицит через 9,12 часа». |
-| 36 кВт·ч гарантируют 13,68 часа в 12-часовом запуске | PR6 comparison: null failure за 12 ч; 16 ч отдельно наблюдают 13,68 | UNSUPPORTED в такой формулировке | Горизонт и аналитическая оценка различаются | «В 12-часовом окне отказ не наблюдается; 13,68 часа — отдельный длинный тест/аналитический ориентир». |
+| 36 кВт·ч гарантируют 13,68 часа в 12-часовом запуске | PR6 comparison: null failure за 12 ч; новые 32 ч отдельно наблюдают 13,68 | UNSUPPORTED в такой формулировке | Горизонт и аналитическая оценка различаются | «В 12-часовом окне отказ не наблюдается; 13,68 часа — отдельный длинный тест/аналитический ориентир». |
 | Сцена использует одну физическую трассу | PR8 `physics.ts`, `usePhysicsRun.ts`, tests/physics.spec.ts; pinned PR6 fixture pairs; отдельный Verify зелёный | IMPLEMENTED AND VERIFIED в PR8 | Это проверенная демонстрационная интеграция; независимый production/Windows CI для PR6 не активирован | «SOC, время, нагрузка и свет демонстрационной школы опираются на один результат». |
 | Есть явный offline replay | PR8 `?demo=offline`, USE VERIFIED REPLAY, `docs/physics/FRONTEND_INTEGRATION.md` | IMPLEMENTED AND VERIFIED в PR8 | Чтение сохранённого синтетического результата, не новая симуляция с изменёнными параметрами | «При недоступном API можно явно воспроизвести проверенный пример». |
 | AI-powered optimization | PR6 сравнивает два заданных улучшения; PR7 содержит классификатор, не глобальный проектный оптимизатор | UNSUPPORTED как общее обещание | Нет оптимизации стоимости/NPV и поиска оптимального оборудования | «Сравниваем инженерные варианты; ML экспериментально предлагает сценарии для физической проверки». |
@@ -51,6 +51,17 @@ cells, exact trace — 0/0. Не скрывать этот результат и
 для улучшения слайда. Известный exclusive-horizon дефект кандидатной физики PR7
 не исправлен зелёным UI CI и ограничивает доверие к пограничным labels.
 
+[Изолированный audit script](../../research/engineering_evidence/audit_repository_evidence.py)
+повторно проверяет арифметику обеих confusion matrices и сохраняет
+[машиночитаемый отчёт с SHA-256 источников](data/repository_evidence_audit.json).
+Это проверка опубликованных метрик, не повторное обучение или новый замер скорости.
+При горизонте ровно 9,12 ч PR7 по-прежнему возвращает false failure при шагах
+1/15 минут: critical unserved порядка 2,96e-13 / 7,99e-15 кВт·ч; шаг 60 минут
+возвращает null. Официальный PR6 во всех трёх шагах возвращает null. Не объединять
+версии: исследование использует physics `lastlight-dispatch-1.0.0` / schema `1.0.0`,
+а labels FragilityNet `fragility-1-0e9fbf8a5ba1` происходят от candidate physics
+`lastlight-dispatch-1.1.0`. Отдельный model version нейросети не является версией физики.
+
 ## Непротиворечивость репозитория
 
 `docs/PRODUCT.md` и `docs/ENGINEERING.md` местами описывают прежнюю визуальную
@@ -58,3 +69,23 @@ cells, exact trace — 0/0. Не скрывать этот результат и
 отсутствии относятся к старым SHA. При этом PR8 прямо оставляет frontier pending.
 Для жюри обязательно называть ветку, версию модели и тип данных. Изменять
 production-документы и чужие ветки этот исследовательский PR не пытается.
+
+Проверено побайтно: оба PR8 replay JSON совпадают с PR6 fixtures; их SHA-256
+сохранены в machine-readable audit. **Сам PR8 не содержит Python backend**:
+live demonstration требует отдельного checkout PR6 и доступного API. Это
+интеграция по контракту, не объединённый deployment. Тексты и снимки PR8
+не являются доказательством физического питания реального здания.
+
+Опубликованное verification evidence:
+[PR6 RELEASE](https://github.com/pablo228sos/lastlight/blob/ef23a710ecb7b235ea734171730a4656c40f4615/docs/physics/RELEASE.md)
+фиксирует 124 local tests / 99,44% coverage и 20 Linux launcher/HTTP checks;
+[PR7 Verify](https://github.com/pablo228sos/lastlight/actions/runs/40084814511)
+и [PR8 Verify](https://github.com/pablo228sos/lastlight/actions/runs/40087257236)
+успешны на проверенных SHA. Это не approved production physics matrix на Windows.
+У [PR6 Verify](https://github.com/pablo228sos/lastlight/actions/runs/40087691841)
+и PR8 проверены job conclusions: `web=success`, `reference-physics=success`;
+официального production simulation job в этих запусках нет.
+Новая проверка этого PR — 75 sensitivity results и artifact audit; полную
+production suite здесь повторно не запускали. [API contract](https://github.com/pablo228sos/lastlight/blob/ef23a710ecb7b235ea734171730a4656c40f4615/docs/physics/CONTRACT.md)
+и [физическая модель](https://github.com/pablo228sos/lastlight/blob/ef23a710ecb7b235ea734171730a4656c40f4615/docs/physics/MODEL.md)
+остаются официальными источниками поведения.
