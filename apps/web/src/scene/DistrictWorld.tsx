@@ -2,6 +2,7 @@ import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react'
 import { Line } from '@react-three/drei'
 import { SchoolFacadeWall } from './SchoolFacadeWall'
 import { SchoolSolarArray } from './SchoolSolarArray'
+import { ArchitecturalBuildingBodies, ArchitecturalDistrictDetails } from './CityArchitecture'
 import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Color, MathUtils, MeshBasicMaterial, MeshStandardMaterial, Object3D, type InstancedMesh } from 'three'
 import type { SceneLayer, ScenePhase, VisualRehearsalState } from '../app/useMissionState'
@@ -24,7 +25,6 @@ const buildings: Building[] = parcelX.flatMap((x, ix) => parcelZ.flatMap((z, iz)
     w: 7 + seeded(i + 12) * 6, d: 8 + seeded(i + 13) * 6,
     h: 5 + seeded(i + 14) * (seeded(i + 15) > .74 ? 23 : 13), tone: i % 4 }]
 }))
-const buildingBodies: MatrixItem[] = buildings.map(b => ({ x: b.x, y: b.h / 2, z: b.z, sx: b.w, sy: b.h, sz: b.d }))
 const facadeBands: MatrixItem[] = buildings.flatMap(b => Array.from({ length: Math.max(1, Math.floor(b.h / 2.9)) }, (_, floor) => ({
   x: b.x, y: 2.85 + floor * 2.9, z: b.z, sx: b.w + .09, sy: .09, sz: b.d + .09,
 })))
@@ -44,11 +44,11 @@ const windows: MatrixItem[] = buildings.flatMap((b, index) => {
   for (let floor = 0; floor < floors; floor++) {
     for (let col = 0; col < Math.floor(b.w / 2.1); col++) {
       if (seeded(index * 100 + floor * 20 + col) > .38)
-        result.push({ x: b.x - b.w / 2 + 1.3 + col * 2.1, y: 1.7 + floor * 2.8, z: b.z + b.d / 2 + .035, sx: .58, sy: .62, sz: .05 })
+        result.push({ x: b.x - b.w / 2 + 1.3 + col * 2.1, y: 1.7 + floor * 2.8, z: b.z + b.d / 2 + .145, sx: .74, sy: 1.02, sz: .05 })
     }
     for (let col = 0; col < Math.floor(b.d / 2.1); col++) {
       if (seeded(index * 191 + floor * 17 + col) > .43)
-        result.push({ x: b.x + b.w / 2 + .035, y: 1.7 + floor * 2.8, z: b.z - b.d / 2 + 1.3 + col * 2.1, sx: .05, sy: .62, sz: .58 })
+        result.push({ x: b.x + b.w / 2 + .145, y: 1.7 + floor * 2.8, z: b.z - b.d / 2 + 1.3 + col * 2.1, sx: .05, sy: 1.02, sz: .74 })
     }
   }
   return result
@@ -98,7 +98,7 @@ function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 
   </instancedMesh>
 }
 
-function CityFabric({ visual }: { visual: VisualRehearsalState }) {
+function CityFabric({ visual, lowPower }: { visual: VisualRehearsalState; lowPower: boolean }) {
   const windowMaterial = useRef<MeshStandardMaterial>(null)
   const lampMaterial = useRef<MeshStandardMaterial>(null)
   const windowMesh = useRef<InstancedMesh>(null)
@@ -122,7 +122,8 @@ function CityFabric({ visual }: { visual: VisualRehearsalState }) {
     if (lampMaterial.current) lampMaterial.current.color.lerp(new Color(visual.gridConnected ? '#eeb974' : '#26393c'), Math.min(1, delta * 3))
   })
   return <>
-    <Instances items={buildingBodies} color="#29343a" roughness={.88} />
+    <ArchitecturalBuildingBodies buildings={buildings} />
+    <ArchitecturalDistrictDetails buildings={buildings} lowPower={lowPower} />
     <Instances items={facadeBands} color="#465356" roughness={.94} />
     <Instances items={entryCanopies} color="#45555a" roughness={.85} />
     <Instances items={roofCaps} color="#3e474b" roughness={.91} />
@@ -277,7 +278,7 @@ export function DistrictWorld({ visual, layer, phase, selected, lowPower, onSele
     <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 85 : 22} distance={105} color="#f5a45b" decay={2} />
     <Streets />
     {!lowPower && <StreetPools visual={visual} />}
-    <CityFabric visual={visual} />
+    <CityFabric visual={visual} lowPower={lowPower} />
     <School visual={visual} layer={layer} onSelect={() => onSelect('school')} showHotspots={showHotspots} />
     <SpecialFacility id="clinic" visual={visual} onSelect={() => onSelect('clinic')} selected={selected === 'clinic' && showHotspots === false && (phase === 'SITE' || phase === 'INSPECT' || phase === 'BLACKOUT')} />
     <SpecialFacility id="business" visual={visual} onSelect={() => onSelect('business')} selected={selected === 'business' && showHotspots === false && (phase === 'SITE' || phase === 'INSPECT' || phase === 'BLACKOUT')} />
