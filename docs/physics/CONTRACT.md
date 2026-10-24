@@ -148,7 +148,10 @@ The authoritative request/response pair is
 Every generated schema and fixture is checked by `python -m services.simulation.check`.
 
 PR #7's schema/model 1.1.0 is an **unapproved proposal**, not this service's
-contract. Current v1 rejects `load.critical_profile_kw` and
+contract. Accept only explicitly supported schema versions, not every string
+starting with `1.`. This result's `model_version` always identifies physics;
+v1 has no required `physics_version` field. ML envelopes must keep their own
+model identity separate. Current v1 rejects `load.critical_profile_kw` and
 `load.noncritical_profile_kw` with HTTP 422. Proposed demand profiles should
 be incorporated in a separate reviewed Physics PR on the final official engine.
 They would override their respective scalar loads over the existing input

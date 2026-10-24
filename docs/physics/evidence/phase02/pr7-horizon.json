@@ -44,5 +44,27 @@
       "first_failure_utc": null,
       "last_interval_hours": 0.11999999999999922
     }
-  ]
+  ],
+  "pr7_updated_head": "0fff6f18d170c4b28e9d103576953039baae6dcd",
+  "pr7_updated": [
+    {
+      "step_minutes": 1,
+      "critical_survival_hours": 9.12,
+      "first_failure_utc": "2026-01-01T09:07:12Z",
+      "last_interval_hours": 1.971756091734278e-13
+    },
+    {
+      "step_minutes": 15,
+      "critical_survival_hours": 9.12,
+      "first_failure_utc": "2026-01-01T09:07:12Z",
+      "last_interval_hours": 5.329070518200751e-15
+    },
+    {
+      "step_minutes": 60,
+      "critical_survival_hours": null,
+      "first_failure_utc": null,
+      "last_interval_hours": 0.11999999999999922
+    }
+  ],
+  "pr7_engine_git_blob": "6681d01b642a092890c9c3a842783b732c4e7dc5"
 }

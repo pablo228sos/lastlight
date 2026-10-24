@@ -66,6 +66,10 @@ in this environment. The proposed two-platform workflow runs the same complete
 launcher/HTTP probe, including Windows setup, shutdown and offline restart,
 once the workflow owner enables it. [RELEASE.md](RELEASE.md) records the precise
 PR #7 compatibility findings and coordination links.
+The review was refreshed after #7 advanced to `0fff6f1`: its engine is unchanged
+from the earlier reviewed head and still reproduces the horizon defect. Its
+31-test Ubuntu job passes independently, while its browser job fails; neither
+result substitutes for the official production matrix or Windows evidence.
 
 The complete Python CI job is supplied as `docs/physics/simulation-ci.yml`.
 It is intentionally not active under `.github/workflows/`, which is outside
