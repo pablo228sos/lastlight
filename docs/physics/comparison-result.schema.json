@@ -5,8 +5,8 @@
       "properties": {
         "capacity_kwh": {
           "default": 24,
-          "exclusiveMinimum": 0,
           "maximum": 20000,
+          "minimum": 0.001,
           "title": "Capacity Kwh",
           "type": "number"
         },
@@ -33,15 +33,15 @@
         },
         "charge_efficiency": {
           "default": 0.95,
-          "exclusiveMinimum": 0,
           "maximum": 1,
+          "minimum": 0.01,
           "title": "Charge Efficiency",
           "type": "number"
         },
         "discharge_efficiency": {
           "default": 0.95,
-          "exclusiveMinimum": 0,
           "maximum": 1,
+          "minimum": 0.01,
           "title": "Discharge Efficiency",
           "type": "number"
         },

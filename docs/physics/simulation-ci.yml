@@ -1,0 +1,28 @@
+# Proposal: workflow owner copies to .github/workflows/simulation.yml.
+# Kept under docs/physics because Issue #2 does not own .github/workflows.
+name: Physics API
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  simulation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: services/simulation/requirements-dev.lock
+      - run: python -m pip install --require-hashes -r services/simulation/requirements-dev.lock
+      - run: python -m services.simulation.check
+      - run: python services/simulation/run.py --setup-only
+      - run: python services/simulation/run.py --offline --setup-only

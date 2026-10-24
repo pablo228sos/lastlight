@@ -12,15 +12,17 @@ from . import MODEL_VERSION, SCHEMA_VERSION
 
 Power = Annotated[float, Field(ge=0, le=50_000)]
 Fraction = Annotated[float, Field(ge=0, le=1)]
-Efficiency = Annotated[float, Field(gt=0, le=1)]
+Efficiency = Annotated[float, Field(ge=0.01, le=1)]
 
 
 class Contract(BaseModel):
-    model_config = ConfigDict(extra="forbid", allow_inf_nan=False, strict=True, validate_default=True)
+    model_config = ConfigDict(
+        extra="forbid", allow_inf_nan=False, strict=True, validate_default=True
+    )
 
 
 class Battery(Contract):
-    capacity_kwh: float = Field(default=24, gt=0, le=20_000)
+    capacity_kwh: float = Field(default=24, ge=0.001, le=20_000)
     initial_soc: Fraction = 0.8
     minimum_soc: Fraction = 0.2
     maximum_soc: Fraction = 1.0
@@ -32,7 +34,9 @@ class Battery(Contract):
     @model_validator(mode="after")
     def ordered_soc(self) -> Self:
         if not self.minimum_soc <= self.initial_soc <= self.maximum_soc:
-            raise ValueError("SOC must satisfy minimum_soc <= initial_soc <= maximum_soc")
+            raise ValueError(
+                "SOC must satisfy minimum_soc <= initial_soc <= maximum_soc"
+            )
         if self.minimum_soc >= self.maximum_soc:
             raise ValueError("minimum_soc must be less than maximum_soc")
         return self
@@ -90,7 +94,9 @@ class SimulationRequest(Contract):
         if isinstance(value, str):
             value = datetime.fromisoformat(value.replace("Z", "+00:00"))
         if not isinstance(value, datetime) or value.utcoffset() is None:
-            raise ValueError("start_utc must include a timezone (Z or an explicit UTC offset)")
+            raise ValueError(
+                "start_utc must include a timezone (Z or an explicit UTC offset)"
+            )
         value = value.astimezone(timezone.utc)
         if not 1970 <= value.year <= 2099:
             raise ValueError("start_utc must be in years 1970..2099")
@@ -103,7 +109,9 @@ class SimulationRequest(Contract):
             ("grid.profile_online", self.grid.profile_online),
         ]:
             if profile is not None and len(profile) != self.interval_count:
-                raise ValueError(f"{name} must have exactly {self.interval_count} entries")
+                raise ValueError(
+                    f"{name} must have exactly {self.interval_count} entries"
+                )
         return self
 
     @property
@@ -189,7 +197,10 @@ class ComparisonRequest(Contract):
 
     @model_validator(mode="after")
     def approved_upgrade(self) -> Self:
-        if self.upgrade == "battery_36_kwh" and self.baseline.battery.capacity_kwh >= 36:
+        if (
+            self.upgrade == "battery_36_kwh"
+            and self.baseline.battery.capacity_kwh >= 36
+        ):
             raise ValueError("battery_36_kwh requires baseline capacity below 36 kWh")
         if self.upgrade == "full_precharge" and self.baseline.battery.maximum_soc != 1:
             raise ValueError("full_precharge requires maximum_soc = 1")

@@ -27,6 +27,7 @@ from .schemas import (
 
 POWER_TOLERANCE_KW = 1e-9
 BALANCE_TOLERANCE_KWH = 1e-8
+TIME_TOLERANCE_HOURS = 1e-12
 
 
 class EnergyBalanceError(RuntimeError):
@@ -40,7 +41,10 @@ def utc_stamp(start: datetime, elapsed_hours: float = 0) -> str:
 def canonical_input(request: SimulationRequest) -> str:
     """Hash fully resolved defaults, UTC normalization and strict finite JSON."""
     return json.dumps(
-        request.model_dump(mode="json"), sort_keys=True, separators=(",", ":"), allow_nan=False
+        request.model_dump(mode="json"),
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
     )
 
 
@@ -66,11 +70,15 @@ def dispatch(
     requires its own explicit islanding compatibility flag.
     """
     b = s.battery
-    inverter_kw = s.inverter.max_kw if grid_online or s.inverter.islanding_capable else 0.0
+    inverter_kw = (
+        s.inverter.max_kw if grid_online or s.inverter.islanding_capable else 0.0
+    )
     pv_kw = min(pv, inverter_kw) if grid_online or s.solar.islanding_capable else 0.0
     grid_limit = s.grid.import_limit_kw if grid_online else 0.0
     noncritical = (
-        0.0 if not grid_online and s.load.shed_noncritical_during_outage else s.load.noncritical_kw
+        0.0
+        if not grid_online and s.load.shed_noncritical_during_outage
+        else s.load.noncritical_kw
     )
     requested = s.load.critical_kw + noncritical
     solar_load = min(pv_kw, requested)
@@ -111,8 +119,16 @@ def idealized_autonomy(s: SimulationRequest) -> float | None:
     Observed survival is computed exclusively from trace shortfalls. This
     independent formula may exceed the simulated horizon and is labelled so.
     """
-    all_outage = not any(s.grid.profile_online) if s.grid.profile_online is not None else not s.grid.online
-    all_dark = not any(s.solar.profile_kw) if s.solar.profile_kw is not None else s.solar.generation_kw == 0
+    all_outage = (
+        not any(s.grid.profile_online)
+        if s.grid.profile_online is not None
+        else not s.grid.online
+    )
+    all_dark = (
+        not any(s.solar.profile_kw)
+        if s.solar.profile_kw is not None
+        else s.solar.generation_kw == 0
+    )
     critical = s.load.critical_kw
     if (
         not all_outage
@@ -127,7 +143,8 @@ def idealized_autonomy(s: SimulationRequest) -> float | None:
         s.battery.capacity_kwh
         * (s.battery.initial_soc - s.battery.minimum_soc)
         * s.battery.discharge_efficiency
-        / critical, 12
+        / critical,
+        12,
     )
 
 
@@ -145,8 +162,16 @@ def simulate(request: SimulationRequest) -> SimulationResult:
     for index in range(s.interval_count):
         t = index * step
         interval_end = min((index + 1) * step, s.duration_hours)
-        grid_online = s.grid.profile_online[index] if s.grid.profile_online is not None else s.grid.online
-        pv_available = s.solar.profile_kw[index] if s.solar.profile_kw is not None else s.solar.generation_kw
+        grid_online = (
+            s.grid.profile_online[index]
+            if s.grid.profile_online is not None
+            else s.grid.online
+        )
+        pv_available = (
+            s.solar.profile_kw[index]
+            if s.solar.profile_kw is not None
+            else s.solar.generation_kw
+        )
 
         while t < interval_end:
             p = dispatch(s, energy, grid_online, pv_available)
@@ -157,22 +182,40 @@ def simulate(request: SimulationRequest) -> SimulationResult:
             if rate < 0:
                 hit = (energy - minimum) / -rate
                 if hit <= dt:
-                    dt, boundary = hit, minimum
+                    boundary = minimum
+                    if dt - hit > min(TIME_TOLERANCE_HOURS, 1e-9 / max(1.0, abs(rate))):
+                        dt = hit
             elif rate > 0:
                 hit = (maximum - energy) / rate
                 if hit <= dt:
-                    dt, boundary = hit, maximum
+                    boundary = maximum
+                    if dt - hit > min(TIME_TOLERANCE_HOURS, 1e-9 / max(1.0, abs(rate))):
+                        dt = hit
             if dt <= 0:
                 raise EnergyBalanceError("non-positive event interval")
             end = interval_end if dt == remaining else t + dt
             next_energy = energy + rate * dt if boundary is None else boundary
-            loss = (p.charge * (1 - b.charge_efficiency) + p.discharge * (1 / b.discharge_efficiency - 1)) * dt
-            ac_residual = (p.grid + p.solar + p.discharge - p.critical - p.noncritical - p.charge) * dt
+            loss = (
+                p.charge * (1 - b.charge_efficiency)
+                + p.discharge * (1 / b.discharge_efficiency - 1)
+            ) * dt
+            ac_residual = (
+                p.grid + p.solar + p.discharge - p.critical - p.noncritical - p.charge
+            ) * dt
             storage_residual = next_energy - energy - rate * dt
-            balance = (p.grid + p.solar - p.critical - p.noncritical) * dt - (next_energy - energy) - loss
+            balance = (
+                (p.grid + p.solar - p.critical - p.noncritical) * dt
+                - (next_energy - energy)
+                - loss
+            )
             residual = max(abs(ac_residual), abs(storage_residual), abs(balance))
-            if residual > BALANCE_TOLERANCE_KWH or not minimum <= next_energy <= maximum:
-                raise EnergyBalanceError("energy conservation or battery bound violated")
+            if (
+                residual > BALANCE_TOLERANCE_KWH
+                or not minimum <= next_energy <= maximum
+            ):
+                raise EnergyBalanceError(
+                    "energy conservation or battery bound violated"
+                )
             unserved = max(0.0, s.load.critical_kw - p.critical)
             unserved_noncritical = max(0.0, s.load.noncritical_kw - p.noncritical)
             if unserved > POWER_TOLERANCE_KW:
@@ -226,17 +269,33 @@ def simulate(request: SimulationRequest) -> SimulationResult:
     solar_energy = integral("solar_kw")
     noncritical_energy = integral("noncritical_served_kw")
     total_loss = fsum(point.conversion_loss_kwh for point in trace)
-    cumulative_balance = fsum([grid_energy, solar_energy, -served_critical, -noncritical_energy, initial_energy, -energy, -total_loss])
+    cumulative_balance = fsum(
+        [
+            grid_energy,
+            solar_energy,
+            -served_critical,
+            -noncritical_energy,
+            initial_energy,
+            -energy,
+            -total_loss,
+        ]
+    )
     if abs(cumulative_balance) > BALANCE_TOLERANCE_KWH:
         raise EnergyBalanceError("cumulative energy conservation violated")
     digest = hashlib.sha256(canonical_input(s).encode("utf-8")).hexdigest()
-    warnings = ["Quasi-static energy model; not a field test or transient AC network model."]
+    warnings = [
+        "Quasi-static energy model; not a field test or transient AC network model."
+    ]
     if not any(point.solar_available_kw for point in trace):
-        warnings.append("Solar generation is zero; omitted generation defaults to zero (no inferred weather).")
-    if any(not point.grid_online and point.solar_available_kw > 0 for point in trace) and not (
-        s.inverter.islanding_capable and s.solar.islanding_capable
-    ):
-        warnings.append("PV is unavailable during outages without both islanding compatibility flags.")
+        warnings.append(
+            "Solar generation is zero; omitted generation defaults to zero (no inferred weather)."
+        )
+    if any(
+        not point.grid_online and point.solar_available_kw > 0 for point in trace
+    ) and not (s.inverter.islanding_capable and s.solar.islanding_capable):
+        warnings.append(
+            "PV is unavailable during outages without both islanding compatibility flags."
+        )
     return SimulationResult(
         run_id=str(uuid5(NAMESPACE_URL, f"lastlight:{MODEL_VERSION}:{digest}")),
         input_hash=digest,
@@ -246,12 +305,23 @@ def simulate(request: SimulationRequest) -> SimulationResult:
         warnings=warnings,
         trace=trace,
         summary=SimulationSummary(
-            critical_survival_hours=round(first_failure, 12) if first_failure is not None else None,
-            first_failure_utc=utc_stamp(s.start_utc, first_failure) if first_failure is not None else None,
-            served_critical_fraction=served_critical / total_critical if total_critical else 1.0,
+            critical_survival_hours=round(first_failure, 12)
+            if first_failure is not None
+            else None,
+            first_failure_utc=utc_stamp(s.start_utc, first_failure)
+            if first_failure is not None
+            else None,
+            served_critical_fraction=served_critical / total_critical
+            if total_critical
+            else 1.0,
             unserved_critical_kwh=integral("unserved_critical_kw"),
             max_balance_residual_kwh=max(
-                max(abs(p.balance_residual_kwh), abs(p.ac_balance_residual_kwh), abs(p.storage_balance_residual_kwh)) for p in trace
+                max(
+                    abs(p.balance_residual_kwh),
+                    abs(p.ac_balance_residual_kwh),
+                    abs(p.storage_balance_residual_kwh),
+                )
+                for p in trace
             ),
             observed_duration_hours=s.duration_hours,
             survived_full_window=first_failure is None,
@@ -295,8 +365,10 @@ def compare(request: ComparisonRequest) -> ComparisonResult:
         baseline=baseline,
         upgraded=upgraded,
         delta=ComparisonDelta(
-            served_critical_kwh=upgraded.summary.served_critical_kwh - baseline.summary.served_critical_kwh,
-            unserved_critical_kwh=upgraded.summary.unserved_critical_kwh - baseline.summary.unserved_critical_kwh,
+            served_critical_kwh=upgraded.summary.served_critical_kwh
+            - baseline.summary.served_critical_kwh,
+            unserved_critical_kwh=upgraded.summary.unserved_critical_kwh
+            - baseline.summary.unserved_critical_kwh,
             critical_survival_hours=difference("critical_survival_hours"),
             idealized_autonomy_hours=difference("idealized_autonomy_hours"),
         ),

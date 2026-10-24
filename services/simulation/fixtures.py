@@ -11,7 +11,13 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from .api import app
-from .schemas import ComparisonRequest, ComparisonResult, ErrorResponse, SimulationRequest, SimulationResult
+from .schemas import (
+    ComparisonRequest,
+    ComparisonResult,
+    ErrorResponse,
+    SimulationRequest,
+    SimulationResult,
+)
 
 FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "docs" / "physics"
 
@@ -20,6 +26,7 @@ def artifacts() -> dict[str, dict]:
     baseline = SimulationRequest().model_dump(mode="json")
     comparison = ComparisonRequest().model_dump(mode="json")
     with TestClient(app) as client:
+
         def post(path: str, body: dict, status: int = 200) -> dict:
             response = client.post(path, json=body)
             if response.status_code != status:
@@ -44,7 +51,9 @@ def artifacts() -> dict[str, dict]:
                 "/api/v1/simulations", {"battery": {"initial_soc": 1.1}}, 422
             ),
             "fixtures/regression-16h.json": {
-                name: post("/api/v1/simulations", {"duration_hours": 16, "battery": battery})
+                name: post(
+                    "/api/v1/simulations", {"duration_hours": 16, "battery": battery}
+                )
                 for name, battery in [
                     ("baseline", {}),
                     ("battery_36_kwh", {"capacity_kwh": 36}),
@@ -56,10 +65,13 @@ def artifacts() -> dict[str, dict]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Fail on drift; do not write files")
+    parser.add_argument(
+        "--check", action="store_true", help="Fail on drift; do not write files"
+    )
     args = parser.parse_args()
     changed = []
-    for name, data in artifacts().items():
+    generated = artifacts()
+    for name, data in generated.items():
         path = FIXTURE_ROOT / name
         content = json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
         if not path.exists() or path.read_text(encoding="utf-8") != content:
@@ -69,15 +81,9 @@ def main() -> None:
                 path.write_text(content, encoding="utf-8", newline="\n")
     if args.check and changed:
         raise SystemExit("Frozen contract/fixture drift: " + ", ".join(changed))
-    print(f"{'Verified' if args.check else 'Generated'} {len(artifacts_names())} contract and fixture files")
-
-
-def artifacts_names() -> list[str]:
-    return [
-        "simulation-request", "simulation-result", "comparison-request", "comparison-result",
-        "error", "openapi", "baseline-request", "baseline-result", "comparison-request-fixture",
-        "comparison-result-fixture", "validation-error", "regression-16h",
-    ]
+    print(
+        f"{'Verified' if args.check else 'Generated'} {len(generated)} contract and fixture files"
+    )
 
 
 if __name__ == "__main__":

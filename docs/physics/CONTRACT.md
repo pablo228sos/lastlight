@@ -36,6 +36,8 @@ and SOC/efficiencies are fractions in `[0, 1]`, never percentages. The complete
 default input is `fixtures/baseline.request.json`. All nested objects permit
 partial overrides; unknown fields, nonfinite numbers, invalid SOC order,
 numeric strings and booleans passed as numbers receive HTTP 422.
+Supported capacity is 0.001..20,000 kWh, each efficiency is 0.01..1,
+and each power field is 0..50,000 kW. These bounds are explicit in the schemas.
 
 `duration_hours` is 1 minute through 168 hours. `step_minutes` is an integer
 1..60. A partial final interval is supported. Optional `solar.profile_kw` and
