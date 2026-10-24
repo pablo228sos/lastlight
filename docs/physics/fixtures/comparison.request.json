@@ -1,0 +1,45 @@
+{
+  "baseline": {
+    "start_utc": "2026-01-01T00:00:00Z",
+    "duration_hours": 12.0,
+    "step_minutes": 15,
+    "seed": 0,
+    "battery": {
+      "capacity_kwh": 24.0,
+      "initial_soc": 0.8,
+      "minimum_soc": 0.2,
+      "maximum_soc": 1.0,
+      "charge_efficiency": 0.95,
+      "discharge_efficiency": 0.95,
+      "max_charge_kw": 6.0,
+      "max_discharge_kw": 8.0
+    },
+    "inverter": {
+      "max_kw": 8.0,
+      "islanding_capable": true
+    },
+    "load": {
+      "critical_kw": 1.5,
+      "noncritical_kw": 2.0,
+      "shed_noncritical_during_outage": true
+    },
+    "solar": {
+      "generation_kw": 0.0,
+      "profile_kw": null,
+      "islanding_capable": false
+    },
+    "grid": {
+      "online": false,
+      "profile_online": null,
+      "import_limit_kw": 50.0,
+      "charge_battery": false
+    },
+    "provenance": {
+      "category": "synthetic",
+      "references": [
+        "docs/physics/MODEL.md"
+      ]
+    }
+  },
+  "upgrade": "battery_36_kwh"
+}
