@@ -7,7 +7,7 @@ import { mkdir,writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const enabled=process.env.LASTLIGHT_MOTION_CAPTURE==='1'
-test.use({viewport:{width:1366,height:768},video:'on'})
+test.use({viewport:{width:1366,height:768},video:{mode:'on',size:{width:1366,height:768}}})
 test('record browser WebGL district pan and measure camera movement',async({page})=>{
   test.setTimeout(150_000)
   test.skip(!enabled,'Only runs in dedicated real camera motion workflow')
