@@ -1,0 +1,17 @@
+{
+  "error": {
+    "code": "validation_error",
+    "message": "Request validation failed",
+    "details": [
+      {
+        "location": [
+          "body",
+          "battery",
+          "initial_soc"
+        ],
+        "message": "Input should be less than or equal to 1",
+        "type": "less_than_equal"
+      }
+    ]
+  }
+}

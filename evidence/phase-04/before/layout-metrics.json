@@ -1,0 +1,416 @@
+[
+  {
+    "site": "clinic",
+    "width": 1366,
+    "height": 768,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1366,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 118,
+        "right": 292.203125,
+        "bottom": 234.078125
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 546,
+        "right": 666.765625,
+        "bottom": 585
+      },
+      ".equipment-spine": {
+        "left": 1164,
+        "top": 175,
+        "right": 1341,
+        "bottom": 353
+      },
+      ".transport": {
+        "left": 84,
+        "top": 604,
+        "right": 1338,
+        "bottom": 726
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 736,
+        "right": 1366,
+        "bottom": 768
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "business",
+    "width": 1366,
+    "height": 768,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1366,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 118,
+        "right": 391.671875,
+        "bottom": 234.078125
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 546,
+        "right": 666.765625,
+        "bottom": 585
+      },
+      ".equipment-spine": {
+        "left": 1164,
+        "top": 175,
+        "right": 1341,
+        "bottom": 353
+      },
+      ".transport": {
+        "left": 84,
+        "top": 604,
+        "right": 1338,
+        "bottom": 726
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 736,
+        "right": 1366,
+        "bottom": 768
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "residential",
+    "width": 1366,
+    "height": 768,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1366,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 118,
+        "right": 321.921875,
+        "bottom": 234.078125
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 546,
+        "right": 666.765625,
+        "bottom": 585
+      },
+      ".equipment-spine": {
+        "left": 1164,
+        "top": 175,
+        "right": 1341,
+        "bottom": 353
+      },
+      ".transport": {
+        "left": 84,
+        "top": 604,
+        "right": 1338,
+        "bottom": 726
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 736,
+        "right": 1366,
+        "bottom": 768
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "clinic",
+    "width": 1440,
+    "height": 900,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1440,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 292.203125,
+        "bottom": 275.515625
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 654,
+        "right": 666.765625,
+        "bottom": 693
+      },
+      ".equipment-spine": {
+        "left": 1238,
+        "top": 195,
+        "right": 1415,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 719,
+        "right": 1412,
+        "bottom": 858
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 868,
+        "right": 1440,
+        "bottom": 900
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "business",
+    "width": 1440,
+    "height": 900,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1440,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 407.265625,
+        "bottom": 275.515625
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 654,
+        "right": 666.765625,
+        "bottom": 693
+      },
+      ".equipment-spine": {
+        "left": 1238,
+        "top": 195,
+        "right": 1415,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 719,
+        "right": 1412,
+        "bottom": 858
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 868,
+        "right": 1440,
+        "bottom": 900
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "residential",
+    "width": 1440,
+    "height": 900,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1440,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 333.734375,
+        "bottom": 275.515625
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 654,
+        "right": 666.765625,
+        "bottom": 693
+      },
+      ".equipment-spine": {
+        "left": 1238,
+        "top": 195,
+        "right": 1415,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 719,
+        "right": 1412,
+        "bottom": 858
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 868,
+        "right": 1440,
+        "bottom": 900
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "clinic",
+    "width": 1920,
+    "height": 1080,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 292.203125,
+        "bottom": 290
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 834,
+        "right": 698.765625,
+        "bottom": 873
+      },
+      ".equipment-spine": {
+        "left": 1700,
+        "top": 195,
+        "right": 1877,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 899,
+        "right": 1892,
+        "bottom": 1038
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 1048,
+        "right": 1920,
+        "bottom": 1080
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "business",
+    "width": 1920,
+    "height": 1080,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 499.375,
+        "bottom": 290
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 834,
+        "right": 698.765625,
+        "bottom": 873
+      },
+      ".equipment-spine": {
+        "left": 1700,
+        "top": 195,
+        "right": 1877,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 899,
+        "right": 1892,
+        "bottom": 1038
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 1048,
+        "right": 1920,
+        "bottom": 1080
+      }
+    },
+    "errors": []
+  },
+  {
+    "site": "residential",
+    "width": 1920,
+    "height": 1080,
+    "phase": "SITE",
+    "camera": "facility",
+    "metrics": {
+      ".masthead": {
+        "left": 0,
+        "top": 0,
+        "right": 1920,
+        "bottom": 72
+      },
+      ".scene-title": {
+        "left": 105,
+        "top": 157,
+        "right": 403.421875,
+        "bottom": 290
+      },
+      ".facility-strip": {
+        "left": 105,
+        "top": 834,
+        "right": 698.765625,
+        "bottom": 873
+      },
+      ".equipment-spine": {
+        "left": 1700,
+        "top": 195,
+        "right": 1877,
+        "bottom": 373
+      },
+      ".transport": {
+        "left": 84,
+        "top": 899,
+        "right": 1892,
+        "bottom": 1038
+      },
+      ".footnote": {
+        "left": 0,
+        "top": 1048,
+        "right": 1920,
+        "bottom": 1080
+      }
+    },
+    "errors": []
+  }
+]
