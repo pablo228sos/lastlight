@@ -3,6 +3,7 @@ export default defineConfig({
   testDir: './tests',
   reporter: 'list',
   timeout: 120000,
+  workers: process.env.CI ? 1 : undefined,
   use: {
     baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',

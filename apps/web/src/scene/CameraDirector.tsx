@@ -6,6 +6,9 @@ import type { CameraShotId, ScenePhase } from '../app/useMissionState'
 import { SHOTS } from '../app/useMissionState'
 import type { SiteId } from '../features/sites'
 
+// Shot timing follows elapsed time even when a software renderer drops frames.
+gsap.ticker.lagSmoothing(0)
+
 const siteOffsets: Record<SiteId, [number, number]> = {
   school: [0, 0], clinic: [-71, -61], business: [61, -60], residential: [-71, 67],
 }
