@@ -3,6 +3,7 @@
 No second dispatch/analytical approximation: every listed capacity executes simulate().
 Survival means no observed critical shortfall on the exclusive [0, target) horizon.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -60,9 +61,13 @@ class DesignSearchRequest(Contract):
         costs = self.comparable_costs
         if costs is not None:
             if len(costs) != len(self.candidate_capacities_kwh):
-                raise ValueError("comparable_costs must cover every candidate exactly once")
+                raise ValueError(
+                    "comparable_costs must cover every candidate exactly once"
+                )
             if {c.capacity_kwh for c in costs} != set(self.candidate_capacities_kwh):
-                raise ValueError("cost capacities must match the explicit candidate set")
+                raise ValueError(
+                    "cost capacities must match the explicit candidate set"
+                )
             if len({(c.currency, c.basis) for c in costs}) != 1:
                 raise ValueError("all comparable costs must share currency and basis")
         return self
@@ -101,7 +106,9 @@ class DesignSearchResult(Contract):
 
 def _digest(payload: object) -> str:
     return hashlib.sha256(
-        json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+        json.dumps(
+            payload, sort_keys=True, separators=(",", ":"), allow_nan=False
+        ).encode()
     ).hexdigest()
 
 
@@ -120,7 +127,9 @@ def design_search(request: DesignSearchRequest) -> DesignSearchResult:
         "candidate_capacities_kwh": capacities,
         "comparable_costs": [
             costs[capacity].model_dump(mode="json") for capacity in capacities
-        ] if costs else None,
+        ]
+        if costs
+        else None,
     }
     digest = _digest(identity)
     results = []
@@ -128,9 +137,11 @@ def design_search(request: DesignSearchRequest) -> DesignSearchResult:
         # Only capacity changes; SOC limits, inverter, loads, PV, grid, and seed
         # are identical. The original simulator validates all copied inputs.
         candidate = s.scenario.model_copy(
-            update={"battery": s.scenario.battery.model_copy(
-                update={"capacity_kwh": capacity}
-            )}
+            update={
+                "battery": s.scenario.battery.model_copy(
+                    update={"capacity_kwh": capacity}
+                )
+            }
         )
         physics = simulate(candidate)
         summary = physics.summary
@@ -142,19 +153,21 @@ def design_search(request: DesignSearchRequest) -> DesignSearchResult:
                 reasons.append("inverter_islanding_disabled")
             if candidate.inverter.max_kw < candidate.load.critical_kw:
                 reasons.append("inverter_limit_below_critical_load")
-        results.append(DesignCandidateResult(
-            capacity_kwh=capacity,
-            valid=True,
-            survived_target=survived,
-            first_critical_failure_hours=summary.critical_survival_hours,
-            first_critical_failure_utc=summary.first_failure_utc,
-            unserved_critical_kwh=summary.unserved_critical_kwh,
-            ending_soc=summary.ending_soc,
-            infeasibility_reasons=reasons,
-            physics_run_id=physics.run_id,
-            physics_input_hash=physics.input_hash,
-            comparable_cost=costs.get(capacity),
-        ))
+        results.append(
+            DesignCandidateResult(
+                capacity_kwh=capacity,
+                valid=True,
+                survived_target=survived,
+                first_critical_failure_hours=summary.critical_survival_hours,
+                first_critical_failure_utc=summary.first_failure_utc,
+                unserved_critical_kwh=summary.unserved_critical_kwh,
+                ending_soc=summary.ending_soc,
+                infeasibility_reasons=reasons,
+                physics_run_id=physics.run_id,
+                physics_input_hash=physics.input_hash,
+                comparable_cost=costs.get(capacity),
+            )
+        )
     winner = next((x.capacity_kwh for x in results if x.survived_target), None)
     result_payload = [item.model_dump(mode="json") for item in results]
     return DesignSearchResult(
