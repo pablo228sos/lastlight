@@ -3,7 +3,7 @@
 
 export type Battery = { "capacity_kwh"?: number; "initial_soc"?: number; "minimum_soc"?: number; "maximum_soc"?: number; "charge_efficiency"?: number; "discharge_efficiency"?: number; "max_charge_kw"?: number; "max_discharge_kw"?: number }
 
-export type ComparisonDelta = { "served_critical_kwh": number; "unserved_critical_kwh": number; "critical_survival_hours": null | number; "idealized_autonomy_hours": null | number }
+export type ComparisonDelta = { "served_critical_kwh": number; "unserved_critical_kwh": number; "critical_survival_hours": number | null; "idealized_autonomy_hours": number | null }
 
 export type ComparisonRequest = { "baseline"?: SimulationRequest; "upgrade"?: "battery_36_kwh" | "full_precharge" }
 
@@ -11,7 +11,7 @@ export type ComparisonResult = { "schema_version"?: string; "upgrade": "battery_
 
 export type ErrorBody = { "code": string; "message": string; "details": Array<ErrorDetail> }
 
-export type ErrorDetail = { "location": Array<number | string>; "message": string; "type": string }
+export type ErrorDetail = { "location": Array<string | number>; "message": string; "type": string }
 
 export type ErrorResponse = { "error": ErrorBody }
 
@@ -25,13 +25,13 @@ export type ForecastSummary = { "mode": string; "hours": number; "units"?: strin
 
 export type FragilityEstimate = { "model_version": string; "synthetic_failure_score": number; "predicted_failure": boolean; "baseline_failure_score": number; "outside_training_domain": boolean; "high_uncertainty": boolean; "physics_required": boolean; "engineering_clearance": boolean; "warnings": Array<string> }
 
-export type FrontierCell = { "initial_soc": number; "duration_hours": number; "failed": boolean; "first_failure_hours": null | number; "physics_verified": boolean; "verification_run_id": string }
+export type FrontierCell = { "initial_soc": number; "duration_hours": number; "failed": boolean; "first_failure_hours": number | null; "physics_verified": boolean; "verification_run_id": string }
 
 export type FrontierEstimate = { "initial_soc": number; "duration_hours": number; "synthetic_failure_score": number; "physics_verified": boolean; "outside_training_domain": boolean }
 
 export type FrontierRequest = { "scenario"?: SimulationRequest; "soc_points"?: number; "duration_points"?: number; "maximum_hours"?: number; "include_ml"?: boolean }
 
-export type FrontierResult = { "run_id": string; "physics_version": string; "model_version": null | string; "input_hash": string; "seed": number; "assumptions": Array<string>; "provenance": Provenance; "summary": FrontierSummary; "trace": Array<FrontierCell>; "ml_estimates": Array<FrontierEstimate>; "verified_candidates": Array<VerifiedCandidate>; "warnings": Array<string> }
+export type FrontierResult = { "run_id": string; "physics_version": string; "model_version": string | null; "input_hash": string; "seed": number; "assumptions": Array<string>; "provenance": Provenance; "summary": FrontierSummary; "trace": Array<FrontierCell>; "ml_estimates": Array<FrontierEstimate>; "verified_candidates": Array<VerifiedCandidate>; "warnings": Array<string> }
 
 export type FrontierSummary = { "physics_calls": number; "verified_cells": number; "method": string }
 
@@ -43,7 +43,7 @@ export type Inverter = { "max_kw"?: number; "islanding_capable"?: boolean }
 
 export type Load = { "critical_kw"?: number; "noncritical_kw"?: number; "critical_profile_kw"?: Array<number> | null; "noncritical_profile_kw"?: Array<number> | null; "shed_noncritical_during_outage"?: boolean }
 
-export type PredictionResult = { "run_id": string; "model_version": null | string; "physics_version"?: string; "assumptions"?: Array<string>; "input_hash": string; "seed": number; "summary": SimulationSummary; "trace": Array<SimulationTracePoint>; "provenance": Provenance; "schema_version"?: string; "input": SimulationRequest; "warnings": Array<string>; "physics_run_id": string; "physics_verified"?: true; "engineering_clearance"?: false; "estimate": FragilityEstimate | null }
+export type PredictionResult = { "run_id": string; "model_version": string | null; "physics_version"?: string; "assumptions"?: Array<string>; "input_hash": string; "seed": number; "summary": SimulationSummary; "trace": Array<SimulationTracePoint>; "provenance": Provenance; "schema_version"?: string; "input": SimulationRequest; "warnings": Array<string>; "physics_run_id": string; "physics_verified"?: true; "engineering_clearance"?: false; "estimate": FragilityEstimate | null }
 
 export type Provenance = { "category"?: "measured" | "research_derived" | "synthetic"; "references"?: Array<string> }
 
@@ -51,9 +51,9 @@ export type SimulationRequest = { "start_utc"?: string; "duration_hours"?: numbe
 
 export type SimulationResult = { "run_id": string; "model_version"?: string; "physics_version"?: string; "assumptions"?: Array<string>; "input_hash": string; "seed": number; "summary": SimulationSummary; "trace": Array<SimulationTracePoint>; "provenance": Provenance; "schema_version"?: string; "input": SimulationRequest; "warnings": Array<string> }
 
-export type SimulationSummary = { "critical_survival_hours": null | number; "served_critical_fraction": number; "unserved_critical_kwh": number; "first_failure_utc": null | string; "max_balance_residual_kwh": number; "observed_duration_hours": number; "survived_full_window": boolean; "idealized_autonomy_hours": null | number; "total_critical_demand_kwh": number; "served_critical_kwh": number; "served_noncritical_kwh": number; "unserved_noncritical_kwh": number; "grid_import_kwh": number; "solar_available_kwh": number; "solar_used_kwh": number; "solar_curtailed_kwh": number; "battery_charge_kwh": number; "battery_discharge_kwh": number; "conversion_loss_kwh": number; "initial_battery_energy_kwh": number; "final_battery_energy_kwh": number; "usable_capacity_kwh": number; "ending_soc": number; "cumulative_balance_residual_kwh": number }
+export type SimulationSummary = { "critical_survival_hours": number | null; "served_critical_fraction": number; "unserved_critical_kwh": number; "first_failure_utc": string | null; "max_balance_residual_kwh": number; "observed_duration_hours": number; "survived_full_window": boolean; "idealized_autonomy_hours": number | null; "total_critical_demand_kwh": number; "served_critical_kwh": number; "served_noncritical_kwh": number; "unserved_noncritical_kwh": number; "grid_import_kwh": number; "solar_available_kwh": number; "solar_used_kwh": number; "solar_curtailed_kwh": number; "battery_charge_kwh": number; "battery_discharge_kwh": number; "conversion_loss_kwh": number; "initial_battery_energy_kwh": number; "final_battery_energy_kwh": number; "usable_capacity_kwh": number; "ending_soc": number; "cumulative_balance_residual_kwh": number }
 
-export type SimulationTracePoint = { "t_utc": string; "grid_kw": number; "solar_kw": number; "battery_charge_kw": number; "battery_discharge_kw": number; "battery_soc": number; "critical_served_kw": number; "critical_demand_kw": number; "noncritical_served_kw": number; "unserved_critical_kw": number; "status": "critical_failure" | "degraded" | "islanded" | "normal"; "t_end_utc": string; "elapsed_hours": number; "duration_hours": number; "grid_online": boolean; "solar_available_kw": number; "solar_curtailed_kw": number; "grid_charge_kw": number; "noncritical_demand_kw": number; "unserved_noncritical_kw": number; "battery_soc_end": number; "battery_energy_kwh": number; "battery_energy_end_kwh": number; "conversion_loss_kwh": number; "ac_balance_residual_kwh": number; "storage_balance_residual_kwh": number; "balance_residual_kwh": number }
+export type SimulationTracePoint = { "t_utc": string; "grid_kw": number; "solar_kw": number; "battery_charge_kw": number; "battery_discharge_kw": number; "battery_soc": number; "critical_served_kw": number; "critical_demand_kw": number; "noncritical_served_kw": number; "unserved_critical_kw": number; "status": "normal" | "islanded" | "degraded" | "critical_failure"; "t_end_utc": string; "elapsed_hours": number; "duration_hours": number; "grid_online": boolean; "solar_available_kw": number; "solar_curtailed_kw": number; "grid_charge_kw": number; "noncritical_demand_kw": number; "unserved_noncritical_kw": number; "battery_soc_end": number; "battery_energy_kwh": number; "battery_energy_end_kwh": number; "conversion_loss_kwh": number; "ac_balance_residual_kwh": number; "storage_balance_residual_kwh": number; "balance_residual_kwh": number }
 
 export type Solar = { "generation_kw"?: number; "profile_kw"?: Array<number> | null; "islanding_capable"?: boolean }
 

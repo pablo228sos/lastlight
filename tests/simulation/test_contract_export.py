@@ -1,6 +1,5 @@
 from fastapi.testclient import TestClient
 from services.simulation.api import app
-from services.simulation.fixtures import semantic_json
 
 
 def test_openapi_exposes_strict_intelligence_contracts():
@@ -13,8 +12,11 @@ def test_openapi_exposes_strict_intelligence_contracts():
     assert "load" in schema["properties"]
 
 
-def test_schema_union_order_is_semantic_but_trace_order_is_preserved():
-    first = {"anyOf": [{"type": "string"}, {"type": "null"}]}
-    second = {"anyOf": [{"type": "null"}, {"type": "string"}]}
-    assert semantic_json(first) == semantic_json(second)
-    assert semantic_json({"trace": [1, 2]}) != semantic_json({"trace": [2, 1]})
+def test_validation_description_is_stable_across_python_http_status_versions():
+    document = app.openapi()
+    for path in document["paths"].values():
+        for operation in path.values():
+            assert (
+                operation["responses"]["422"]["description"]
+                == "Request validation failed"
+            )

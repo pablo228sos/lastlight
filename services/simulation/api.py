@@ -31,7 +31,13 @@ app = FastAPI(
     title="LASTLIGHT Physics API",
     version=MODEL_VERSION,
     description="Deterministic single-bus energy dispatch. kW power; DC kWh storage; UTC time.",
-    responses={422: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
+    responses={
+        422: {"model": ErrorResponse, "description": "Request validation failed"},
+        500: {
+            "model": ErrorResponse,
+            "description": "Internal simulation invariant failed",
+        },
+    },
 )
 app.add_middleware(
     CORSMiddleware,
