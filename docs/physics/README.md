@@ -1,6 +1,8 @@
 # LASTLIGHT physics service
 
-Start here for local setup; see [CONTRACT.md](CONTRACT.md) for integration and
+Start here for local setup; see [CONTRACT.md](CONTRACT.md) for the frozen contract,
+[FRONTEND.md](FRONTEND.md) for Abai's integration guide, [RELEASE.md](RELEASE.md)
+for PR compatibility and CI/Windows status, and
 [MODEL.md](MODEL.md) for equations, topology and limitations. This backend
 requires no cloud service, account, ML weights or network connection to run.
 
@@ -120,6 +122,42 @@ Issue #2 owns only `services/simulation/**`, `tests/simulation/**` and
 [simulation-ci.yml](simulation-ci.yml) here. The repository's workflow owner
 should copy it to `.github/workflows/simulation.yml` to enable automatic
 Windows/Linux checks; this PR does not silently modify an unowned path.
+The exact reviewable patch is [simulation-workflow.patch](simulation-workflow.patch).
+It runs the full production check and the launcher/HTTP probe on both platforms,
+retaining installation, server and restart logs as Actions artifacts. A proposal
+or a green legacy job is not an executed production workflow.
+
+## Reproduce the release integration check
+
+From repository root with Python 3.12 (no development packages needed):
+
+```powershell
+py -3.12 -m services.simulation.integration_check
+```
+
+On Linux/macOS use `python3.12 -m services.simulation.integration_check`.
+The check creates a temporary source copy in a path containing spaces, performs
+a fresh hash-locked installation, launches the real server, compares complete
+responses with approved fixtures, checks Vite CORS and errors, then stops and
+restarts offline on the same port. Your existing environment is not removed.
+Windows runs `start.cmd`; other platforms run `run.py`. A graceful Uvicorn
+shutdown and a released port are required; forced termination fails the check.
+An already occupied port fails safely; use `--port 8001` if your demo is running.
+
+For a separate first-time offline installation check, prepare same-platform
+wheels and pass their location:
+
+```powershell
+py -3.12 -m pip download --require-hashes -r services/simulation/requirements.lock -d wheelhouse
+py -3.12 -m services.simulation.integration_check --wheelhouse .\wheelhouse
+```
+
+Reports/logs default to `services/simulation/.integration-evidence/`, which is
+ignored by git; `--output-dir <path>` selects another location. `report.json`
+records the actual platform, whether the Windows launcher executed, hashes of
+tested runtime sources/locks, passed checks and any failure. The probe uses
+`--offline` and `PIP_NO_INDEX=1` for both HTTP runs; this demonstrates package-index
+independent restart, not physical disconnection of the computer's network.
 
 Frozen JSON contracts are generated from Pydantic and the actual API:
 

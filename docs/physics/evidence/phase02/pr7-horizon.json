@@ -1,0 +1,48 @@
+{
+  "request": {
+    "duration_hours": 9.12
+  },
+  "expected_first_failure_utc": null,
+  "official_physics_source_commit": "874840dfede83a07699e792af6ff38f3995c348f",
+  "pr7_head": "198eee9784c9a0e7990f1664d0498fa7390fef40",
+  "official": [
+    {
+      "step_minutes": 1,
+      "critical_survival_hours": null,
+      "first_failure_utc": null,
+      "last_interval_hours": 0.003333333333332078
+    },
+    {
+      "step_minutes": 15,
+      "critical_survival_hours": null,
+      "first_failure_utc": null,
+      "last_interval_hours": 0.11999999999999922
+    },
+    {
+      "step_minutes": 60,
+      "critical_survival_hours": null,
+      "first_failure_utc": null,
+      "last_interval_hours": 0.11999999999999922
+    }
+  ],
+  "pr7": [
+    {
+      "step_minutes": 1,
+      "critical_survival_hours": 9.12,
+      "first_failure_utc": "2026-01-01T09:07:12Z",
+      "last_interval_hours": 1.971756091734278e-13
+    },
+    {
+      "step_minutes": 15,
+      "critical_survival_hours": 9.12,
+      "first_failure_utc": "2026-01-01T09:07:12Z",
+      "last_interval_hours": 5.329070518200751e-15
+    },
+    {
+      "step_minutes": 60,
+      "critical_survival_hours": null,
+      "first_failure_utc": null,
+      "last_interval_hours": 0.11999999999999922
+    }
+  ]
+}

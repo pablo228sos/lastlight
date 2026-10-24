@@ -1,10 +1,16 @@
 # Physics API v1: integration contract
 
-Frozen for Askar (frontend) and Abai (ML) on `feature/physics-api` for Issue #2.
+Frozen for Abai (frontend integration) and Askar (ML / Failure Frontier) on
+`feature/physics-api` for Issue #2. Schema **1.0.0**, model
+**lastlight-dispatch-1.0.0**, HTTP namespace **/api/v1** remain unchanged in
+Phase 02. `SimulationResult` has no new fields or silently upgraded defaults.
 The Python schemas, checked-in JSON Schemas and real API fixtures are authoritative.
 Every existing `SimulationResult` / `SimulationTracePoint` field in
 `apps/web/src/lib/contracts.ts` is retained. Proposed additions live here; no
 frontend files are changed. Both consumers use the same complete `trace`.
+
+Base URL: **http://127.0.0.1:8000**. See [FRONTEND.md](FRONTEND.md) for complete
+requests, playback, status handling and explicitly labelled offline fixture mode.
 
 ## Endpoints and first integration
 
@@ -105,6 +111,10 @@ Validation uses `{ "error": { "code": "validation_error", "message":
 and Python exception contexts are not echoed. Internal invariant violations
 return HTTP 500 with `energy_balance_error`; invalid traces are never returned.
 See `fixtures/validation-error.json` and `error.schema.json`.
+Unknown routes and unsupported methods use the same error envelope with
+HTTP 404/405 and `code: "http_error"`; unexpected server exceptions use HTTP 500
+and `code: "internal_error"`. Browser CORS preflight rejection is HTTP 400 plain
+text from the CORS middleware, not a simulation JSON validation error.
 
 `max_balance_residual_kwh` is the largest absolute per-row AC, storage or
 combined balance residual; residuals, conversion losses, curtailed PV and all
@@ -125,3 +135,31 @@ python -m uvicorn services.simulation.api:app --host 127.0.0.1 --port 8000
 Allowed browser origins are only `http://localhost:5173`,
 `http://127.0.0.1:5173` and the corresponding port 4173 preview origins.
 The web owner can import a fixture or fetch the API without waiting for ML.
+Other origins are not granted browser access. CORS is a browser policy, not an
+authentication mechanism. Server-to-server/CLI requests do not need an Origin.
+
+## Version freeze and variable-load proposal
+
+The authoritative request/response pair is
+`docs/physics/fixtures/baseline.request.json` and
+`docs/physics/fixtures/baseline.result.json`; comparisons use
+`comparison.request.json` / `comparison.result.json` in that same directory.
+`regression-16h.json` contains complete named simulation results, not a request.
+Every generated schema and fixture is checked by `python -m services.simulation.check`.
+
+PR #7's schema/model 1.1.0 is an **unapproved proposal**, not this service's
+contract. Current v1 rejects `load.critical_profile_kw` and
+`load.noncritical_profile_kw` with HTTP 422. Proposed demand profiles should
+be incorporated in a separate reviewed Physics PR on the final official engine.
+They would override their respective scalar loads over the existing input
+intervals, share the PV/grid profile length rule, integrate actual demand for
+summary totals and suppress the constant-load analytic autonomy reference.
+The event split inside an interval must continue to use that interval's demand.
+
+Adopting profiles changes the accepted input, resolved input echo, input hashes
+and run IDs even for scalar requests if null profile defaults are added. It
+requires an explicit schema/model version update, regenerated JSON Schemas,
+OpenAPI and full fixtures, updated proposed TypeScript fields, and review by
+both consumers. Preserve all current result fields and the exact-horizon fix.
+Until that review, consume one frozen v1 contract. See [RELEASE.md](RELEASE.md)
+for the compatibility findings and coordination status.
