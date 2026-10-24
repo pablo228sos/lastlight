@@ -1,0 +1,15 @@
+{
+  "catalog_version": "lastlight-ml-artifact-catalog-1",
+  "models": {
+    "fragility-official-v1-8b40929366e6": {
+      "manifest_sha256": "ca4f709a7d6b04acd86013325be98696fd0ff79213644076415d4064079830ac",
+      "checkpoint_sha256": "8b40929366e68b49abda5bfa75960e4b6ae9b3c74b28a1bb8ca24aa0d3728be1",
+      "validation": "independent official replay; not engineering certification",
+      "replayed_rows": 9000,
+      "physics_version": "lastlight-dispatch-1.0.0",
+      "schema_version": "1.0.0",
+      "source_sha256": "d776af652f8bba19b666ff9acf6cea1f801c0d57f6af033de230eb1581cc4a7a",
+      "request_schema_sha256": "9c34b8a93dd12eaaf69aee15719f6894ab205daa5f053135b7462683a9f23986"
+    }
+  }
+}
