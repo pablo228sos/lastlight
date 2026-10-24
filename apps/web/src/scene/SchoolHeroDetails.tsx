@@ -28,7 +28,7 @@ function Batches({ parts, color, roughness = .84, metalness = 0 }: {
   </instancedMesh>
 }
 
-const FRONT_POSITIONS: Array<[number,number]> = [-11,-7,7,11].flatMap(x=>[2.1,5.6].map(y=>[x,y]))
+const FRONT_POSITIONS: Array<[number,number]> = [-11,-7,7,11].flatMap(x=>[2.1,5.6].map(y=>[x,y] as [number,number]))
 const EMERGENCY_POSITIONS: Array<[number,number]> = [11.8,15,18.2].map(x=>[x,3.4])
 
 const windowBacking: Part[] = [
