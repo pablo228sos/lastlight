@@ -30,7 +30,7 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     const png = Buffer.from(pngUrl.split(',')[1], 'base64')
     expect(png.byteLength).toBeGreaterThan(20_000)
     await writeFile(resolve(out, label + '-canvas.png'), png)
-    await page.screenshot({ path: resolve(out, label + '-with-ui.png'), animations: 'disabled' })
+    // Save only the real WebGL canvas. Full-page screenshots may stall on GPU CI.
     captures.push({
       label,
       shot: expectedShot,
