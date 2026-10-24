@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import type { usePhysicsRun } from '../app/usePhysicsRun'
 import { failureHours } from '../lib/physics'
-import { failureFrontier } from '../lib/failureFrontier'
+import { FailureFrontierPanel } from './FailureFrontierPanel'
 
 type Physics = ReturnType<typeof usePhysicsRun>
 const hours = (value: number) => {
@@ -10,6 +11,7 @@ const hours = (value: number) => {
 const kw = (value: number) => value.toFixed(2)
 
 export function SimulationInstrument({ physics }: { physics: Physics }) {
+  const [frontierOpen, setFrontierOpen] = useState(false)
   if (physics.status === 'idle') return null
   if (physics.status === 'loading') return <aside className="simulation-instrument pending" aria-label="Simulation status">
     <div className="instrument-header"><span>PHYSICS / CONNECTING</span><i /></div>
@@ -49,6 +51,7 @@ export function SimulationInstrument({ physics }: { physics: Physics }) {
       {physics.comparison.upgraded.summary.idealized_autonomy_hours !== null && <small>ANALYTICAL BATTERY-ONLY REFERENCE / {physics.comparison.upgraded.summary.idealized_autonomy_hours.toFixed(2)} H</small>}
     </div>}
     {physics.compareError && <p role="alert" className="instrument-error">{physics.compareError}</p>}
-    {failureFrontier.status === 'pending' && <div className="frontier-pending">FAILURE FRONTIER / ANALYSIS PENDING</div>}
+    <button className="frontier-launch" onClick={() => setFrontierOpen(true)} data-testid="open-frontier">EXPLORE VERIFIED FAILURE FRONTIER ↗</button>
+    {frontierOpen && <FailureFrontierPanel source={physics.source} onClose={() => setFrontierOpen(false)} />}
   </aside>
 }

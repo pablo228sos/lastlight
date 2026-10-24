@@ -1,0 +1,2250 @@
+{
+  "schema_version": "1.0.0",
+  "physics_version": "lastlight-dispatch-1.0.0",
+  "ml_model_version": null,
+  "ml_status": "not_requested",
+  "run_id": "8a15f020-07d8-5daa-8dda-d8d5372727f1",
+  "input_hash": "da8602ac28663bcbc24c5c61e5737c5de003bc42f9430266efcd63811a334e5e",
+  "seed": 0,
+  "provenance": {
+    "category": "synthetic",
+    "references": [
+      "docs/physics/MODEL.md"
+    ]
+  },
+  "summary": {
+    "physics_calls": 13,
+    "verified_cells": 273,
+    "method": "one official physics trace per SOC column; exclusive horizon classification"
+  },
+  "axes": {
+    "initial_soc": [
+      0.2,
+      0.26666666666666666,
+      0.33333333333333337,
+      0.4,
+      0.4666666666666667,
+      0.5333333333333333,
+      0.6000000000000001,
+      0.6666666666666667,
+      0.7333333333333334,
+      0.8,
+      0.8666666666666667,
+      0.9333333333333333,
+      1.0
+    ],
+    "duration_hours": [
+      0.25,
+      0.8375,
+      1.425,
+      2.0125,
+      2.6,
+      3.1875,
+      3.775,
+      4.3625,
+      4.95,
+      5.5375,
+      6.125,
+      6.7125,
+      7.3,
+      7.8875,
+      8.475,
+      9.0625,
+      9.65,
+      10.2375,
+      10.825,
+      11.4125,
+      12.0
+    ]
+  },
+  "trace": [
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 0.25,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 0.8375,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 1.425,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 2.0125,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 2.6,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 3.1875,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 3.775,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 4.3625,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 4.95,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.2,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 0.0,
+      "physics_verified": true,
+      "verification_run_id": "d7375063-c078-58de-be8d-f06607494f07"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 1.425,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 2.0125,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 2.6,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 3.1875,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 3.775,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 4.3625,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 4.95,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.26666666666666666,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 1.013333333333,
+      "physics_verified": true,
+      "verification_run_id": "96c9e388-59c7-58af-b752-3eaf6a47dc85"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 2.6,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 3.1875,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 3.775,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 4.3625,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 4.95,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.33333333333333337,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 2.026666666667,
+      "physics_verified": true,
+      "verification_run_id": "13bf762b-a5b8-5867-8f9c-f2944b3fecbb"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 3.1875,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 3.775,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 4.3625,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 4.95,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 3.04,
+      "physics_verified": true,
+      "verification_run_id": "e6c4113d-fdb1-57ab-a732-a8593d940394"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 4.3625,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 4.95,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.4666666666666667,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 4.053333333333,
+      "physics_verified": true,
+      "verification_run_id": "0015c0f2-8820-5afb-9401-5274c0e841e7"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 5.5375,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.5333333333333333,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 5.066666666667,
+      "physics_verified": true,
+      "verification_run_id": "937869e1-efe0-54b4-8ea0-2283b35512a5"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 6.125,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 6.7125,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6000000000000001,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 6.08,
+      "physics_verified": true,
+      "verification_run_id": "17f32996-6d81-5083-bf05-795ba04ebe21"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 7.3,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 7.8875,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.6666666666666667,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 7.093333333333,
+      "physics_verified": true,
+      "verification_run_id": "6d4ccb92-97e0-54ba-b80a-8c63ccf2f2bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 7.3,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 7.8875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 8.475,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 9.0625,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.7333333333333334,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 8.106666666667,
+      "physics_verified": true,
+      "verification_run_id": "0a1355b7-28e0-502f-af3f-57822fd1c5bd"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 7.3,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 7.8875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 8.475,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 9.0625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 9.65,
+      "failed": true,
+      "first_failure_hours": 9.12,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 9.12,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 9.12,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 9.12,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 9.12,
+      "physics_verified": true,
+      "verification_run_id": "3055515b-6053-57cc-b40c-ec6302c24726"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 7.3,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 7.8875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 8.475,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 9.0625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 9.65,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 10.2375,
+      "failed": true,
+      "first_failure_hours": 10.133333333333,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 10.825,
+      "failed": true,
+      "first_failure_hours": 10.133333333333,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 10.133333333333,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.8666666666666667,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 10.133333333333,
+      "physics_verified": true,
+      "verification_run_id": "c4de2bed-dbcd-50b0-90da-badfd648e2ae"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 7.3,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 7.8875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 8.475,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 9.0625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 9.65,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 10.2375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 10.825,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 11.4125,
+      "failed": true,
+      "first_failure_hours": 11.146666666667,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 0.9333333333333333,
+      "duration_hours": 12.0,
+      "failed": true,
+      "first_failure_hours": 11.146666666667,
+      "physics_verified": true,
+      "verification_run_id": "bb39e03f-27d2-5651-b78a-6bd66a439f5f"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 0.25,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 0.8375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 1.425,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 2.0125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 2.6,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 3.1875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 3.775,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 4.3625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 4.95,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 5.5375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 6.125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 6.7125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 7.3,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 7.8875,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 8.475,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 9.0625,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 9.65,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 10.2375,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 10.825,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 11.4125,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    },
+    {
+      "initial_soc": 1.0,
+      "duration_hours": 12.0,
+      "failed": false,
+      "first_failure_hours": null,
+      "physics_verified": true,
+      "verification_run_id": "66da8ee9-7f48-5f40-bb21-1ef047da1b53"
+    }
+  ],
+  "ml_estimates": [],
+  "warnings": [
+    "One official v1 physics trace per SOC column; shorter horizons classify trace prefixes."
+  ]
+}

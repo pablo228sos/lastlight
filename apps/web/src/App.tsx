@@ -45,9 +45,11 @@ function App() {
   const settled = useCallback(() => { setPhase('DISTRICT'); setShot('district') }, [setPhase, setShot])
   const selectSite = (id: SiteId) => { setComponent(null); physics.reset(); mission.selectSite(id) }
   const focusComponent = (id: ComponentId) => { setComponent(id); mission.setPhase('INSPECT'); mission.setShot('equipment'); mission.setLayer('power') }
+  const inspectSite = () => { mission.inspect(); if (mission.siteId !== 'school') mission.setLayer('architecture') }
   const returnCity = useCallback(() => { setComponent(null); resetPhysics(); returnMissionCity() }, [resetPhysics, returnMissionCity])
   const resetScene = useCallback(() => { resetPhysics(); resetMission() }, [resetPhysics, resetMission])
   const disconnect = () => {
+    if (mission.siteId !== 'school') return
     mission.disconnect()
     if (mission.siteId === 'school') void physics.begin(new URLSearchParams(window.location.search).get('demo') === 'offline' ? 'offline' : 'live')
   }
@@ -71,7 +73,7 @@ function App() {
     return () => window.removeEventListener('keydown', keys)
   }, [evidenceOpen, setEvidenceOpen, setPaused, phase, enter, physicsStatus, physicsPlaying, setPhysicsPlaying, returnCity, resetScene])
 
-  return <main className={'experience phase-' + mission.phase.toLowerCase()} data-phase={mission.phase} data-shot={mission.shot} data-visual-step={mission.visualStep} data-quality={lowPower ? 'economy' : 'full'} data-physics-source={physics.source ?? 'none'} data-critical-lit={String(visual.criticalLit)}>
+  return <main className={'experience phase-' + mission.phase.toLowerCase()} data-phase={mission.phase} data-shot={mission.shot} data-site={mission.siteId} data-visual-step={mission.visualStep} data-quality={lowPower ? 'economy' : 'full'} data-physics-source={physics.source ?? 'none'} data-critical-lit={String(visual.criticalLit)}>
     <div className="stage" aria-label="Interactive three-dimensional synthetic Bishkek-inspired district">
       <Canvas shadows={!lowPower} dpr={lowPower ? 1 : [1, 1.5]} camera={{ position: [8, 175, 260], fov: 37, near: .1, far: 1000 }}
         gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: new URLSearchParams(window.location.search).has('capture') }} fallback={<div className="webgl-fallback">3D rendering is unavailable on this device. The scenario controls remain accessible.</div>}>
@@ -104,7 +106,7 @@ function App() {
     </header>
 
     <div className="left-rule" aria-hidden="true"><span>LL / 03</span><i /><span>BISHKEK / SYNTHETIC</span></div>
-    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">{physics.source === 'live' ? 'LIVE LOCAL PHYSICS API / SYNTHETIC INPUTS' : physics.source === 'offline' ? 'VERIFIED OFFLINE REPLAY / SYNTHETIC INPUTS' : 'LEGACY VISUAL REHEARSAL / SYNTHETIC, NOT PHYSICS'}</span></div>
+    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">{physics.source === 'live' ? 'LIVE LOCAL PHYSICS API / SYNTHETIC INPUTS' : physics.source === 'offline' ? 'VERIFIED OFFLINE REPLAY / SYNTHETIC INPUTS' : mission.siteId === 'school' ? 'ILLUSTRATIVE SCENE / NO PHYSICS RUN LOADED' : 'VISUAL SITE STUDY / NO VALIDATED ENERGY MODEL'}</span></div>
     <div className="shot-index" aria-label="Camera state"><span>CAMERA / {mission.shot.toUpperCase()}</span><span className="shot-mark">{mission.phase === 'DESCENT' ? '● ━ ━' : isFacility ? '━ ━ ●' : '━ ● ━'}</span></div>
 
     {isOpening ? <section className="opening-copy">
@@ -116,9 +118,10 @@ function App() {
         <button className="quiet-action" onClick={mission.skip} data-testid="skip-intro">SKIP INTRO →</button>
       </div>
     </section> : <section className="scene-title">
-      <div className="eyebrow"><span /> {isFacility ? 'FACILITY / 01' : mission.phase === 'DESCENT' ? 'DESCENT / IN PROGRESS' : 'DISTRICT / SYNTHETIC'}</div>
+      <div className="eyebrow"><span /> {isFacility ? `FACILITY / 0${sites.findIndex(site => site.id === mission.siteId) + 1}` : mission.phase === 'DESCENT' ? 'DESCENT / IN PROGRESS' : 'DISTRICT / SYNTHETIC'}</div>
       <h1>{isFacility ? selected.name : 'The city at night'}<span className="period">.</span></h1>
       <p>{isFacility ? selected.category : 'A modeled district inspired by Bishkek. Select a facility to enter its energy system.'}</p>
+      {isFacility && mission.siteId !== 'school' && <p className="site-summary">{selected.description}</p>}
     </section>}
 
     <div className="geo-annotation"><span>42°52′ N · 74°36′ E</span><span>ILLUSTRATIVE GEOGRAPHY / NO UTILITY TOPOLOGY</span></div>
@@ -134,9 +137,9 @@ function App() {
     {isFacility && <div className="equipment-spine">
       <span className="spine-label">SYSTEM / {mission.siteId.toUpperCase()}</span>
       <button className={mission.layer === 'architecture' ? 'selected' : ''} onClick={() => mission.setLayer('architecture')} data-testid="layer-architecture">ARCHITECTURE</button>
-      <button className={mission.layer === 'power' ? 'selected' : ''} onClick={() => mission.setLayer('power')} data-testid="layer-power">POWER PATH</button>
+      {mission.siteId === 'school' ? <button className={mission.layer === 'power' ? 'selected' : ''} onClick={() => mission.setLayer('power')} data-testid="layer-power">POWER PATH</button> : <span className="spine-disclaimer">NO PHYSICS MODEL</span>}
       <button onClick={mission.orbit} data-testid="orbit">ORBIT ↗</button>
-      <button onClick={mission.inspect} data-testid="inspect">INSPECT ↘</button>
+      <button onClick={inspectSite} data-testid="inspect">INSPECT ↘</button>
     </div>}
 
     {component && isFacility && <aside className="component-note" aria-label="Equipment inspection">
@@ -151,18 +154,18 @@ function App() {
     {!isOpening && <div className="transport">
       <div className="transport-left">
         <span className="transport-kicker">SCENE / {mission.phase}</span>
-        <span className="transport-title">{visual.gridConnected ? 'GRID CONNECTED' : visual.criticalLit ? 'GRID DISCONNECTED' : 'CRITICAL POWER LOST'}</span>
+        <span className="transport-title">{isFacility && mission.siteId !== 'school' ? 'VISUAL SITE STUDY' : visual.gridConnected ? 'GRID CONNECTED' : visual.criticalLit ? 'GRID DISCONNECTED' : 'CRITICAL POWER LOST'}</span>
       </div>
       <div className="transport-actions">
         {mission.phase === 'DISTRICT' || mission.phase === 'DESCENT' ? <button className="focus-action" onClick={() => selectSite('school')} data-testid="focus-school">FOCUS SCHOOL <span>↗</span></button> : <>
-          {mission.phase === 'SITE' && <button onClick={mission.inspect} data-testid="enter-simulation">INSPECT SYSTEM <span>↗</span></button>}
-          {mission.phase !== 'BLACKOUT' ? <button className="disconnect" onClick={disconnect} data-testid="disconnect-grid">DISCONNECT GRID <span>↗</span></button>
+          {mission.phase === 'SITE' && <button onClick={inspectSite} data-testid="enter-simulation">{mission.siteId === 'school' ? 'INSPECT SYSTEM' : 'EXPLORE SITE'} <span>↗</span></button>}
+          {mission.phase !== 'BLACKOUT' ? mission.siteId === 'school' ? <button className="disconnect" onClick={disconnect} data-testid="disconnect-grid">DISCONNECT GRID <span>↗</span></button> : <button className="school-demo" onClick={() => selectSite('school')} data-testid="school-demo">SCHOOL PHYSICS DEMO <span>↗</span></button>
             : <button className="reset" onClick={resetScene} data-testid="reset-scene">RESET SCENE <span>↶</span></button>}
         </>}
         <button className="icon-action" onClick={() => mission.setPaused(!mission.paused)} aria-label={mission.paused ? 'Play camera' : 'Pause camera'} data-testid="pause-camera">{mission.paused ? '▶' : 'Ⅱ'}</button>
         <button className="icon-action" onClick={returnCity} aria-label="Return to city" data-testid="return-city">⌂</button>
       </div>
-      {physics.status === 'ready' ? <div className="timeline live-trace-strip" aria-label="Trace status">
+      {mission.siteId !== 'school' && isFacility ? <div className="timeline site-study-strip" aria-label="Site study status">VISUAL PROTOTYPE / NO BLACKOUT CALCULATION FOR THIS SITE</div> : physics.status === 'ready' ? <div className="timeline live-trace-strip" aria-label="Trace status">
         <span>TRACE / {physics.selectedRun.toUpperCase()}</span><div className="timeline-track"><i style={{ width: `${physics.elapsedHours / (physics.result?.input.duration_hours ?? 12) * 100}%` }} /></div><span>PLAYBACK IN PHYSICS INSTRUMENT ↗</span>
       </div> : <div className="timeline" aria-label="Visual rehearsal states">
         <button className={mission.visualStep === 0 ? 'active' : ''} onClick={resetScene}>CONNECTED</button>
@@ -172,7 +175,7 @@ function App() {
       </div>}
     </div>}
 
-    <footer className="footnote"><span>NO MEASURED SCHOOL DATA <i /> {physics.source ? 'PHYSICS INPUTS / SYNTHETIC' : 'GEOMETRY + LIGHTING / SYNTHETIC'}</span><span>CURSED · KYRGYZSTAN · 2026</span></footer>
+    <footer className="footnote"><span>NO MEASURED SITE DATA <i /> {physics.source ? 'PHYSICS INPUTS / SYNTHETIC' : 'GEOMETRY + LIGHTING / SYNTHETIC'}</span><span>CURSED · KYRGYZSTAN · 2026</span></footer>
     {mission.evidenceOpen && <EvidenceDrawer source={physics.source} modelVersion={physics.result?.model_version} onClose={() => mission.setEvidenceOpen(false)} />}
   </main>
 }
