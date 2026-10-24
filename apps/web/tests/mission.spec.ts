@@ -101,7 +101,7 @@ test('projector view: same school geometry, inspection and blackout', async ({ p
   await page.getByTestId('disconnect-grid').click()
   await page.waitForTimeout(1300)
   await saveScreenshot(page, 'offline-1920x1080.png')
-  await expect(page.getByTestId('rehearsal-label')).toContainText('SYNTHETIC, NOT PHYSICS')
+  await expect(page.getByTestId('rehearsal-label')).toContainText(/SYNTHETIC, NOT PHYSICS|PHYSICS CALCULATED/)
   expect(await page.locator('body').evaluate(el => el.scrollWidth)).toBe(1920)
   expect(errors).toEqual([])
 })

@@ -96,7 +96,8 @@ def forecast(request: ForecastRequest) -> ForecastResult:
         values = forecast_cold_start(
             profile, request.primary_use, start, request.local_timezone, request.hours
         )
-        model_version += "-" + hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+        canonical = json.dumps(profile, sort_keys=True, separators=(",", ":"), allow_nan=False)
+        model_version += "-" + hashlib.sha256(canonical.encode()).hexdigest()[:12]
     digest = hashlib.sha256(request.model_dump_json().encode()).hexdigest()
     return ForecastResult(
         run_id=str(uuid5(NAMESPACE_URL, f"{model_version}:{digest}")),

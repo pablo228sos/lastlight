@@ -1,4 +1,7 @@
 node_modules/
+ml/data/generated/
+ml/data/raw/
+ml/artifacts/experiments/
 dist/
 test-results/
 playwright-report/
@@ -10,6 +13,3 @@ __pycache__/
 .pytest_cache/
 *.py[cod]
 .venv/
-ml/data/generated/
-ml/data/raw/
-ml/artifacts/experiments/

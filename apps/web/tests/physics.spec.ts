@@ -1,0 +1,33 @@
+import { test, expect } from '@playwright/test'
+
+test('school outage uses a real physics trace and verified frontier', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.getByTestId('skip-intro').click()
+  await page.getByTestId('site-school').click()
+  await page.getByTestId('disconnect-grid').click()
+  await expect(page.getByTestId('physics-panel')).toBeVisible({ timeout: 20000 })
+  await expect(page.getByTestId('first-failure')).toContainText('9.12')
+  await expect(page.getByTestId('rehearsal-label')).toContainText('PHYSICS CALCULATED')
+  await page.getByTestId('jump-failure').click()
+  await expect(page.getByTestId('critical-status')).toContainText('UNSERVED')
+  await expect(page.getByTestId('battery-soc')).toContainText('20.0')
+  await page.getByTestId('show-frontier').click()
+  await expect(page.getByTestId('frontier-map')).toBeVisible({ timeout: 20000 })
+  await expect(page.getByTestId('frontier-map')).toContainText('PHYSICS VERIFIED')
+  await page.getByTestId('verify-ml').click()
+  await expect(page.getByTestId('verified-ml')).toContainText('12 ML proposals checked', { timeout: 60000 })
+  await page.getByTestId('reset-scene').click()
+  await expect(page.getByTestId('physics-panel')).toHaveCount(0)
+})
+
+test('unavailable backend is explicitly a rehearsal with no numerical result', async ({ page }) => {
+  await page.route('**/api/v1/simulations', route => route.abort('failed'))
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.getByTestId('skip-intro').click()
+  await page.getByTestId('site-school').click()
+  await page.getByTestId('disconnect-grid').click()
+  await expect(page.getByTestId('simulation-warning')).toContainText('rehearsal')
+  await expect(page.getByTestId('physics-panel')).toHaveCount(0)
+})

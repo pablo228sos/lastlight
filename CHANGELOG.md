@@ -2,6 +2,18 @@
 
 ## 24 October 2026
 
+### Physics and ML foundation
+
+Integrated the existing team physics API contribution, added variable load
+profiles and generated wire contracts. Trained and evaluated FragilityNet with
+an independent logistic baseline, equipment-group holdouts and checkpointed
+preprocessing. Added physics-verified frontiers and measured sampling benchmarks;
+the exact physical method remains the displayed reference. Prepared an actual
+BDG2 research subset with evaluated cold-start and historical demand baselines.
+Connected the school outage and lighting to one real trace, retaining explicit
+rehearsal fallback. Extended API, browser and CI verification. Geometry, assets,
+site positions and camera trajectories are preserved.
+
 ### First visual prototype
 
 Built a React and TypeScript app with a synthetic district, facility selection, a systems layer and an assumptions drawer. The scene established the interaction flow but its flat composition did not meet the visual target.
