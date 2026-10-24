@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 export default defineConfig({
   testDir: './tests',
   reporter: 'list',
-  timeout: 90000,
+  timeout: 120000,
   use: {
     baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',

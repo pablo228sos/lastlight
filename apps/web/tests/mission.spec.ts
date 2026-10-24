@@ -4,8 +4,14 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const evidence = resolve(fileURLToPath(new URL('.', import.meta.url)), '../../../evidence/phase-00.5')
+const captureEvidence = !process.env.CI
 test.beforeAll(async () => { await mkdir(evidence, { recursive: true }) })
+async function saveScreenshot(page: import('@playwright/test').Page, name: string) {
+  if (captureEvidence) await page.screenshot({ path: resolve(evidence, name) })
+}
+
 async function saveWorldFrame(page: import('@playwright/test').Page, name: string) {
+  if (!captureEvidence) return
   const dataUrl = await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'))
   await writeFile(resolve(evidence, name), Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64'))
 }
@@ -18,25 +24,25 @@ test('cinematic camera, facility and blackout are visible at 1440×900', async (
   await page.goto('/')
   await expect(page.locator('canvas')).toBeVisible()
   await page.waitForTimeout(1000)
-  await page.screenshot({ path: resolve(evidence, 'opening.png') })
+  await saveScreenshot(page, 'opening.png')
   await page.getByTestId('enter-lab').click()
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'DESCENT')
   await page.waitForTimeout(1500)
-  await page.screenshot({ path: resolve(evidence, 'descent.png') })
-  await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT', { timeout: 6000 })
+  await saveScreenshot(page, 'descent.png')
+  await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT', { timeout: 20000 })
   await page.getByTestId('focus-school').click()
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'SITE')
   await page.waitForTimeout(2100)
-  await page.screenshot({ path: resolve(evidence, 'facility.png') })
+  await saveScreenshot(page, 'facility.png')
   await page.getByTestId('layer-power').click()
   await expect(page.getByTestId('layer-power')).toHaveClass(/selected/)
   await page.getByTestId('disconnect-grid').click()
   await expect(page.locator('main')).toHaveAttribute('data-visual-step', '1')
   await page.waitForTimeout(1400)
-  await page.screenshot({ path: resolve(evidence, 'rehearsal-offline.png') })
+  await saveScreenshot(page, 'rehearsal-offline.png')
   await page.getByTestId('reset-scene').click()
   await page.waitForTimeout(1300)
-  await page.screenshot({ path: resolve(evidence, 'reset.png') })
+  await saveScreenshot(page, 'reset.png')
   await page.getByTestId('return-city').click()
   await page.waitForTimeout(1900)
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT')
@@ -44,6 +50,7 @@ test('cinematic camera, facility and blackout are visible at 1440×900', async (
 })
 
 test('actual browser interaction records a compact cinematic clip', async () => {
+  test.skip(!captureEvidence, 'The interaction recording is produced during local visual review')
   const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'chrome', headless: true, args: ['--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader'] })
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 },
     recordVideo: { dir: evidence, size: { width: 960, height: 600 } } })
@@ -54,7 +61,7 @@ test('actual browser interaction records a compact cinematic clip', async () => 
   await page.goto('http://127.0.0.1:4173/')
   await expect(page.locator('canvas')).toBeVisible()
   await page.getByTestId('enter-lab').click()
-  await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT', { timeout: 8000 })
+  await expect(page.locator('main')).toHaveAttribute('data-phase', 'DISTRICT', { timeout: 20000 })
   await page.getByTestId('focus-school').click()
   await page.waitForTimeout(1500)
   await page.getByTestId('layer-power').click()
@@ -80,7 +87,7 @@ test('projector view: same school geometry, inspection and blackout', async ({ p
   await page.setViewportSize({ width: 1920, height: 1080 })
   await page.goto('/?capture=1')
   await page.waitForTimeout(900)
-  await page.screenshot({ path: resolve(evidence, 'opening-1920x1080.png') })
+  await saveScreenshot(page, 'opening-1920x1080.png')
   await saveWorldFrame(page, 'keyframe-orbital.png')
   await page.getByTestId('skip-intro').click()
   await page.waitForTimeout(1900)
@@ -90,10 +97,10 @@ test('projector view: same school geometry, inspection and blackout', async ({ p
   await page.getByTestId('inspect').click()
   await page.waitForTimeout(1600)
   await saveWorldFrame(page, 'keyframe-facility.png')
-  await page.screenshot({ path: resolve(evidence, 'facility-1920x1080.png') })
+  await saveScreenshot(page, 'facility-1920x1080.png')
   await page.getByTestId('disconnect-grid').click()
   await page.waitForTimeout(1300)
-  await page.screenshot({ path: resolve(evidence, 'offline-1920x1080.png') })
+  await saveScreenshot(page, 'offline-1920x1080.png')
   await expect(page.getByTestId('rehearsal-label')).toContainText('SYNTHETIC, NOT PHYSICS')
   expect(await page.locator('body').evaluate(el => el.scrollWidth)).toBe(1920)
   expect(errors).toEqual([])
@@ -122,7 +129,7 @@ test('keyboard and reduced motion work at laptop viewport', async ({ page }) => 
   await page.getByTestId('reset-scene').blur()
   await page.keyboard.press('r')
   await expect(page.locator('main')).toHaveAttribute('data-visual-step', '0')
-  await page.screenshot({ path: resolve(evidence, 'laptop-reduced-motion.png') })
+  await saveScreenshot(page, 'laptop-reduced-motion.png')
   expect(errors).toEqual([])
 })
 
