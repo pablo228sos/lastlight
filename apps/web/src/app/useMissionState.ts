@@ -5,7 +5,7 @@ export type ScenePhase = 'INTRO' | 'DESCENT' | 'DISTRICT' | 'SITE' | 'INSPECT' |
 export type SceneLayer = 'architecture' | 'power'
 export type CameraShotId = 'orbital' | 'corridor' | 'district' | 'facility' | 'equipment' | 'orbit'
 export type CameraShot = { id: CameraShotId; position: [number, number, number]; target: [number, number, number]; duration: number; ease: string }
-export type VisualRehearsalState = { kind: 'synthetic_visual_rehearsal'; gridConnected: boolean; noncriticalLit: boolean; criticalLit: boolean; event: 'NONE' | 'GRID_LOST' | 'GRID_RESTORED' }
+export type VisualRehearsalState = { kind: 'synthetic_visual_rehearsal' | 'physics_trace'; gridConnected: boolean; noncriticalLit: boolean; criticalLit: boolean; event: 'NONE' | 'GRID_LOST' | 'GRID_RESTORED' | 'CRITICAL_UNSERVED' }
 
 export const SHOTS: Record<CameraShotId, CameraShot> = {
   orbital: { id: 'orbital', position: [8, 175, 260], target: [0, 0, 0], duration: 0, ease: 'power2.inOut' },
@@ -16,21 +16,8 @@ export const SHOTS: Record<CameraShotId, CameraShot> = {
   orbit: { id: 'orbit', position: [47, 37, -37], target: [13, 4, 7], duration: 2, ease: 'power2.inOut' },
 }
 
-export interface SimulationTraceStep {
-  tSeconds: number; gridConnected: boolean; pvKw: number; criticalDemandKw: number
-  noncriticalDemandKw: number; servedCriticalKw: number; servedNoncriticalKw: number
-  batterySoc: number; batteryEnergyKwh: number; batteryDischargeKw: number
-  unservedCriticalKwhCumulative: number
-  events: Array<'GRID_LOST' | 'LOAD_SHED' | 'BATTERY_MIN_SOC' | 'CRITICAL_UNSERVED' | 'GRID_RESTORED'>
-}
-export interface SimulationTrace {
-  runId: string; status: 'physics_verified' | 'synthetic_visual_rehearsal'; scenarioId: string
-  assumptions: string[]; provenance: Record<string, string>; steps: SimulationTraceStep[]
-}
-export interface SceneAdapter { visualStateAt(index: number): VisualRehearsalState; canShowPhysics: boolean }
-export const rehearsalAdapter: SceneAdapter = {
-  canShowPhysics: false,
-  visualStateAt(index) { return index === 0
+export const rehearsalAdapter = {
+  visualStateAt(index: number): VisualRehearsalState { return index === 0
     ? { kind: 'synthetic_visual_rehearsal', gridConnected: true, noncriticalLit: true, criticalLit: true, event: 'NONE' }
     : { kind: 'synthetic_visual_rehearsal', gridConnected: false, noncriticalLit: false, criticalLit: true, event: 'GRID_LOST' }
   },
