@@ -34,7 +34,7 @@ npm run lint
 npm run test:smoke
 ```
 
-The browser suite covers the camera journey, facility selection, view layers, outage, reset, reduced motion and projector resolution. GitHub Actions runs the same build and interaction checks with Chromium.
+The browser suite covers the camera journey, facility selection, view layers, outage, reset, reduced motion and projector resolution. Local runs also capture screenshots and video. GitHub Actions checks interactions with Chromium and runs the separate physics reference tests without recapturing media.
 
 See the [visual review](evidence/phase-00.5/README.md), [1440 x 900 opening](evidence/phase-00.5/opening.png), [1920 x 1080 outage](evidence/phase-00.5/offline-1920x1080.png) and [recorded interaction](evidence/phase-00.5/interaction-demo.webm).
 
@@ -48,3 +48,5 @@ See the [visual review](evidence/phase-00.5/README.md), [1440 x 900 opening](evi
 - `reference/legacy-physics`: archived energy balance research and unit tests, not part of the running app.
 
 The next engineering milestone is a validated simulation trace. All figures and visual states that describe physical performance must come from that same trace. See the [change log](CHANGELOG.md) for the project's development path.
+
+Team contributions follow the [branch and review workflow](CONTRIBUTING.md). Work items and progress belong in GitHub Issues and pull requests.
