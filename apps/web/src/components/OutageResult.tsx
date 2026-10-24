@@ -29,11 +29,11 @@ export function OutageResult({ result, index, onIndex }: PhysicsPanelProps) {
         {result.trace.map((row, i) => <span key={i} className={row.unserved_critical_kw > 1e-9 ? 'supply-fails' : 'supply-survives'} style={{ width: `${row.duration_hours / duration * 100}%` }} />)}
         <i className="trace-cursor" style={{ left: `${point.elapsed_hours / duration * 100}%` }} />
       </div>
-      <div className="trace-scale"><span>0 h / grid disconnected</span><span>{hours(duration)} / end of tested window</span></div>
+      <div className="trace-scale"><span>0 h / grid {result.trace[0].grid_online ? 'connected' : 'disconnected'}</span><span>{hours(duration)} / end of tested window</span></div>
       <label className="trace-control">Inspect the calculated timeline <output>{hours(point.elapsed_hours)}</output><input name="outage-trace" aria-label="Outage trace position" type="range" min={0} max={result.trace.length - 1} value={index} onChange={event => onIndex(Number(event.target.value))} /></label>
       <div className="trace-readout"><span><small>Battery at this interval</small><strong>{percent(point.battery_soc)}</strong></span><span><small>Critical demand served</small><strong>{number(point.critical_served_kw)} / {number(point.critical_demand_kw)} kW</strong></span><span><small>Unserved critical energy / full run</small><strong>{number(result.summary.unserved_critical_kwh)} kWh</strong></span>
         {failureIndex >= 0 && <button className="analysis-button" onClick={() => onIndex(failureIndex)}>SHOW FIRST FAILURE ↗</button>}</div>
     </div>
-    <p className="analysis-assumptions">{result.input.grid?.profile_online ? 'Grid availability follows the supplied profile.' : result.input.grid?.online ? 'Grid is connected in this input.' : 'Grid disconnected.'} {result.input.solar?.profile_kw ? 'Solar follows the supplied profile.' : `Solar input: ${number(result.input.solar?.generation_kw ?? 0)} kW.`} {result.input.load?.shed_noncritical_during_outage ? 'Noncritical demand is shed during the outage.' : 'Noncritical demand competes for available power.'}</p>
+    <p className="analysis-assumptions">{result.input.grid?.profile_online ? 'Grid availability follows the supplied profile.' : result.input.grid?.online ? 'Grid is connected in this input.' : 'Grid disconnected.'} {result.input.solar?.profile_kw ? 'Solar follows the supplied profile.' : result.input.solar?.generation_kw !== undefined ? `Solar input: ${number(result.input.solar.generation_kw)} kW.` : 'Solar input not returned.'} {result.input.load?.shed_noncritical_during_outage ? 'Noncritical demand is shed during the outage.' : 'Noncritical demand competes for available power.'}</p>
   </section>
 }

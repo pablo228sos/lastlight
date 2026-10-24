@@ -147,6 +147,15 @@ test('survival is limited to the actual horizon and early failure does not imply
   await expect(page.locator('.supply-fails')).toHaveCount(1)
   await expect(page.locator('.supply-survives')).toHaveCount(1)
   await expect(page.getByTestId('outage-verdict')).toContainText('0.5 h remain')
+  await page.getByRole('button', { name: 'Close school analysis' }).click()
+  await page.getByTestId('reset-scene').click()
+  const connectedResponse = await request.post('/api/v1/simulations', { data: { duration_hours: .5, grid: { online: true } } })
+  await page.unroute('**/api/v1/simulations')
+  await page.route('**/api/v1/simulations', route => route.fulfill({ response: connectedResponse }))
+  await page.getByTestId('disconnect-grid').click()
+  await expect(page.getByTestId('physics-panel')).toBeVisible()
+  await page.getByTestId('open-analysis').click()
+  await expect(page.locator('.trace-scale')).toContainText('0 h / grid connected')
 })
 
 test('unavailable AI and suggestions preserve the physical verdict and map', async ({ page }) => {

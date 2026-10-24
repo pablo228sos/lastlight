@@ -37,9 +37,14 @@ npm run dev
 
 Open the address printed by Vite. Its `/api` proxy points to the local service;
 set `LASTLIGHT_API_URL` for another backend. Select School, disconnect the grid,
-inspect the trace or jump to the first failure, then open Failure Frontier.
-The physical map loads first; **Verify ML proposals** adds real FragilityNet
-proposals checked by the simulator. They do not grant engineering clearance.
+choose **Explore the result** to inspect the actual trace and first failure,
+or open **Failure Frontier** for the tested charge/duration map. The **AI vs Physics**
+chapter runs the trained model on this exact input; **Show AI-suggested test cases**
+adds candidates independently checked by the simulator. The optional three-step
+walkthrough explains the same real results. Scores do not describe real-world
+outage probabilities, and no model output grants engineering clearance.
+See the [jury UX notes](docs/FRONTIER_JURY_UX.md) and
+[actual before/after browser captures](evidence/frontier-jury-ux/README.md).
 
 ## Verify
 

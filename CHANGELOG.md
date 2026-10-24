@@ -2,6 +2,16 @@
 
 ## 24 October 2026
 
+### Failure Frontier jury experience
+
+Replaced the compact debug chart with a trace-derived school verdict and an
+expandable three-chapter report. Added response-scaled axes, accessible cell
+inspection, a distinct exact-run marker, discrete verified failure-time ticks,
+real AI vs Physics analysis and a switchable verified-candidate overlay.
+Preserved survival/recovery distinctions, model-unavailable fallback and existing
+3D behavior. Added a guided walkthrough, responsive/keyboard regressions and
+same-scenario browser evidence. Physics, ML weights and scene files are unchanged.
+
 ### Physics and ML foundation
 
 Integrated the existing team physics API contribution, added variable load

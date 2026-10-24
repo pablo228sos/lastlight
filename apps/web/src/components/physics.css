@@ -31,4 +31,4 @@
 @media(min-width:1700px){.chart-frame{height:360px}}
 @media(max-height:800px) and (min-width:761px){.chart-frame{height:240px}.frontier-chart figcaption p{margin:6px 0 16px}.chart-current-caption{margin-bottom:12px}.chart-y-title{margin-bottom:12px}.frontier-context .frontier-legend{gap:13px}}
 @media(max-width:900px){.frontier-layout{grid-template-columns:minmax(0,1fr);gap:24px}.frontier-context{padding:24px 0 0;border-left:0;border-top:1px solid var(--analysis-border)}.frontier-legend{grid-template-columns:1fr 1fr}.frontier-context .chart-domain-note{max-width:70ch}.chart-frame{height:320px}}
-@media(max-width:760px){.frontier-legend{grid-template-columns:1fr}.frontier-chart figcaption h4{font-size:20px}.chart-current-caption{font-size:12px}.chart-current-caption strong{font-size:12px}.chart-x-tick,.chart-y-tick{font-size:11px}.chart-frame{height:300px}}
+@media(max-width:760px){.frontier-legend{grid-template-columns:1fr}.frontier-chart figcaption h4{font-size:20px}.chart-current-caption{font-size:12px}.chart-current-caption strong{font-size:12px}.chart-x-tick,.chart-y-tick{font-size:11px}.chart-frame{height:240px}}
