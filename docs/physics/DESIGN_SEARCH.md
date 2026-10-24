@@ -29,7 +29,7 @@
 
 The object in `scenario` is validated through the existing strict v1 `SimulationRequest`: all omitted fields receive the **existing official defaults**; capacity is the *only* field modified separately per candidate. In particular, the existing default 8 kW inverter, 8 kW battery discharge bound, noncritical load shedding, and non-islanding PV remain unchanged. Time is UTC and `battery.*soc` are **fractions** (0–1).
 
-**Full exact output** depends on the official simulator's run UUID/input SHA; never fabricate these identifiers. Run the following against the real API to obtain and save the complete bitwise repeatable JSON, including `run_id`, hashes and full candidate data:
+**Full exact output is frozen** at [design-search.response.json](examples/design-search.response.json), produced by the official engine in the Ubuntu Python matrix and checked against the live route in fixture validation. Its reference `run_id` is `f1588e86-ad6c-5f03-b5d1-819020d365f2`; `input_hash` and `result_hash` are copied from the real response, not invented. Reproduce and save the complete response with:
 
 ```bash
 curl --fail-with-body -sS http://127.0.0.1:8000/api/v1/design-search \
@@ -58,7 +58,7 @@ Or execute `python -m services.simulation.design_example` from repo root to prin
 }
 ```
 
-These projected objects are **not** complete wire responses. The generated response contains additional exact fields `schema_version, run_id, input_hash, result_hash, seed, provenance, selection_rule, warnings` and each candidate's `valid, first_critical_failure_utc, unserved_critical_kwh, ending_soc, infeasibility_reasons, physics_run_id, physics_input_hash, comparable_cost`. Use the `*.response.json` saved with the curl command above for the complete response.
+These projected objects are **not** complete wire responses. The frozen, exact [wire response](examples/design-search.response.json) contains additional exact fields `schema_version, run_id, input_hash, result_hash, seed, provenance, selection_rule, warnings` and each candidate's `valid, first_critical_failure_utc, unserved_critical_kwh, ending_soc, infeasibility_reasons, physics_run_id, physics_input_hash, comparable_cost`. Use the `*.response.json` saved with the curl command above for the complete response.
 
 **Alternative input:** set `scenario.battery.initial_soc` to `1.0`, supply only `candidate_capacities_kwh:[24]`; the same official engine passes the 12 h outage with observed failure `null`. Do not merge these differing initial-SOC scenarios into one ranking.
 
