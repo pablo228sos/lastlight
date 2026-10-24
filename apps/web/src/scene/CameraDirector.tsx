@@ -18,6 +18,8 @@ type Props = {
 export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onDescentComplete }: Props) {
   const { camera, gl } = useThree()
   const exposeCapturePose = new URLSearchParams(window.location.search).has('capture')
+  const captureFrameCount = useRef(0)
+  const captureForward = useRef(new Vector3())
 
   // Test-only observation: never mutates camera transforms, camera targets or
   // animation timelines. Browser art tests wait for the actual destination pose.
@@ -28,6 +30,13 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
       camera.position.y.toFixed(3),
       camera.position.z.toFixed(3),
     ].join(',')
+    camera.getWorldDirection(captureForward.current)
+    gl.domElement.dataset.cameraForward = [
+      captureForward.current.x.toFixed(4),
+      captureForward.current.y.toFixed(4),
+      captureForward.current.z.toFixed(4),
+    ].join(',')
+    gl.domElement.dataset.renderFrame = String(++captureFrameCount.current)
   })
   const target = useRef(new Vector3(...SHOTS.orbital.target))
   const timeline = useRef<gsap.core.Timeline | null>(null)
