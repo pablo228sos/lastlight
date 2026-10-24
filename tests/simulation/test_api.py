@@ -39,6 +39,8 @@ def client():
         {"inverter": {"max_kw": -1}},
         {"solar": {"generation_kw": -1}},
         {"load": {"critical_kw": -1}},
+        {"load": {"critical_profile_kw": [1.5] * 48}},
+        {"load": {"noncritical_profile_kw": [2.0] * 48}},
         {"grid": {"import_limit_kw": -1}},
         {"duration_hours": 0},
         {"duration_hours": 169},

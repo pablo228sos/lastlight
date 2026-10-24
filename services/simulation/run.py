@@ -8,10 +8,43 @@ from pre-downloaded wheels, use --offline --wheelhouse <directory>.
 import argparse
 import hashlib
 import os
+import signal
 import subprocess
 import sys
 import venv
 from pathlib import Path
+
+
+def serve(command: list[str], cwd: Path) -> int:
+    """Forward console interruption once and wait for Uvicorn's lifespan shutdown.
+
+    The child has its own process group so both console Ctrl+C and the Windows
+    CI Ctrl+Break probe follow the same shutdown path without double signalling.
+    """
+    options = (
+        {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+        if os.name == "nt"
+        else {"start_new_session": True}
+    )
+    if os.name == "nt":
+        signal.signal(signal.SIGBREAK, signal.default_int_handler)
+    signal.signal(signal.SIGTERM, signal.default_int_handler)
+    server = subprocess.Popen(command, cwd=cwd, **options)
+    try:
+        return server.wait()
+    except KeyboardInterrupt:
+        try:
+            if server.poll() is None:
+                server.send_signal(
+                    signal.CTRL_BREAK_EVENT if os.name == "nt" else signal.SIGINT
+                )
+            server.wait(timeout=10)
+        except (subprocess.TimeoutExpired, KeyboardInterrupt):
+            server.kill()
+            server.wait(timeout=5)
+            print("API did not shut down gracefully", file=sys.stderr)
+            return 1
+        return 0
 
 
 def main() -> int:
@@ -69,7 +102,7 @@ def main() -> int:
             f"LASTLIGHT API: http://127.0.0.1:{args.port} | docs: /docs | offline schema: /openapi.json",
             flush=True,
         )
-        return subprocess.call(
+        return serve(
             [
                 str(python),
                 "-m",
