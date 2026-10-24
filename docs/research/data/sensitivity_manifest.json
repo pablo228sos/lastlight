@@ -1,0 +1,32 @@
+{
+  "data_category": "synthetic_scenario_results",
+  "engine_pin": {
+    "repository": "https://github.com/pablo228sos/lastlight",
+    "commit": "ef23a710ecb7b235ea734171730a4656c40f4615",
+    "model_version": "lastlight-dispatch-1.0.0",
+    "schema_version": "1.0.0",
+    "pydantic_version": "2.14.1",
+    "source_sha256": {
+      "services/simulation/__init__.py": "94ccf3d50cb85654c2aa44a9b6e0ea11dc0a7858095b7b59cb2409520df8b697",
+      "services/simulation/engine.py": "02af9989bd148b2373cb61c266a1538b6caca916cc692f12913f8ea80e0f9760",
+      "services/simulation/schemas.py": "8bbf811c4d900cfa57cfbc977c8ee77436bdb3ea527415f36980dfac70b97f45",
+      "services/simulation/requirements.lock": "02d631ba3dc5479545fb811ce7aa59410740caa8b64a4553abb38d341055d8a7"
+    }
+  },
+  "report_precision": "12 significant digits; exact resolved inputs in input_json; full trace via --case-id",
+  "unique_engine_results": 75,
+  "study_rows": 24,
+  "time_step_checks": 48,
+  "exclusive_horizon_checks": 3,
+  "all_analytic_cross_checks_passed": true,
+  "surviving_12h_configurations": 3,
+  "configurations_per_horizon": 12,
+  "largest_observed_autonomy_hours": 27.36,
+  "csv_sha256": "d10d8f8852adf481e687e34642d881fff534acfd4ad883eb6b56bcc87bd095af",
+  "remarks": [
+    "Observed events come exclusively from the official engine.",
+    "A null event is censored at the horizon, not infinite autonomy.",
+    "Sampling checks are repeated input assumptions, not independent field trials.",
+    "The fraction of design points surviving is not an outage probability."
+  ]
+}

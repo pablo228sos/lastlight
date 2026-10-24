@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/pablo228sos/lastlight",
+  "commit": "ef23a710ecb7b235ea734171730a4656c40f4615",
+  "model_version": "lastlight-dispatch-1.0.0",
+  "schema_version": "1.0.0",
+  "pydantic_version": "2.14.1",
+  "source_sha256": {
+    "services/simulation/__init__.py": "94ccf3d50cb85654c2aa44a9b6e0ea11dc0a7858095b7b59cb2409520df8b697",
+    "services/simulation/engine.py": "02af9989bd148b2373cb61c266a1538b6caca916cc692f12913f8ea80e0f9760",
+    "services/simulation/schemas.py": "8bbf811c4d900cfa57cfbc977c8ee77436bdb3ea527415f36980dfac70b97f45",
+    "services/simulation/requirements.lock": "02d631ba3dc5479545fb811ce7aa59410740caa8b64a4553abb38d341055d8a7"
+  }
+}
