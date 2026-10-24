@@ -18,6 +18,14 @@ from .schemas import (
     SimulationRequest,
     SimulationResult,
 )
+from .intelligence import (
+    FrontierRequest,
+    FrontierResult,
+    PredictionResult,
+    predict_verified,
+    predictor,
+)
+from .forecast import ForecastRequest, ForecastResult, forecast
 
 app = FastAPI(
     title="LASTLIGHT Physics API",
@@ -28,8 +36,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173", "http://127.0.0.1:5173",
-        "http://localhost:4173", "http://127.0.0.1:4173",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:4173",
+        "http://127.0.0.1:4173",
     ],
     allow_credentials=False,
     allow_methods=["GET", "POST"],
@@ -37,28 +47,43 @@ app.add_middleware(
 )
 
 
-def error_response(code: str, message: str, status: int, details: list[ErrorDetail] | None = None) -> JSONResponse:
-    body = ErrorResponse(error=ErrorBody(code=code, message=message, details=details or []))
+def error_response(
+    code: str, message: str, status: int, details: list[ErrorDetail] | None = None
+) -> JSONResponse:
+    body = ErrorResponse(
+        error=ErrorBody(code=code, message=message, details=details or [])
+    )
     return JSONResponse(status_code=status, content=body.model_dump(mode="json"))
 
 
 @app.exception_handler(RequestValidationError)
-async def validation_error(_request: Request, exception: RequestValidationError) -> JSONResponse:
+async def validation_error(
+    _request: Request, exception: RequestValidationError
+) -> JSONResponse:
     # Never echo raw request values: NaN and exception objects are not JSON-safe.
-    details = [ErrorDetail(location=list(e["loc"]), message=e["msg"], type=e["type"]) for e in exception.errors()]
+    details = [
+        ErrorDetail(location=list(e["loc"]), message=e["msg"], type=e["type"])
+        for e in exception.errors()
+    ]
     return error_response("validation_error", "Request validation failed", 422, details)
 
 
 @app.exception_handler(HTTPException)
 async def http_error(_request: Request, exception: HTTPException) -> JSONResponse:
-    response = error_response("http_error", str(exception.detail), exception.status_code)
+    response = error_response(
+        "http_error", str(exception.detail), exception.status_code
+    )
     response.headers.update(exception.headers or {})
     return response
 
 
 @app.exception_handler(EnergyBalanceError)
-async def balance_error(_request: Request, _exception: EnergyBalanceError) -> JSONResponse:
-    return error_response("energy_balance_error", "Simulation failed an internal physical invariant", 500)
+async def balance_error(
+    _request: Request, _exception: EnergyBalanceError
+) -> JSONResponse:
+    return error_response(
+        "energy_balance_error", "Simulation failed an internal physical invariant", 500
+    )
 
 
 @app.get("/health", response_model=Health)
@@ -74,3 +99,43 @@ def run_simulation(request: SimulationRequest) -> SimulationResult:
 @app.post("/api/v1/comparisons", response_model=ComparisonResult)
 def run_comparison(request: ComparisonRequest) -> ComparisonResult:
     return compare(request)
+
+
+@app.post("/api/v1/fragility/predict", response_model=PredictionResult)
+def run_fragility(request: SimulationRequest) -> PredictionResult:
+    return predict_verified(request)
+
+
+@app.post("/api/v1/fragility/frontier", response_model=FrontierResult)
+def run_frontier(request: FrontierRequest) -> FrontierResult:
+    from ml.frontier import physics_frontier
+
+    model = None
+    if request.include_ml:
+        try:
+            model = predictor()
+        except (OSError, ValueError, ImportError, RuntimeError, KeyError):
+            model = None
+    result = physics_frontier(
+        request.scenario,
+        request.soc_points,
+        request.duration_points,
+        request.maximum_hours,
+        model,
+    )
+    if request.include_ml and model is None:
+        result["warnings"].append(
+            "Requested ML proposals are unavailable; authoritative physics map retained."
+        )
+    return FrontierResult.model_validate(result)
+
+
+@app.post("/api/v1/forecast/load", response_model=ForecastResult)
+def forecast_load(request: ForecastRequest) -> ForecastResult:
+    try:
+        return forecast(request)
+    except FileNotFoundError as error:
+        raise HTTPException(
+            status_code=503,
+            detail="Research cold-start profile unavailable; run BDG2 preparation",
+        ) from error

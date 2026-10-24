@@ -10,3 +10,6 @@ __pycache__/
 .pytest_cache/
 *.py[cod]
 .venv/
+ml/data/generated/
+ml/data/raw/
+ml/artifacts/experiments/

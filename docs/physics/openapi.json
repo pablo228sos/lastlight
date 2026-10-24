@@ -139,6 +139,150 @@
           }
         }
       }
+    },
+    "/api/v1/fragility/predict": {
+      "post": {
+        "summary": "Run Fragility",
+        "operationId": "run_fragility_api_v1_fragility_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/fragility/frontier": {
+      "post": {
+        "summary": "Run Frontier",
+        "operationId": "run_frontier_api_v1_fragility_frontier_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FrontierRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FrontierResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/forecast/load": {
+      "post": {
+        "summary": "Forecast Load",
+        "operationId": "forecast_load_api_v1_forecast_load_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForecastRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -377,6 +521,472 @@
         ],
         "title": "ErrorResponse"
       },
+      "ForecastPoint": {
+        "properties": {
+          "t_utc": {
+            "type": "string",
+            "title": "T Utc"
+          },
+          "demand_kw": {
+            "type": "number",
+            "title": "Demand Kw"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "t_utc",
+          "demand_kw"
+        ],
+        "title": "ForecastPoint"
+      },
+      "ForecastRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "cold_start",
+              "historical"
+            ],
+            "title": "Mode"
+          },
+          "start_utc": {
+            "type": "string",
+            "title": "Start Utc",
+            "default": "2026-01-01T00:00:00Z"
+          },
+          "hours": {
+            "type": "integer",
+            "maximum": 24.0,
+            "minimum": 1.0,
+            "title": "Hours",
+            "default": 24
+          },
+          "history_kw": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number",
+                  "maximum": 50000.0,
+                  "minimum": 0.0
+                },
+                "type": "array",
+                "maxItems": 8760,
+                "minItems": 168
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "History Kw"
+          },
+          "primary_use": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Primary Use",
+            "default": "unknown"
+          },
+          "local_timezone": {
+            "type": "string",
+            "maxLength": 100,
+            "title": "Local Timezone",
+            "default": "UTC"
+          },
+          "seed": {
+            "type": "integer",
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "title": "Seed",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode"
+        ],
+        "title": "ForecastRequest"
+      },
+      "ForecastResult": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "physics_version": {
+            "type": "null",
+            "title": "Physics Version"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/ForecastSummary"
+          },
+          "trace": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastPoint"
+            },
+            "type": "array",
+            "title": "Trace"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "input_hash",
+          "model_version",
+          "seed",
+          "assumptions",
+          "provenance",
+          "summary",
+          "trace",
+          "warnings"
+        ],
+        "title": "ForecastResult"
+      },
+      "ForecastSummary": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "hours": {
+            "type": "integer",
+            "title": "Hours"
+          },
+          "units": {
+            "type": "string",
+            "title": "Units",
+            "default": "whole-building average kW"
+          },
+          "neural_model": {
+            "type": "boolean",
+            "title": "Neural Model",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "hours"
+        ],
+        "title": "ForecastSummary"
+      },
+      "FragilityEstimate": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "synthetic_failure_score": {
+            "type": "number",
+            "title": "Synthetic Failure Score"
+          },
+          "predicted_failure": {
+            "type": "boolean",
+            "title": "Predicted Failure"
+          },
+          "baseline_failure_score": {
+            "type": "number",
+            "title": "Baseline Failure Score"
+          },
+          "outside_training_domain": {
+            "type": "boolean",
+            "title": "Outside Training Domain"
+          },
+          "high_uncertainty": {
+            "type": "boolean",
+            "title": "High Uncertainty"
+          },
+          "physics_required": {
+            "type": "boolean",
+            "title": "Physics Required"
+          },
+          "engineering_clearance": {
+            "type": "boolean",
+            "title": "Engineering Clearance"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_version",
+          "synthetic_failure_score",
+          "predicted_failure",
+          "baseline_failure_score",
+          "outside_training_domain",
+          "high_uncertainty",
+          "physics_required",
+          "engineering_clearance",
+          "warnings"
+        ],
+        "title": "FragilityEstimate"
+      },
+      "FrontierCell": {
+        "properties": {
+          "initial_soc": {
+            "type": "number",
+            "title": "Initial Soc"
+          },
+          "duration_hours": {
+            "type": "number",
+            "title": "Duration Hours"
+          },
+          "failed": {
+            "type": "boolean",
+            "title": "Failed"
+          },
+          "first_failure_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Failure Hours"
+          },
+          "physics_verified": {
+            "type": "boolean",
+            "title": "Physics Verified"
+          },
+          "verification_run_id": {
+            "type": "string",
+            "title": "Verification Run Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "initial_soc",
+          "duration_hours",
+          "failed",
+          "first_failure_hours",
+          "physics_verified",
+          "verification_run_id"
+        ],
+        "title": "FrontierCell"
+      },
+      "FrontierEstimate": {
+        "properties": {
+          "initial_soc": {
+            "type": "number",
+            "title": "Initial Soc"
+          },
+          "duration_hours": {
+            "type": "number",
+            "title": "Duration Hours"
+          },
+          "synthetic_failure_score": {
+            "type": "number",
+            "title": "Synthetic Failure Score"
+          },
+          "physics_verified": {
+            "type": "boolean",
+            "title": "Physics Verified"
+          },
+          "outside_training_domain": {
+            "type": "boolean",
+            "title": "Outside Training Domain"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "initial_soc",
+          "duration_hours",
+          "synthetic_failure_score",
+          "physics_verified",
+          "outside_training_domain"
+        ],
+        "title": "FrontierEstimate"
+      },
+      "FrontierRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "soc_points": {
+            "type": "integer",
+            "maximum": 41.0,
+            "minimum": 3.0,
+            "title": "Soc Points",
+            "default": 13
+          },
+          "duration_points": {
+            "type": "integer",
+            "maximum": 49.0,
+            "minimum": 3.0,
+            "title": "Duration Points",
+            "default": 21
+          },
+          "maximum_hours": {
+            "type": "number",
+            "maximum": 48.0,
+            "minimum": 0.25,
+            "title": "Maximum Hours",
+            "default": 24
+          },
+          "include_ml": {
+            "type": "boolean",
+            "title": "Include Ml",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FrontierRequest"
+      },
+      "FrontierResult": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "physics_version": {
+            "type": "string",
+            "title": "Physics Version"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/FrontierSummary"
+          },
+          "trace": {
+            "items": {
+              "$ref": "#/components/schemas/FrontierCell"
+            },
+            "type": "array",
+            "title": "Trace"
+          },
+          "ml_estimates": {
+            "items": {
+              "$ref": "#/components/schemas/FrontierEstimate"
+            },
+            "type": "array",
+            "title": "Ml Estimates"
+          },
+          "verified_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/VerifiedCandidate"
+            },
+            "type": "array",
+            "title": "Verified Candidates"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "physics_version",
+          "model_version",
+          "input_hash",
+          "seed",
+          "assumptions",
+          "provenance",
+          "summary",
+          "trace",
+          "ml_estimates",
+          "verified_candidates",
+          "warnings"
+        ],
+        "title": "FrontierResult"
+      },
+      "FrontierSummary": {
+        "properties": {
+          "physics_calls": {
+            "type": "integer",
+            "title": "Physics Calls"
+          },
+          "verified_cells": {
+            "type": "integer",
+            "title": "Verified Cells"
+          },
+          "method": {
+            "type": "string",
+            "title": "Method"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "physics_calls",
+          "verified_cells",
+          "method"
+        ],
+        "title": "FrontierSummary"
+      },
       "Grid": {
         "properties": {
           "online": {
@@ -517,6 +1127,115 @@
         "additionalProperties": false,
         "type": "object",
         "title": "Load"
+      },
+      "PredictionResult": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "physics_version": {
+            "type": "string",
+            "title": "Physics Version",
+            "default": "lastlight-dispatch-1.1.0"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SimulationSummary"
+          },
+          "trace": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationTracePoint"
+            },
+            "type": "array",
+            "title": "Trace"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.1.0"
+          },
+          "input": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "physics_run_id": {
+            "type": "string",
+            "title": "Physics Run Id"
+          },
+          "physics_verified": {
+            "type": "boolean",
+            "const": true,
+            "title": "Physics Verified",
+            "default": true
+          },
+          "engineering_clearance": {
+            "type": "boolean",
+            "const": false,
+            "title": "Engineering Clearance",
+            "default": false
+          },
+          "estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FragilityEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "model_version",
+          "input_hash",
+          "seed",
+          "summary",
+          "trace",
+          "provenance",
+          "input",
+          "warnings",
+          "physics_run_id",
+          "estimate"
+        ],
+        "title": "PredictionResult"
       },
       "Provenance": {
         "properties": {
@@ -1007,6 +1726,50 @@
         "additionalProperties": false,
         "type": "object",
         "title": "Solar"
+      },
+      "VerifiedCandidate": {
+        "properties": {
+          "initial_soc": {
+            "type": "number",
+            "title": "Initial Soc"
+          },
+          "duration_hours": {
+            "type": "number",
+            "title": "Duration Hours"
+          },
+          "synthetic_failure_score": {
+            "type": "number",
+            "title": "Synthetic Failure Score"
+          },
+          "physics_verified": {
+            "type": "boolean",
+            "title": "Physics Verified"
+          },
+          "outside_training_domain": {
+            "type": "boolean",
+            "title": "Outside Training Domain"
+          },
+          "failed": {
+            "type": "boolean",
+            "title": "Failed"
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "initial_soc",
+          "duration_hours",
+          "synthetic_failure_score",
+          "physics_verified",
+          "outside_training_domain",
+          "failed",
+          "run_id"
+        ],
+        "title": "VerifiedCandidate"
       }
     }
   }
