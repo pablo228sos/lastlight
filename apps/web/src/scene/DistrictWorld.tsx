@@ -3,6 +3,7 @@ import { Line } from '@react-three/drei'
 import { SchoolFacadeWall } from './SchoolFacadeWall'
 import { SchoolSolarArray } from './SchoolSolarArray'
 import { ArchitecturalBuildingBodies, ArchitecturalDistrictDetails } from './CityArchitecture'
+import { CinematicStreets } from './CinematicStreets'
 import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Color, MathUtils, MeshBasicMaterial, MeshStandardMaterial, Object3D, type InstancedMesh } from 'three'
 import type { SceneLayer, ScenePhase, VisualRehearsalState } from '../app/useMissionState'
@@ -171,21 +172,6 @@ function StreetPools({ visual }: { visual: VisualRehearsalState }) {
   </instancedMesh>
 }
 
-function Streets() {
-  const roads = [-80, -33, 55, 100]
-  return <>
-    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[310, 310]} /><meshStandardMaterial color="#17252a" roughness={1} /></mesh>
-    {roads.map((at, i) => <group key={'x' + i}>
-      <mesh position={[at, .015, 0]} receiveShadow><boxGeometry args={[10, .03, 270]} /><meshStandardMaterial color="#222a2c" /></mesh>
-      <mesh position={[0, .018, at]} receiveShadow><boxGeometry args={[270, .03, 10]} /><meshStandardMaterial color="#222a2c" /></mesh>
-      {Array.from({ length: 26 }, (_, j) => <group key={j}>
-        <mesh position={[at, .047, -128 + j * 10]}><boxGeometry args={[.13, .015, 2.5]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-        <mesh position={[-128 + j * 10, .047, at]}><boxGeometry args={[2.5, .015, .13]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-      </group>)}
-    </group>)}
-  </>
-}
-
 function School({ visual, layer, onSelect, showHotspots }: {
   visual: VisualRehearsalState; layer: SceneLayer; onSelect: () => void
   showHotspots: boolean
@@ -276,7 +262,7 @@ export function DistrictWorld({ visual, layer, phase, selected, lowPower, onSele
     <hemisphereLight intensity={.8} color="#779aa8" groundColor="#382b25" />
     <directionalLight position={[-60, 150, 80]} intensity={1.9} color="#bbd2d8" castShadow={!lowPower} shadow-mapSize={lowPower ? [512, 512] : [2048, 2048]} shadow-camera-left={-145} shadow-camera-right={145} shadow-camera-top={145} shadow-camera-bottom={-145} />
     <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 85 : 22} distance={105} color="#f5a45b" decay={2} />
-    <Streets />
+    <CinematicStreets />
     {!lowPower && <StreetPools visual={visual} />}
     <CityFabric visual={visual} lowPower={lowPower} />
     <School visual={visual} layer={layer} onSelect={() => onSelect('school')} showHotspots={showHotspots} />
