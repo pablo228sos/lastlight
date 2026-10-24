@@ -1,0 +1,23 @@
+All checks passed!
+14 files already formatted
+Verified 12 contract and fixture files
+........................................................................ [ 58%]
+....................................................                     [100%]
+=============================== warnings summary ===============================
+services/simulation/.venv/lib/python3.12/site-packages/starlette/testclient.py:45
+  /workspace/scratch/c0de98d16f9f/lastlight/services/simulation/.venv/lib/python3.12/site-packages/starlette/testclient.py:45: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.14-final-0 _______________
+
+Name                             Stmts   Miss  Cover   Missing
+--------------------------------------------------------------
+services/simulation/api.py          39      0   100%
+services/simulation/engine.py      139      2    99%   195, 284
+services/simulation/schemas.py     176      0   100%
+--------------------------------------------------------------
+TOTAL                              354      2    99%
+Required test coverage of 95% reached. Total coverage: 99.44%
+124 passed, 1 warning in 49.92s

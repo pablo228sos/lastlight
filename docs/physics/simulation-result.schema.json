@@ -1,0 +1,629 @@
+{
+  "$defs": {
+    "Battery": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kwh": {
+          "default": 24,
+          "maximum": 20000,
+          "minimum": 0.001,
+          "title": "Capacity Kwh",
+          "type": "number"
+        },
+        "initial_soc": {
+          "default": 0.8,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Initial Soc",
+          "type": "number"
+        },
+        "minimum_soc": {
+          "default": 0.2,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Soc",
+          "type": "number"
+        },
+        "maximum_soc": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Soc",
+          "type": "number"
+        },
+        "charge_efficiency": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0.01,
+          "title": "Charge Efficiency",
+          "type": "number"
+        },
+        "discharge_efficiency": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0.01,
+          "title": "Discharge Efficiency",
+          "type": "number"
+        },
+        "max_charge_kw": {
+          "default": 6.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Charge Kw",
+          "type": "number"
+        },
+        "max_discharge_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Discharge Kw",
+          "type": "number"
+        }
+      },
+      "title": "Battery",
+      "type": "object"
+    },
+    "Grid": {
+      "additionalProperties": false,
+      "properties": {
+        "online": {
+          "default": false,
+          "title": "Online",
+          "type": "boolean"
+        },
+        "profile_online": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "boolean"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Online"
+        },
+        "import_limit_kw": {
+          "default": 50.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Import Limit Kw",
+          "type": "number"
+        },
+        "charge_battery": {
+          "default": false,
+          "title": "Charge Battery",
+          "type": "boolean"
+        }
+      },
+      "title": "Grid",
+      "type": "object"
+    },
+    "Inverter": {
+      "additionalProperties": false,
+      "properties": {
+        "max_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Kw",
+          "type": "number"
+        },
+        "islanding_capable": {
+          "default": true,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Inverter",
+      "type": "object"
+    },
+    "Load": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_kw": {
+          "default": 1.5,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Critical Kw",
+          "type": "number"
+        },
+        "noncritical_kw": {
+          "default": 2.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Noncritical Kw",
+          "type": "number"
+        },
+        "shed_noncritical_during_outage": {
+          "default": true,
+          "title": "Shed Noncritical During Outage",
+          "type": "boolean"
+        }
+      },
+      "title": "Load",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "default": "synthetic",
+          "enum": [
+            "measured",
+            "research_derived",
+            "synthetic"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "References",
+          "type": "array"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SimulationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "start_utc": {
+          "default": "2026-01-01T00:00:00Z",
+          "description": "Timezone-aware ISO 8601 time; normalized to UTC. Fixed default for replay.",
+          "format": "date-time",
+          "title": "Start Utc",
+          "type": "string"
+        },
+        "duration_hours": {
+          "default": 12,
+          "maximum": 168,
+          "minimum": 0.016666666666666666,
+          "title": "Duration Hours",
+          "type": "number"
+        },
+        "step_minutes": {
+          "default": 15,
+          "maximum": 60,
+          "minimum": 1,
+          "title": "Step Minutes",
+          "type": "integer"
+        },
+        "seed": {
+          "default": 0,
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "battery": {
+          "$ref": "#/$defs/Battery"
+        },
+        "inverter": {
+          "$ref": "#/$defs/Inverter"
+        },
+        "load": {
+          "$ref": "#/$defs/Load"
+        },
+        "solar": {
+          "$ref": "#/$defs/Solar"
+        },
+        "grid": {
+          "$ref": "#/$defs/Grid"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "title": "SimulationRequest",
+      "type": "object"
+    },
+    "SimulationSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_survival_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Critical Survival Hours"
+        },
+        "served_critical_fraction": {
+          "title": "Served Critical Fraction",
+          "type": "number"
+        },
+        "unserved_critical_kwh": {
+          "title": "Unserved Critical Kwh",
+          "type": "number"
+        },
+        "first_failure_utc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Failure Utc"
+        },
+        "max_balance_residual_kwh": {
+          "title": "Max Balance Residual Kwh",
+          "type": "number"
+        },
+        "observed_duration_hours": {
+          "title": "Observed Duration Hours",
+          "type": "number"
+        },
+        "survived_full_window": {
+          "title": "Survived Full Window",
+          "type": "boolean"
+        },
+        "idealized_autonomy_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Idealized Autonomy Hours"
+        },
+        "total_critical_demand_kwh": {
+          "title": "Total Critical Demand Kwh",
+          "type": "number"
+        },
+        "served_critical_kwh": {
+          "title": "Served Critical Kwh",
+          "type": "number"
+        },
+        "served_noncritical_kwh": {
+          "title": "Served Noncritical Kwh",
+          "type": "number"
+        },
+        "unserved_noncritical_kwh": {
+          "title": "Unserved Noncritical Kwh",
+          "type": "number"
+        },
+        "grid_import_kwh": {
+          "title": "Grid Import Kwh",
+          "type": "number"
+        },
+        "solar_available_kwh": {
+          "title": "Solar Available Kwh",
+          "type": "number"
+        },
+        "solar_used_kwh": {
+          "title": "Solar Used Kwh",
+          "type": "number"
+        },
+        "solar_curtailed_kwh": {
+          "title": "Solar Curtailed Kwh",
+          "type": "number"
+        },
+        "battery_charge_kwh": {
+          "title": "Battery Charge Kwh",
+          "type": "number"
+        },
+        "battery_discharge_kwh": {
+          "title": "Battery Discharge Kwh",
+          "type": "number"
+        },
+        "conversion_loss_kwh": {
+          "title": "Conversion Loss Kwh",
+          "type": "number"
+        },
+        "initial_battery_energy_kwh": {
+          "title": "Initial Battery Energy Kwh",
+          "type": "number"
+        },
+        "final_battery_energy_kwh": {
+          "title": "Final Battery Energy Kwh",
+          "type": "number"
+        },
+        "usable_capacity_kwh": {
+          "title": "Usable Capacity Kwh",
+          "type": "number"
+        },
+        "ending_soc": {
+          "title": "Ending Soc",
+          "type": "number"
+        },
+        "cumulative_balance_residual_kwh": {
+          "title": "Cumulative Balance Residual Kwh",
+          "type": "number"
+        }
+      },
+      "required": [
+        "critical_survival_hours",
+        "served_critical_fraction",
+        "unserved_critical_kwh",
+        "first_failure_utc",
+        "max_balance_residual_kwh",
+        "observed_duration_hours",
+        "survived_full_window",
+        "idealized_autonomy_hours",
+        "total_critical_demand_kwh",
+        "served_critical_kwh",
+        "served_noncritical_kwh",
+        "unserved_noncritical_kwh",
+        "grid_import_kwh",
+        "solar_available_kwh",
+        "solar_used_kwh",
+        "solar_curtailed_kwh",
+        "battery_charge_kwh",
+        "battery_discharge_kwh",
+        "conversion_loss_kwh",
+        "initial_battery_energy_kwh",
+        "final_battery_energy_kwh",
+        "usable_capacity_kwh",
+        "ending_soc",
+        "cumulative_balance_residual_kwh"
+      ],
+      "title": "SimulationSummary",
+      "type": "object"
+    },
+    "SimulationTracePoint": {
+      "additionalProperties": false,
+      "properties": {
+        "t_utc": {
+          "title": "T Utc",
+          "type": "string"
+        },
+        "grid_kw": {
+          "title": "Grid Kw",
+          "type": "number"
+        },
+        "solar_kw": {
+          "title": "Solar Kw",
+          "type": "number"
+        },
+        "battery_charge_kw": {
+          "title": "Battery Charge Kw",
+          "type": "number"
+        },
+        "battery_discharge_kw": {
+          "title": "Battery Discharge Kw",
+          "type": "number"
+        },
+        "battery_soc": {
+          "title": "Battery Soc",
+          "type": "number"
+        },
+        "critical_served_kw": {
+          "title": "Critical Served Kw",
+          "type": "number"
+        },
+        "critical_demand_kw": {
+          "title": "Critical Demand Kw",
+          "type": "number"
+        },
+        "noncritical_served_kw": {
+          "title": "Noncritical Served Kw",
+          "type": "number"
+        },
+        "unserved_critical_kw": {
+          "title": "Unserved Critical Kw",
+          "type": "number"
+        },
+        "status": {
+          "enum": [
+            "normal",
+            "islanded",
+            "degraded",
+            "critical_failure"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "t_end_utc": {
+          "title": "T End Utc",
+          "type": "string"
+        },
+        "elapsed_hours": {
+          "title": "Elapsed Hours",
+          "type": "number"
+        },
+        "duration_hours": {
+          "title": "Duration Hours",
+          "type": "number"
+        },
+        "grid_online": {
+          "title": "Grid Online",
+          "type": "boolean"
+        },
+        "solar_available_kw": {
+          "title": "Solar Available Kw",
+          "type": "number"
+        },
+        "solar_curtailed_kw": {
+          "title": "Solar Curtailed Kw",
+          "type": "number"
+        },
+        "grid_charge_kw": {
+          "title": "Grid Charge Kw",
+          "type": "number"
+        },
+        "noncritical_demand_kw": {
+          "title": "Noncritical Demand Kw",
+          "type": "number"
+        },
+        "unserved_noncritical_kw": {
+          "title": "Unserved Noncritical Kw",
+          "type": "number"
+        },
+        "battery_soc_end": {
+          "title": "Battery Soc End",
+          "type": "number"
+        },
+        "battery_energy_kwh": {
+          "title": "Battery Energy Kwh",
+          "type": "number"
+        },
+        "battery_energy_end_kwh": {
+          "title": "Battery Energy End Kwh",
+          "type": "number"
+        },
+        "conversion_loss_kwh": {
+          "title": "Conversion Loss Kwh",
+          "type": "number"
+        },
+        "ac_balance_residual_kwh": {
+          "title": "Ac Balance Residual Kwh",
+          "type": "number"
+        },
+        "storage_balance_residual_kwh": {
+          "title": "Storage Balance Residual Kwh",
+          "type": "number"
+        },
+        "balance_residual_kwh": {
+          "title": "Balance Residual Kwh",
+          "type": "number"
+        }
+      },
+      "required": [
+        "t_utc",
+        "grid_kw",
+        "solar_kw",
+        "battery_charge_kw",
+        "battery_discharge_kw",
+        "battery_soc",
+        "critical_served_kw",
+        "critical_demand_kw",
+        "noncritical_served_kw",
+        "unserved_critical_kw",
+        "status",
+        "t_end_utc",
+        "elapsed_hours",
+        "duration_hours",
+        "grid_online",
+        "solar_available_kw",
+        "solar_curtailed_kw",
+        "grid_charge_kw",
+        "noncritical_demand_kw",
+        "unserved_noncritical_kw",
+        "battery_soc_end",
+        "battery_energy_kwh",
+        "battery_energy_end_kwh",
+        "conversion_loss_kwh",
+        "ac_balance_residual_kwh",
+        "storage_balance_residual_kwh",
+        "balance_residual_kwh"
+      ],
+      "title": "SimulationTracePoint",
+      "type": "object"
+    },
+    "Solar": {
+      "additionalProperties": false,
+      "properties": {
+        "generation_kw": {
+          "default": 0.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Generation Kw",
+          "type": "number"
+        },
+        "profile_kw": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 50000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Kw"
+        },
+        "islanding_capable": {
+          "default": false,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Solar",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "model_version": {
+      "default": "lastlight-dispatch-1.0.0",
+      "title": "Model Version",
+      "type": "string"
+    },
+    "input_hash": {
+      "title": "Input Hash",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "summary": {
+      "$ref": "#/$defs/SimulationSummary"
+    },
+    "trace": {
+      "items": {
+        "$ref": "#/$defs/SimulationTracePoint"
+      },
+      "title": "Trace",
+      "type": "array"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "input": {
+      "$ref": "#/$defs/SimulationRequest"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "input_hash",
+    "seed",
+    "summary",
+    "trace",
+    "provenance",
+    "input",
+    "warnings"
+  ],
+  "title": "SimulationResult",
+  "type": "object"
+}

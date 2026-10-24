@@ -1,0 +1,57 @@
+# Exact activation proposal for Abai: .github/workflows/simulation.yml.
+# This document is not an active workflow and is not CI evidence.
+name: Physics API
+on:
+  pull_request:
+    paths:
+      - 'services/simulation/**'
+      - 'tests/simulation/**'
+      - 'docs/physics/**'
+      - '.github/workflows/simulation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'services/simulation/**'
+      - 'tests/simulation/**'
+      - 'docs/physics/**'
+      - '.github/workflows/simulation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: physics-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  simulation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            services/simulation/requirements.lock
+            services/simulation/requirements-dev.lock
+      - name: Install locked development dependencies
+        run: python -m pip install --require-hashes -r services/simulation/requirements-dev.lock
+      - name: Verify production physics, API, contracts and fixtures
+        run: python -m services.simulation.check
+      - name: Prepare same-platform hashed wheels for offline setup
+        run: python -m pip download --require-hashes -r services/simulation/requirements.lock -d "${{ runner.temp }}/simulation-wheels"
+      - name: Fresh launcher install, live HTTP, offline restart and shutdown
+        run: python -m services.simulation.integration_check --wheelhouse "${{ runner.temp }}/simulation-wheels"
+      - name: Retain installation and server evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: physics-${{ matrix.os }}-${{ github.sha }}
+          path: services/simulation/.integration-evidence/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
