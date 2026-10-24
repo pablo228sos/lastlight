@@ -34,6 +34,14 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     }
     const pose = poses[expectedShot]
     if (!pose) throw new Error('Unknown locked camera pose: ' + expectedShot)
+
+    // Freeze the app's *real* Three.js camera at its own published target pose.
+    // Only active at ?capture=1. This is not a camera-transition test.
+    await page.locator('canvas').evaluate((canvas: HTMLCanvasElement, lockedShot) => {
+      canvas.dispatchEvent(new CustomEvent('lastlight:capture-lock-pose', {
+        detail: { shot: lockedShot },
+      }))
+    }, expectedShot)
     await expect.poll(async () => {
       const actual = await page.locator('canvas').getAttribute('data-camera-position')
       if (!actual) return Number.POSITIVE_INFINITY
@@ -46,7 +54,7 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
         coordinates[1] - pose[1],
         coordinates[2] - pose[2],
       )
-    }, { timeout: 45_000, intervals: [200, 500, 1_000] }).toBeLessThan(0.55)
+    }, { timeout: 45_000, intervals: [200, 500, 1_000] }).toBeLessThan(0.015)
     const pngUrl = await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'))
     expect(pngUrl.startsWith('data:image/png;base64,')).toBe(true)
     const png = Buffer.from(pngUrl.split(',')[1], 'base64')
