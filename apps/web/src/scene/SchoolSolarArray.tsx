@@ -17,7 +17,7 @@ const COLUMN_COUNT = 6
 const ROW_COUNT = 2
 
 const positions: Array<[number, number]> = Array.from(
-  { length: SCHOOL_PV_MODULE_COUNT },
+  { length: COLUMN_COUNT * ROW_COUNT },
   (_, i) => [-12 + (i % COLUMN_COUNT) * 4.5, 2.3 + Math.floor(i / COLUMN_COUNT) * 3.4],
 )
 
