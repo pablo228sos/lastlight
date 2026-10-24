@@ -122,6 +122,7 @@ test('keyboard and reduced motion work at laptop viewport', async ({ page }) => 
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'SITE')
   await page.getByTestId('disconnect-grid').click()
   await expect(page.locator('main')).toHaveAttribute('data-phase', 'BLACKOUT')
+  await expect(page.getByTestId('simulation-play')).toContainText('PLAY')
   await page.getByRole('button', { name: /DATA & METHODS/ }).click()
   await expect(page.getByRole('dialog')).toBeVisible()
   await page.keyboard.press('Escape')

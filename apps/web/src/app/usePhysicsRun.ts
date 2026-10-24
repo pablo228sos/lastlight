@@ -45,7 +45,8 @@ export function usePhysicsRun() {
     try {
       const value = mode === 'live' ? await requestBaseline(controller.signal) : verifiedBaseline()
       if (current !== serial.current) return
-      setBaseline(value); setSource(mode); setStatus('ready'); setPlaying(true)
+      setBaseline(value); setSource(mode); setStatus('ready')
+      setPlaying(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
     } catch (cause) {
       if (current !== serial.current) return
       setStatus('error')
