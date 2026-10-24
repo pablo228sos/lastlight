@@ -3,6 +3,11 @@ export default defineConfig({
   testDir: './tests',
   reporter: 'list',
   timeout: 90000,
-  use: { baseURL: 'http://127.0.0.1:4173', browserName: 'chromium', channel: 'chrome' },
-  webServer: { command: 'npm run dev -- --host 127.0.0.1 --port 4173', port: 4173, reuseExistingServer: true, timeout: 30000 },
+  use: {
+    baseURL: 'http://127.0.0.1:4173',
+    browserName: 'chromium',
+    channel: process.env.CI ? undefined : 'chrome',
+    launchOptions: { args: ['--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader'] },
+  },
+  webServer: { command: 'npm run dev -- --host 127.0.0.1 --port 4173', port: 4173, reuseExistingServer: !process.env.CI, timeout: 30000 },
 })

@@ -86,8 +86,8 @@ function App() {
       <button className="text-action" onClick={() => mission.setEvidenceOpen(true)}>DATA &amp; METHODS <span>↗</span></button>
     </header>
 
-    <div className="left-rule" aria-hidden="true"><span>LL — 00.5</span><i /><span>BISHKEK / SYNTHETIC</span></div>
-    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">CINEMATIC REHEARSAL — SYNTHETIC, NOT PHYSICS</span></div>
+    <div className="left-rule" aria-hidden="true"><span>LL / 00.5</span><i /><span>BISHKEK / SYNTHETIC</span></div>
+    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">CINEMATIC REHEARSAL / SYNTHETIC, NOT PHYSICS</span></div>
     <div className="shot-index" aria-label="Camera state"><span>CAMERA / {mission.shot.toUpperCase()}</span><span className="shot-mark">{mission.phase === 'DESCENT' ? '● ━ ━' : isFacility ? '━ ━ ●' : '━ ● ━'}</span></div>
 
     {isOpening ? <section className="opening-copy">

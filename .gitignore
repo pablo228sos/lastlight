@@ -5,3 +5,4 @@ playwright-report/
 .env
 .env.*
 *.log
+evidence/phase-00.5/page@*.webm

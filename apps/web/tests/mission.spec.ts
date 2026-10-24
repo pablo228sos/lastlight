@@ -44,7 +44,7 @@ test('cinematic camera, facility and blackout are visible at 1440×900', async (
 })
 
 test('actual browser interaction records a compact cinematic clip', async () => {
-  const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader'] })
+  const browser = await chromium.launch({ channel: process.env.CI ? undefined : 'chrome', headless: true, args: ['--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader'] })
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 },
     recordVideo: { dir: evidence, size: { width: 960, height: 600 } } })
   const page = await context.newPage()
