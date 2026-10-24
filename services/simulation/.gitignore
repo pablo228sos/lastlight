@@ -1,0 +1,4 @@
+.coverage
+.hypothesis/
+.ruff_cache/
+.integration-evidence/
