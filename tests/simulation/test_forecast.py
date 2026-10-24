@@ -22,14 +22,19 @@ def test_historical_forecast_is_a_reproducible_labelled_estimate():
 
 def test_research_cold_start_uses_versioned_training_profile():
     with TestClient(app) as client:
-        body = {'mode':'cold_start','primary_use':'Education','local_timezone':'Asia/Bishkek'}
-        first = client.post('/api/v1/forecast/load', json=body)
-        second = client.post('/api/v1/forecast/load', json=body)
+        body = {
+            "mode": "cold_start",
+            "primary_use": "Education",
+            "local_timezone": "Asia/Bishkek",
+        }
+        first = client.post("/api/v1/forecast/load", json=body)
+        second = client.post("/api/v1/forecast/load", json=body)
     assert first.status_code == 200
     assert first.json() == second.json()
-    assert len(first.json()['trace']) == 24
-    assert first.json()['physics_version'] is None
-    assert all(point['demand_kw'] >= 0 for point in first.json()['trace'])
+    assert len(first.json()["trace"]) == 24
+    assert first.json()["physics_version"] is None
+    assert all(point["demand_kw"] >= 0 for point in first.json()["trace"])
+    with TestClient(app) as client:
         assert (
             client.post(
                 "/api/v1/forecast/load",
