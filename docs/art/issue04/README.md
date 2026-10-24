@@ -1,10 +1,16 @@
 # LASTLIGHT — Issue #4 Visual Handoff (review branch)
 
-![Source-locked school visual board](../../assets/creative-references/issue04_school_geometry_material_direction.svg)
+![Source-locked school visual board](../../../assets/creative-references/issue04_school_geometry_material_direction.svg)
 
 **Real GitHub submission:** Source-anchored facade material candidate, three GitHub-hosted tileable procedural PBR PNG maps, the original layout continuity specification, and one-world seven-shot storyboard.
 
-![Single-world shot progression](../../assets/creative-references/issue04_camera_storyboard_schematic.svg)
+![Single-world shot progression](../../../assets/creative-references/issue04_camera_storyboard_schematic.svg)
+
+## Baseline: real original WebGL capture
+
+![Current school in the running application, before PR changes](../../../evidence/phase-00.5/facility-1920x1080.png)
+
+This is a real baseline capture committed earlier by the team; do not confuse it with the source-derived SVG boards above. A same-pose *candidate* screenshot must still be produced by Abai after checking out this PR.
 
 ## Current implementation in this PR
 
