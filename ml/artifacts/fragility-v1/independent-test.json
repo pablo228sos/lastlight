@@ -1,0 +1,114 @@
+{
+  "generalization": {
+    "fragility_net": {
+      "accuracy": 0.9008333333333334,
+      "precision": 0.8858307849133538,
+      "dangerous_recall": 0.9920091324200914,
+      "f1": 0.9359181475498115,
+      "confusion_matrix": [
+        [
+          212,
+          112
+        ],
+        [
+          7,
+          869
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 7,
+      "pr_auc": 0.9927850701783237,
+      "roc_auc": 0.9803258357291843,
+      "brier_score": 0.04987002354886483,
+      "ece_10_bins": 0.01573784134505939,
+      "threshold": 0.13,
+      "n": 1200
+    },
+    "baseline": {
+      "accuracy": 0.8741666666666666,
+      "precision": 0.8748707342295761,
+      "dangerous_recall": 0.9657534246575342,
+      "f1": 0.9180683667932719,
+      "confusion_matrix": [
+        [
+          203,
+          121
+        ],
+        [
+          30,
+          846
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 30,
+      "pr_auc": 0.9802444315996434,
+      "roc_auc": 0.9463540785839111,
+      "brier_score": 0.12351453603421628,
+      "ece_10_bins": 0.14569491986798766,
+      "threshold": 0.07,
+      "n": 1200
+    }
+  },
+  "test": {
+    "fragility_net": {
+      "accuracy": 0.93,
+      "precision": 0.9257884972170687,
+      "dangerous_recall": 0.9960079840319361,
+      "f1": 0.9596153846153846,
+      "confusion_matrix": [
+        [
+          59,
+          40
+        ],
+        [
+          2,
+          499
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 2,
+      "pr_auc": 0.9964160566423568,
+      "roc_auc": 0.9821770600213714,
+      "brier_score": 0.04139458200228193,
+      "ece_10_bins": 0.027268765841921182,
+      "threshold": 0.13,
+      "n": 600
+    },
+    "baseline": {
+      "accuracy": 0.9,
+      "precision": 0.9168241965973535,
+      "dangerous_recall": 0.9680638722554891,
+      "f1": 0.941747572815534,
+      "confusion_matrix": [
+        [
+          55,
+          44
+        ],
+        [
+          16,
+          485
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 16,
+      "pr_auc": 0.9927319388404325,
+      "roc_auc": 0.9618339079416922,
+      "brier_score": 0.09420219840697172,
+      "ece_10_bins": 0.12780660377574554,
+      "threshold": 0.07,
+      "n": 600
+    }
+  }
+}

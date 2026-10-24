@@ -1,0 +1,90 @@
+{
+  "battery_only": {
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "model_version": "fragility-1-0e9fbf8a5ba1",
+    "seed": 20261024,
+    "grid": [
+      17,
+      33
+    ],
+    "reference": {
+      "physics_calls": 561,
+      "seconds": 0.6197975999675691
+    },
+    "methods": {
+      "uniform": {
+        "physics_calls": 80,
+        "seconds": 0.09441380004864186,
+        "mean_boundary_error_hours": 0.9168198529411765,
+        "missed_unsafe_cells": 10,
+        "classification_error": 0.0374331550802139
+      },
+      "random": {
+        "physics_calls": 80,
+        "seconds": 0.08228129998315126,
+        "mean_boundary_error_hours": 0.9604779411764706,
+        "missed_unsafe_cells": 12,
+        "classification_error": 0.0392156862745098
+      },
+      "ml_guided": {
+        "physics_calls": 80,
+        "seconds": 0.1550721999956295,
+        "mean_boundary_error_hours": 2.182904411764706,
+        "missed_unsafe_cells": 51,
+        "classification_error": 0.09090909090909091
+      },
+      "deterministic_trace": {
+        "physics_calls": 17,
+        "seconds": 0.03833979996852577,
+        "mean_boundary_error_hours": 0.0,
+        "missed_unsafe_cells": 0,
+        "classification_error": 0.0
+      }
+    },
+    "claim": "Compare measured calls, planning-inclusive times and errors; no ML acceleration assumed."
+  },
+  "variable_profiles": {
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "model_version": "fragility-1-0e9fbf8a5ba1",
+    "seed": 20261024,
+    "grid": [
+      17,
+      33
+    ],
+    "reference": {
+      "physics_calls": 561,
+      "seconds": 0.6432531999889761
+    },
+    "methods": {
+      "uniform": {
+        "physics_calls": 80,
+        "seconds": 0.08899149997159839,
+        "mean_boundary_error_hours": 1.3970588235294117,
+        "missed_unsafe_cells": 11,
+        "classification_error": 0.0427807486631016
+      },
+      "random": {
+        "physics_calls": 80,
+        "seconds": 0.08749309997074306,
+        "mean_boundary_error_hours": 1.091452205882353,
+        "missed_unsafe_cells": 13,
+        "classification_error": 0.040998217468805706
+      },
+      "ml_guided": {
+        "physics_calls": 80,
+        "seconds": 0.1923790000146255,
+        "mean_boundary_error_hours": 3.0997242647058822,
+        "missed_unsafe_cells": 36,
+        "classification_error": 0.1051693404634581
+      },
+      "deterministic_trace": {
+        "physics_calls": 17,
+        "seconds": 0.05305019998922944,
+        "mean_boundary_error_hours": 0.0,
+        "missed_unsafe_cells": 0,
+        "classification_error": 0.0
+      }
+    },
+    "claim": "Compare measured calls, planning-inclusive times and errors; no ML acceleration assumed."
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "$defs": {
+    "Battery": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kwh": {
+          "default": 24,
+          "exclusiveMinimum": 0,
+          "maximum": 20000,
+          "title": "Capacity Kwh",
+          "type": "number"
+        },
+        "initial_soc": {
+          "default": 0.8,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Initial Soc",
+          "type": "number"
+        },
+        "minimum_soc": {
+          "default": 0.2,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Soc",
+          "type": "number"
+        },
+        "maximum_soc": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Soc",
+          "type": "number"
+        },
+        "charge_efficiency": {
+          "default": 0.95,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Charge Efficiency",
+          "type": "number"
+        },
+        "discharge_efficiency": {
+          "default": 0.95,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Discharge Efficiency",
+          "type": "number"
+        },
+        "max_charge_kw": {
+          "default": 6.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Charge Kw",
+          "type": "number"
+        },
+        "max_discharge_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Discharge Kw",
+          "type": "number"
+        }
+      },
+      "title": "Battery",
+      "type": "object"
+    },
+    "Grid": {
+      "additionalProperties": false,
+      "properties": {
+        "online": {
+          "default": false,
+          "title": "Online",
+          "type": "boolean"
+        },
+        "profile_online": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "boolean"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Online"
+        },
+        "import_limit_kw": {
+          "default": 50.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Import Limit Kw",
+          "type": "number"
+        },
+        "charge_battery": {
+          "default": false,
+          "title": "Charge Battery",
+          "type": "boolean"
+        }
+      },
+      "title": "Grid",
+      "type": "object"
+    },
+    "Inverter": {
+      "additionalProperties": false,
+      "properties": {
+        "max_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Kw",
+          "type": "number"
+        },
+        "islanding_capable": {
+          "default": true,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Inverter",
+      "type": "object"
+    },
+    "Load": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_kw": {
+          "default": 1.5,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Critical Kw",
+          "type": "number"
+        },
+        "noncritical_kw": {
+          "default": 2.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Noncritical Kw",
+          "type": "number"
+        },
+        "critical_profile_kw": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 50000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Critical Profile Kw"
+        },
+        "noncritical_profile_kw": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 50000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Noncritical Profile Kw"
+        },
+        "shed_noncritical_during_outage": {
+          "default": true,
+          "title": "Shed Noncritical During Outage",
+          "type": "boolean"
+        }
+      },
+      "title": "Load",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "default": "synthetic",
+          "enum": [
+            "measured",
+            "research_derived",
+            "synthetic"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "References",
+          "type": "array"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "Solar": {
+      "additionalProperties": false,
+      "properties": {
+        "generation_kw": {
+          "default": 0.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Generation Kw",
+          "type": "number"
+        },
+        "profile_kw": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 50000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Kw"
+        },
+        "islanding_capable": {
+          "default": false,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Solar",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "start_utc": {
+      "default": "2026-01-01T00:00:00Z",
+      "description": "Timezone-aware ISO 8601 time; normalized to UTC. Fixed default for replay.",
+      "format": "date-time",
+      "title": "Start Utc",
+      "type": "string"
+    },
+    "duration_hours": {
+      "default": 12,
+      "maximum": 168,
+      "minimum": 0.016666666666666666,
+      "title": "Duration Hours",
+      "type": "number"
+    },
+    "step_minutes": {
+      "default": 15,
+      "maximum": 60,
+      "minimum": 1,
+      "title": "Step Minutes",
+      "type": "integer"
+    },
+    "seed": {
+      "default": 0,
+      "maximum": 4294967295,
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "battery": {
+      "$ref": "#/$defs/Battery"
+    },
+    "inverter": {
+      "$ref": "#/$defs/Inverter"
+    },
+    "load": {
+      "$ref": "#/$defs/Load"
+    },
+    "solar": {
+      "$ref": "#/$defs/Solar"
+    },
+    "grid": {
+      "$ref": "#/$defs/Grid"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    }
+  },
+  "title": "SimulationRequest",
+  "type": "object"
+}

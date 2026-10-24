@@ -1,4 +1,7 @@
 node_modules/
+ml/data/generated/
+ml/data/raw/
+ml/artifacts/experiments/
 dist/
 test-results/
 playwright-report/

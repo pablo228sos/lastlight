@@ -5,7 +5,7 @@ export type ScenePhase = 'INTRO' | 'DESCENT' | 'DISTRICT' | 'SITE' | 'INSPECT' |
 export type SceneLayer = 'architecture' | 'power'
 export type CameraShotId = 'orbital' | 'corridor' | 'district' | 'facility' | 'equipment' | 'orbit'
 export type CameraShot = { id: CameraShotId; position: [number, number, number]; target: [number, number, number]; duration: number; ease: string }
-export type VisualRehearsalState = { kind: 'synthetic_visual_rehearsal'; gridConnected: boolean; noncriticalLit: boolean; criticalLit: boolean; event: 'NONE' | 'GRID_LOST' | 'GRID_RESTORED' }
+export type VisualRehearsalState = { kind: 'synthetic_visual_rehearsal' | 'physics_calculated'; gridConnected: boolean; noncriticalLit: boolean; criticalLit: boolean; event: 'NONE' | 'GRID_LOST' | 'GRID_RESTORED' }
 
 export const SHOTS: Record<CameraShotId, CameraShot> = {
   orbital: { id: 'orbital', position: [8, 175, 260], target: [0, 0, 0], duration: 0, ease: 'power2.inOut' },
@@ -16,17 +16,6 @@ export const SHOTS: Record<CameraShotId, CameraShot> = {
   orbit: { id: 'orbit', position: [47, 37, -37], target: [13, 4, 7], duration: 2, ease: 'power2.inOut' },
 }
 
-export interface SimulationTraceStep {
-  tSeconds: number; gridConnected: boolean; pvKw: number; criticalDemandKw: number
-  noncriticalDemandKw: number; servedCriticalKw: number; servedNoncriticalKw: number
-  batterySoc: number; batteryEnergyKwh: number; batteryDischargeKw: number
-  unservedCriticalKwhCumulative: number
-  events: Array<'GRID_LOST' | 'LOAD_SHED' | 'BATTERY_MIN_SOC' | 'CRITICAL_UNSERVED' | 'GRID_RESTORED'>
-}
-export interface SimulationTrace {
-  runId: string; status: 'physics_verified' | 'synthetic_visual_rehearsal'; scenarioId: string
-  assumptions: string[]; provenance: Record<string, string>; steps: SimulationTraceStep[]
-}
 export interface SceneAdapter { visualStateAt(index: number): VisualRehearsalState; canShowPhysics: boolean }
 export const rehearsalAdapter: SceneAdapter = {
   canShowPhysics: false,
@@ -46,7 +35,7 @@ export function useMissionState() {
   const [evidenceOpen, setEvidenceOpen] = useState(false)
   const enter = useCallback(() => { setPaused(false); setPhase('DESCENT'); setShot('corridor') }, [])
   const skip = useCallback(() => { setPaused(false); setPhase('DISTRICT'); setShot('district') }, [])
-  const selectSite = useCallback((id: SiteId) => { setSiteId(id); setPhase('SITE'); setShot('facility') }, [])
+  const selectSite = useCallback((id: SiteId) => { setVisualStep(0); setSiteId(id); setPhase('SITE'); setShot('facility') }, [])
   const inspect = useCallback(() => { setPhase('INSPECT'); setShot('equipment'); setLayer('power') }, [])
   const orbit = useCallback(() => { setPhase('INSPECT'); setShot('orbit') }, [])
   const disconnect = useCallback(() => { setPhase('BLACKOUT'); setVisualStep(1) }, [])
