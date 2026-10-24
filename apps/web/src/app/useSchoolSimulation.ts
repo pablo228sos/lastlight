@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { FrontierResult, SimulationResult } from '../lib/contracts'
+import type { FrontierResult, PredictionResult, SimulationResult } from '../lib/contracts'
 import type { SiteId } from '../features/sites'
 import { simulationAdapter } from './simulationAdapter'
 
@@ -18,14 +18,26 @@ export function useSchoolSimulation(siteId: SiteId) {
   const [warning, setWarning] = useState('')
   const [frontier, setFrontier] = useState<FrontierResult | null>(null)
   const [frontierBusy, setFrontierBusy] = useState(false)
+  const [frontierWarning, setFrontierWarning] = useState('')
+  const [prediction, setPrediction] = useState<PredictionResult | null>(null)
+  const [predictionBusy, setPredictionBusy] = useState(false)
+  const [predictionWarning, setPredictionWarning] = useState('')
   const generation = useRef(0)
   const controller = useRef<AbortController | null>(null)
+  const frontierController = useRef<AbortController | null>(null)
+  const predictionController = useRef<AbortController | null>(null)
   const clear = useCallback(() => {
     generation.current += 1
     controller.current?.abort()
+    frontierController.current?.abort()
+    predictionController.current?.abort()
     setResult(null); setIndex(0); setWarning(''); setBusy(false); setFrontier(null); setFrontierBusy(false)
+    setFrontierWarning(''); setPrediction(null); setPredictionBusy(false); setPredictionWarning('')
   }, [])
-  useEffect(() => () => { generation.current += 1; controller.current?.abort() }, [siteId])
+  useEffect(() => () => {
+    generation.current += 1
+    controller.current?.abort(); frontierController.current?.abort(); predictionController.current?.abort()
+  }, [siteId])
   const run = useCallback(async () => {
     clear()
     if (siteId !== 'school') {
@@ -55,24 +67,63 @@ export function useSchoolSimulation(siteId: SiteId) {
   const loadFrontier = useCallback(async (includeMl = false) => {
     if (!result || frontierBusy) return
     const id = generation.current
+    const abort = new AbortController()
+    frontierController.current = abort
+    const timeout = window.setTimeout(() => abort.abort(), includeMl ? 60000 : 15000)
     setFrontierBusy(true)
+    setFrontierWarning('')
     try {
+      const input = result.input
+      const duration = input.duration_hours ?? result.summary.observed_duration_hours
+      const hasProfiles = [input.solar?.profile_kw, input.grid?.profile_online,
+        input.load?.critical_profile_kw, input.load?.noncritical_profile_kw].some(Boolean)
+      const maximumHours = Math.min(48, hasProfiles ? duration : Math.max(24, duration))
       const response = await fetch('/api/v1/fragility/frontier', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(includeMl ? 60000 : 15000),
-        body: JSON.stringify({ scenario: { ...result.input, duration_hours: 24 }, soc_points: 13, duration_points: 17, maximum_hours: 24, include_ml: includeMl }),
+        signal: abort.signal,
+        body: JSON.stringify({ scenario: input, soc_points: 13, duration_points: 17, maximum_hours: maximumHours, include_ml: includeMl }),
       })
       if (!response.ok) throw new Error('Frontier unavailable')
       const data: FrontierResult = await response.json()
-      if (!Array.isArray(data.trace) || data.trace.some(cell => !cell.physics_verified)) throw new Error('Unverified map')
+      if (!Array.isArray(data.trace) || !data.trace.length || data.trace.some(cell => !cell.physics_verified ||
+        !Number.isFinite(cell.initial_soc) || !Number.isFinite(cell.duration_hours))) throw new Error('Unverified map')
       if (generation.current === id) setFrontier(data)
     } catch {
-      if (generation.current === id) setWarning('Frontier unavailable. The displayed simulation trace remains calculated by physics.')
+      if (generation.current === id) setFrontierWarning('The map could not be loaded. Your school calculation is still available. Retry the map or continue with the result.')
     } finally {
+      window.clearTimeout(timeout)
       if (generation.current === id) setFrontierBusy(false)
     }
   }, [result, frontierBusy])
+  const analyze = useCallback(async () => {
+    if (!result || predictionBusy) return
+    const id = generation.current
+    const abort = new AbortController()
+    predictionController.current = abort
+    const timeout = window.setTimeout(() => abort.abort(), 60000)
+    setPrediction(null); setPredictionBusy(true); setPredictionWarning('')
+    try {
+      const response = await fetch('/api/v1/fragility/predict', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: abort.signal,
+        body: JSON.stringify(result.input),
+      })
+      if (!response.ok) throw new Error('AI unavailable')
+      const data: PredictionResult = await response.json()
+      if (!data.physics_verified || data.input_hash !== result.input_hash || !data.trace?.length ||
+        (data.estimate && (!Number.isFinite(data.estimate.synthetic_failure_score) ||
+          data.estimate.synthetic_failure_score < 0 || data.estimate.synthetic_failure_score > 1))) {
+        throw new Error('Unsupported AI response')
+      }
+      if (generation.current === id) setPrediction(data)
+    } catch {
+      if (generation.current === id) setPredictionWarning('AI analysis is unavailable. The physics result and map remain valid. Retry when the model service is available.')
+    } finally {
+      window.clearTimeout(timeout)
+      if (generation.current === id) setPredictionBusy(false)
+    }
+  }, [result, predictionBusy])
   const point = result?.trace[index]
-  return { result, index, setIndex, point, busy, warning, clear, run, frontier, frontierBusy, loadFrontier,
+  return { result, index, setIndex, point, busy, warning, clear, run, frontier, frontierBusy, frontierWarning, loadFrontier,
+    prediction, predictionBusy, predictionWarning, analyze,
     visual: result ? simulationAdapter(result).visualStateAt(index) : null }
 }
