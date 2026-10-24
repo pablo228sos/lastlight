@@ -3,6 +3,7 @@ import { Line } from '@react-three/drei'
 import { SchoolFacadeWall } from './SchoolFacadeWall'
 import { SchoolSolarArray } from './SchoolSolarArray'
 import { SchoolHeroDetails } from './SchoolHeroDetails'
+import { RealNightLights } from './RealNightLights'
 import { ArchitecturalBuildingBodies, ArchitecturalDistrictDetails } from './CityArchitecture'
 import { CinematicStreets } from './CinematicStreets'
 import { useFrame } from '@react-three/fiber'
@@ -212,7 +213,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     <mesh position={[19.4, 1.65, 3.2]} castShadow><boxGeometry args={[2.5, 3.1, 1.8]} /><meshStandardMaterial color="#253d45" metalness={.55} roughness={.5} /></mesh>
     <mesh position={[19.4, 1.8, 4.13]}><boxGeometry args={[1.5, .8, .05]} /><meshStandardMaterial color="#254f56" emissive="#69c8bd" emissiveIntensity={layer === 'power' ? 1.4 : .25} /></mesh>
     <mesh position={[15.7, 1.5, 3.2]} castShadow><boxGeometry args={[2.3, 2.8, 1.7]} /><meshStandardMaterial color="#454d4e" metalness={.5} roughness={.45} /></mesh>
-    <mesh position={[15.7, 2, 4.08]}><boxGeometry args={[1.5, .16, .04]} /><meshBasicMaterial color="#92d5c4" /></mesh>
+    <mesh position={[15.7, 2, 4.08]}><boxGeometry args={[1.5, .16, .04]} /><meshStandardMaterial color={visual.criticalLit ? "#8dc9be" : "#2b4145"} emissive="#85cabe" emissiveIntensity={visual.criticalLit ? .7 : 0} /></mesh>
     {layer === 'power' && <>
       <Line points={[[-8, 8.95, 5], [11, 8.95, 5], [16, 6.9, 5], [16, 2.5, 4]]} color="#8dd7d1" lineWidth={2} transparent opacity={.88} />
       <Line points={[[19.5, 2.5, 4], [16, 2.5, 4], [16, 1, 10]]} color="#8dd7d1" lineWidth={2} transparent opacity={.88} />
@@ -246,12 +247,13 @@ export function DistrictWorld({ visual, layer, phase, selected, lowPower, onSele
   return <>
     <color attach="background" args={['#09141b']} />
     <fog attach="fog" args={['#09141b', 145, 460]} />
-    <ambientLight intensity={1.15} color="#9fb8b9" />
-    <hemisphereLight intensity={.8} color="#779aa8" groundColor="#382b25" />
-    <directionalLight position={[-60, 150, 80]} intensity={1.9} color="#bbd2d8" castShadow={!lowPower} shadow-mapSize={lowPower ? [512, 512] : [2048, 2048]} shadow-camera-left={-145} shadow-camera-right={145} shadow-camera-top={145} shadow-camera-bottom={-145} />
-    <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 85 : 22} distance={105} color="#f5a45b" decay={2} />
+    <ambientLight intensity={.94} color="#9fb8b9" />
+    <hemisphereLight intensity={.64} color="#779aa8" groundColor="#382b25" />
+    <directionalLight position={[-60, 150, 80]} intensity={1.65} color="#bbd2d8" castShadow={!lowPower} shadow-mapSize={lowPower ? [512, 512] : [2048, 2048]} shadow-camera-left={-145} shadow-camera-right={145} shadow-camera-top={145} shadow-camera-bottom={-145} />
+    <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 75 : 12} distance={105} color="#f5a45b" decay={2} />
     <CinematicStreets />
     {!lowPower && <StreetPools visual={visual} />}
+    <RealNightLights visual={visual} lowPower={lowPower}/>
     <CityFabric visual={visual} lowPower={lowPower} />
     <School visual={visual} layer={layer} onSelect={() => onSelect('school')} showHotspots={showHotspots} />
     <SpecialFacility id="clinic" visual={visual} onSelect={() => onSelect('clinic')} selected={selected === 'clinic' && showHotspots === false && (phase === 'SITE' || phase === 'INSPECT' || phase === 'BLACKOUT')} />
