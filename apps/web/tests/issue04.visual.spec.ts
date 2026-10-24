@@ -9,10 +9,9 @@ import { resolve } from 'node:path'
 
 const enabled = process.env.ISSUE04_CAPTURE === '1'
 const out = resolve(process.cwd(), 'artifacts', 'issue04')
-test.skip(!enabled, 'Only used by the dedicated Issue #4 art-review workflow')
-
 test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
   test.setTimeout(120_000)
+  test.skip(!enabled, 'Only used by the dedicated Issue #4 art-review workflow')
   const errors: string[] = []
   const captures: Array<Record<string, string | number>> = []
   page.on('pageerror', error => errors.push(error.message))
