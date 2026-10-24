@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 
 from .adapter import DEFAULT_CHECKPOINT, assess
 from .candidates import suggest
@@ -18,12 +18,18 @@ def create_router(checkpoint_dir: Path | None = None) -> APIRouter:
     )
 
     @router.post("/assess", response_model=Assessment)
-    def assessment(request: AssessmentRequest) -> Assessment:
-        return assess(request, directory)
+    def assessment(request: AssessmentRequest, http: Request) -> Assessment:
+        configured = Path(
+            getattr(http.app.state, "fragility_checkpoint_dir", directory)
+        )
+        return assess(request, configured)
 
     @router.post("/candidates", response_model=CandidateResult)
-    def candidates(request: CandidateRequest) -> CandidateResult:
-        return suggest(request, directory)
+    def candidates(request: CandidateRequest, http: Request) -> CandidateResult:
+        configured = Path(
+            getattr(http.app.state, "fragility_checkpoint_dir", directory)
+        )
+        return suggest(request, configured)
 
     return router
 

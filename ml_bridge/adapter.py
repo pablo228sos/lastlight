@@ -1,6 +1,7 @@
 """Run unchanged official physics first; neural inference is optional and separate."""
 
 from functools import lru_cache
+import hashlib
 from pathlib import Path
 
 from services.simulation.engine import simulate
@@ -12,10 +13,23 @@ SCORE_WARNING = "Neural scores describe synthetic simulation labels, not real-wo
 
 
 @lru_cache(maxsize=4)
-def predictor(directory: Path, source_sha256: str):
+def _predictor(directory: Path, source_sha256: str, checkpoint_sha256: str):
     from .inference import FragilityPredictor
 
     return FragilityPredictor.load(directory)
+
+
+def predictor(directory: Path, source_sha256: str):
+    # File bytes, rather than timestamps, invalidate a warm model when deployment
+    # artifacts change. The loader still performs all catalog/source checks.
+    digest = hashlib.sha256()
+    for path in [
+        directory / "manifest.json",
+        directory / "model.pt",
+        Path(__file__).parent / "verified_catalog.json",
+    ]:
+        digest.update(path.read_bytes())
+    return _predictor(directory, source_sha256, digest.hexdigest())
 
 
 def analyze_neural(scenario, checkpoint_dir: Path) -> NeuralAnalysis:
