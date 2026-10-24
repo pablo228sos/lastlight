@@ -2,6 +2,7 @@ import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react'
 import { Line } from '@react-three/drei'
 import { SchoolFacadeWall } from './SchoolFacadeWall'
 import { SchoolSolarArray } from './SchoolSolarArray'
+import { SchoolHeroDetails } from './SchoolHeroDetails'
 import { ArchitecturalBuildingBodies, ArchitecturalDistrictDetails } from './CityArchitecture'
 import { CinematicStreets } from './CinematicStreets'
 import { useFrame } from '@react-three/fiber'
@@ -75,9 +76,6 @@ const campusFenceRails: MatrixItem[] = [.5, 1.35].flatMap(y => [
   { x: -28.5, y, z: 25, sx: 3, sy: .06, sz: .08 },
   { x: 10.5, y, z: 25, sx: 39, sy: .06, sz: .08 },
 ])
-const schoolLit = new MeshStandardMaterial({ color: '#7c5a37', emissive: '#ffbc70', emissiveIntensity: 1.6, toneMapped: false })
-const schoolEmergency = new MeshStandardMaterial({ color: '#386566', emissive: '#65d4c8', emissiveIntensity: 3.5, toneMapped: false })
-
 function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 1 }: {
   items: MatrixItem[]; color: string; emissive?: string; emissiveIntensity?: number; roughness?: number
 }) {
@@ -176,11 +174,6 @@ function School({ visual, layer, onSelect, showHotspots }: {
   visual: VisualRehearsalState; layer: SceneLayer; onSelect: () => void
   showHotspots: boolean
 }) {
-  useFrame((_, delta) => {
-    schoolLit.emissiveIntensity = MathUtils.damp(schoolLit.emissiveIntensity, visual.noncriticalLit ? 1.6 : 0, 3, delta)
-    schoolLit.color.lerp(new Color(visual.noncriticalLit ? '#7c5a37' : '#1c3338'), Math.min(1, delta * 3))
-    schoolEmergency.emissiveIntensity = MathUtils.damp(schoolEmergency.emissiveIntensity, visual.criticalLit ? 3.5 : .08, 2, delta)
-  })
   return <group position={[13, 0, 7]} onClick={(event) => { event.stopPropagation(); onSelect() }} onPointerOver={() => { document.body.style.cursor = 'pointer' }} onPointerOut={() => { document.body.style.cursor = 'auto' }}>
     {showHotspots && <Line points={[[-30, .19, -25], [30, .19, -25], [30, .19, 25], [-30, .19, 25], [-30, .19, -25]]}
       color="#a8dbd0" lineWidth={1.2} transparent opacity={.64} />}
@@ -211,15 +204,10 @@ function School({ visual, layer, onSelect, showHotspots }: {
     {[[-3, 2.2, 16.4], [3, 2.2, 16.4]].map(([x,y,z],i)=><mesh key={'canopy' + i} position={[x,y,z]}><boxGeometry args={[.2,4.3,.2]} /><meshStandardMaterial color="#57706b" /></mesh>)}
     <mesh position={[0, 2.2, 13.05]}><boxGeometry args={[4.4, 4.2, .12]} /><meshStandardMaterial color="#1d3037" metalness={.35} roughness={.4} /></mesh>
     <mesh position={[0, 4.8, 13.14]}><boxGeometry args={[7, .22, .15]} /><meshStandardMaterial color="#ebe3c8" emissive="#e4a866" emissiveIntensity={visual.noncriticalLit ? .7 : .02} /></mesh>
-    {[-11, -7, 7, 11].flatMap((x) => [2.1, 5.6].map(y => <mesh key={x + '/' + y} position={[x, y, 13.065]}>
-      <boxGeometry args={[1.7, 1.25, .12]} /><primitive object={schoolLit} attach="material" />
-    </mesh>))}
     {[-10, -6, -2, 2, 6, 10].map(x => <mesh key={'back' + x} position={[x, 4.4, -1.09]}>
       <boxGeometry args={[1.6, 2, .12]} /><meshStandardMaterial color="#7a5835" emissive="#e69852" emissiveIntensity={visual.noncriticalLit ? 1.7 : .04} toneMapped={false} />
     </mesh>)}
-    {[11.8, 15, 18.2].map(x => <mesh key={'annex' + x} position={[x, 3.4, 15.55]}>
-      <boxGeometry args={[1.8, 1.7, .12]} /><primitive object={schoolEmergency} attach="material" />
-    </mesh>)}
+    <SchoolHeroDetails visual={visual} powerVisible={layer === 'power'} />
     <SchoolSolarArray />
     <mesh position={[19.4, 1.65, 3.2]} castShadow><boxGeometry args={[2.5, 3.1, 1.8]} /><meshStandardMaterial color="#253d45" metalness={.55} roughness={.5} /></mesh>
     <mesh position={[19.4, 1.8, 4.13]}><boxGeometry args={[1.5, .8, .05]} /><meshStandardMaterial color="#254f56" emissive="#69c8bd" emissiveIntensity={layer === 'power' ? 1.4 : .25} /></mesh>
