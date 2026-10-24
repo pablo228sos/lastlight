@@ -25,6 +25,28 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     const main = page.locator('main')
     await expect(main).toHaveAttribute('data-shot', expectedShot)
     await expect(main).toHaveAttribute('data-phase', expectedPhase)
+
+    // Data-shot can switch BEFORE GSAP arrives. Assert actual WebGL camera
+    // coordinates, not just the state machine label or a fixed sleep.
+    const poses: Record<string, [number, number, number]> = {
+      facility: [65, 39, 58],
+      equipment: [53, 26, 41],
+    }
+    const pose = poses[expectedShot]
+    if (!pose) throw new Error('Unknown locked camera pose: ' + expectedShot)
+    await expect.poll(async () => {
+      const actual = await page.locator('canvas').getAttribute('data-camera-position')
+      if (!actual) return Number.POSITIVE_INFINITY
+      const coordinates = actual.split(',').map(Number)
+      if (coordinates.length !== 3 || coordinates.some(v => !Number.isFinite(v))) {
+        return Number.POSITIVE_INFINITY
+      }
+      return Math.hypot(
+        coordinates[0] - pose[0],
+        coordinates[1] - pose[1],
+        coordinates[2] - pose[2],
+      )
+    }, { timeout: 45_000, intervals: [200, 500, 1_000] }).toBeLessThan(0.55)
     const pngUrl = await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'))
     expect(pngUrl.startsWith('data:image/png;base64,')).toBe(true)
     const png = Buffer.from(pngUrl.split(',')[1], 'base64')
@@ -34,6 +56,7 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     captures.push({
       label,
       shot: expectedShot,
+      cameraPosition: await page.locator('canvas').getAttribute('data-camera-position') ?? 'unknown',
       phase: expectedPhase,
       grid: await main.getAttribute('data-visual-step') ?? 'unknown',
       canvasWidth: await page.locator('canvas').evaluate((c: HTMLCanvasElement) => c.width),
