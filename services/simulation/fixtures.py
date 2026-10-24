@@ -11,6 +11,7 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 from .api import app
+from .design_search import DesignSearchRequest, DesignSearchResult
 from .schemas import (
     ComparisonRequest,
     ComparisonResult,
@@ -25,6 +26,20 @@ FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "docs" / "physics"
 def artifacts() -> dict[str, dict]:
     baseline = SimulationRequest().model_dump(mode="json")
     comparison = ComparisonRequest().model_dump(mode="json")
+    design = DesignSearchRequest.model_validate(
+        {
+            "scenario": {},
+            "outage_hours": 12,
+            "candidate_capacities_kwh": [24, 30, 32, 36],
+        }
+    ).model_dump(mode="json")
+    precharge = DesignSearchRequest.model_validate(
+        {
+            "scenario": {"battery": {"initial_soc": 1}},
+            "outage_hours": 12,
+            "candidate_capacities_kwh": [24],
+        }
+    ).model_dump(mode="json")
     with TestClient(app) as client:
 
         def post(path: str, body: dict, status: int = 200) -> dict:
@@ -42,11 +57,19 @@ def artifacts() -> dict[str, dict]:
             "comparison-request.schema.json": ComparisonRequest.model_json_schema(),
             "comparison-result.schema.json": ComparisonResult.model_json_schema(),
             "error.schema.json": ErrorResponse.model_json_schema(),
+            "design-search-request.schema.json": DesignSearchRequest.model_json_schema(),
+            "design-search-result.schema.json": DesignSearchResult.model_json_schema(),
             "openapi.json": client.get("/openapi.json").json(),
             "fixtures/baseline.request.json": baseline,
             "fixtures/baseline.result.json": response,
             "fixtures/comparison.request.json": comparison,
             "fixtures/comparison.result.json": post("/api/v1/comparisons", comparison),
+            "fixtures/design-search.request.json": design,
+            "fixtures/design-search.result.json": post("/api/v1/design-search", design),
+            "fixtures/design-search-precharge.request.json": precharge,
+            "fixtures/design-search-precharge.result.json": post(
+                "/api/v1/design-search", precharge
+            ),
             "fixtures/validation-error.json": post(
                 "/api/v1/simulations", {"battery": {"initial_soc": 1.1}}, 422
             ),

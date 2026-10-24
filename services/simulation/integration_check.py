@@ -234,6 +234,43 @@ def verify_http(base: str, checks: list[str]) -> dict:
             f"16h {upgrade} autonomy",
         )
     checks.append("both 16h upgrades reproduce full frozen traces")
+    design = post(
+        "/api/v1/design-search",
+        read_json(FIXTURES / "design-search.request.json"),
+        read_json(FIXTURES / "design-search.result.json"),
+    )
+    require(design["selected_capacity_kwh"] == 32, "Design search capacity ranking")
+    for candidate in design["candidates"]:
+        status, _, replay = http(base, "/api/v1/simulations", candidate["input"])
+        digest = hashlib.sha256(
+            json.dumps(
+                replay, sort_keys=True, separators=(",", ":"), allow_nan=False
+            ).encode("utf-8")
+        ).hexdigest()
+        require(
+            status == 200
+            and replay["summary"] == candidate["summary"]
+            and replay["run_id"] == candidate["simulation_run_id"]
+            and replay["input_hash"] == candidate["simulation_input_hash"]
+            and digest == candidate["simulation_result_hash"],
+            "Design candidate does not reproduce the full official trace",
+        )
+    checks.append(
+        "design search selects 32 kWh; every candidate replays full official result"
+    )
+    precharge = post(
+        "/api/v1/design-search",
+        read_json(FIXTURES / "design-search-precharge.request.json"),
+        read_json(FIXTURES / "design-search-precharge.result.json"),
+    )
+    require(precharge["selected_capacity_kwh"] == 24, "Precharged design survival")
+    checks.append("24 kWh at full precharge survives the 12h design target")
+    post(
+        "/api/v1/frontiers",
+        {},
+        read_json(ROOT / "apps/web/src/data/frontier.result.json"),
+    )
+    checks.append("existing live frontier equals the approved offline map")
     for origin in [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
@@ -271,6 +308,10 @@ def verify_http(base: str, checks: list[str]) -> dict:
     for path, body in [
         ("/api/v1/simulations", {"battery": {"initial_soc": 1.1}}),
         ("/api/v1/comparisons", {"upgrade": "unknown"}),
+        (
+            "/api/v1/design-search",
+            {"scenario": {}, "outage_hours": 12, "candidate_capacities_kwh": [0]},
+        ),
     ]:
         status, headers, actual = http(
             base, path, body, headers={"Origin": "http://localhost:5173"}
@@ -292,7 +333,7 @@ def verify_http(base: str, checks: list[str]) -> dict:
             status == code and body["error"]["code"] == "http_error",
             f"HTTP {code} contract",
         )
-    checks.append("simulation/comparison validation errors and HTTP 404/405")
+    checks.append("simulation/comparison/design validation errors and HTTP 404/405")
     post("/api/v1/simulations", {}, expected)
     checks.append("repeated request is exactly reproducible")
     return {
@@ -300,6 +341,9 @@ def verify_http(base: str, checks: list[str]) -> dict:
         "run_id": baseline["run_id"],
         "schema_version": baseline["schema_version"],
         "model_version": baseline["model_version"],
+        "design_search_id": design["search_id"],
+        "design_result_hash": design["result_hash"],
+        "selected_capacity_kwh": design["selected_capacity_kwh"],
     }
 
 

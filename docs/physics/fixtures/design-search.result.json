@@ -1,0 +1,436 @@
+{
+  "search_version": "lastlight-battery-search-1.0.0",
+  "model_version": "lastlight-dispatch-1.0.0",
+  "schema_version": "1.0.0",
+  "search_id": "f7e14c30-daef-5cf5-b7d2-1e7f3844840b",
+  "input_hash": "3aced94dcb357ac7fa5503f5fff3e5383a8d3f12cf2cefdf60e2578d9e6ffffe",
+  "result_hash": "f34a1f1ce272c45328aa360eba9202ad8eec1d7aaa17e6d90de2c19d48c7d587",
+  "input": {
+    "scenario": {
+      "start_utc": "2026-01-01T00:00:00Z",
+      "duration_hours": 12.0,
+      "step_minutes": 15,
+      "seed": 0,
+      "battery": {
+        "capacity_kwh": 24.0,
+        "initial_soc": 0.8,
+        "minimum_soc": 0.2,
+        "maximum_soc": 1.0,
+        "charge_efficiency": 0.95,
+        "discharge_efficiency": 0.95,
+        "max_charge_kw": 6.0,
+        "max_discharge_kw": 8.0
+      },
+      "inverter": {
+        "max_kw": 8.0,
+        "islanding_capable": true
+      },
+      "load": {
+        "critical_kw": 1.5,
+        "noncritical_kw": 2.0,
+        "shed_noncritical_during_outage": true
+      },
+      "solar": {
+        "generation_kw": 0.0,
+        "profile_kw": null,
+        "islanding_capable": false
+      },
+      "grid": {
+        "online": false,
+        "profile_online": null,
+        "import_limit_kw": 50.0,
+        "charge_battery": false
+      },
+      "provenance": {
+        "category": "synthetic",
+        "references": [
+          "docs/physics/MODEL.md"
+        ]
+      }
+    },
+    "outage_hours": 12.0,
+    "candidate_capacities_kwh": [
+      24.0,
+      30.0,
+      32.0,
+      36.0
+    ],
+    "costs": null
+  },
+  "status": "feasible_candidate_found",
+  "selection_rule": "smallest_passing_capacity_in_candidate_set",
+  "selected_capacity_kwh": 32.0,
+  "selected_simulation_run_id": "d864ca83-804a-5347-b6e2-09aa22a23939",
+  "physics_calls": 4,
+  "candidates": [
+    {
+      "capacity_kwh": 24.0,
+      "valid": true,
+      "feasible": false,
+      "infeasibility_reasons": [
+        "critical_shortfall_within_outage"
+      ],
+      "cost_amount": null,
+      "model_version": "lastlight-dispatch-1.0.0",
+      "schema_version": "1.0.0",
+      "provenance": {
+        "category": "synthetic",
+        "references": [
+          "docs/physics/MODEL.md"
+        ]
+      },
+      "simulation_run_id": "3055515b-6053-57cc-b40c-ec6302c24726",
+      "simulation_input_hash": "b95dad3fbb9125a5e197e256c5a3003460e0df8bd5af89dd9b1b92c31f4ce1b9",
+      "simulation_result_hash": "1f2b56c968540357123371ccadaee0edb005ef8b90fe6dec950a74e8af8e16e7",
+      "input": {
+        "start_utc": "2026-01-01T00:00:00Z",
+        "duration_hours": 12.0,
+        "step_minutes": 15,
+        "seed": 0,
+        "battery": {
+          "capacity_kwh": 24.0,
+          "initial_soc": 0.8,
+          "minimum_soc": 0.2,
+          "maximum_soc": 1.0,
+          "charge_efficiency": 0.95,
+          "discharge_efficiency": 0.95,
+          "max_charge_kw": 6.0,
+          "max_discharge_kw": 8.0
+        },
+        "inverter": {
+          "max_kw": 8.0,
+          "islanding_capable": true
+        },
+        "load": {
+          "critical_kw": 1.5,
+          "noncritical_kw": 2.0,
+          "shed_noncritical_during_outage": true
+        },
+        "solar": {
+          "generation_kw": 0.0,
+          "profile_kw": null,
+          "islanding_capable": false
+        },
+        "grid": {
+          "online": false,
+          "profile_online": null,
+          "import_limit_kw": 50.0,
+          "charge_battery": false
+        },
+        "provenance": {
+          "category": "synthetic",
+          "references": [
+            "docs/physics/MODEL.md"
+          ]
+        }
+      },
+      "summary": {
+        "critical_survival_hours": 9.12,
+        "served_critical_fraction": 0.7599999999999993,
+        "unserved_critical_kwh": 4.320000000000009,
+        "first_failure_utc": "2026-01-01T09:07:12Z",
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": false,
+        "idealized_autonomy_hours": 9.12,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 13.679999999999989,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 13.679999999999989,
+        "conversion_loss_kwh": 0.7199999999999986,
+        "initial_battery_energy_kwh": 19.200000000000003,
+        "final_battery_energy_kwh": 4.800000000000001,
+        "usable_capacity_kwh": 19.2,
+        "ending_soc": 0.20000000000000004,
+        "cumulative_balance_residual_kwh": 1.4432899320127035e-14
+      },
+      "warnings": [
+        "Quasi-static energy model; not a field test or transient AC network model.",
+        "Solar generation is zero; omitted generation defaults to zero (no inferred weather)."
+      ]
+    },
+    {
+      "capacity_kwh": 30.0,
+      "valid": true,
+      "feasible": false,
+      "infeasibility_reasons": [
+        "critical_shortfall_within_outage"
+      ],
+      "cost_amount": null,
+      "model_version": "lastlight-dispatch-1.0.0",
+      "schema_version": "1.0.0",
+      "provenance": {
+        "category": "synthetic",
+        "references": [
+          "docs/physics/MODEL.md"
+        ]
+      },
+      "simulation_run_id": "8c74a902-6dd5-5e79-a472-7ffc3b6e1151",
+      "simulation_input_hash": "b765274f774ea58c9fe99f15f3fe40c01eead662e6edbfc856fc2c71ae6666c5",
+      "simulation_result_hash": "efe92c65e0a48a2845218edbfde10c183208580702fca55ba75643733a43c86d",
+      "input": {
+        "start_utc": "2026-01-01T00:00:00Z",
+        "duration_hours": 12.0,
+        "step_minutes": 15,
+        "seed": 0,
+        "battery": {
+          "capacity_kwh": 30.0,
+          "initial_soc": 0.8,
+          "minimum_soc": 0.2,
+          "maximum_soc": 1.0,
+          "charge_efficiency": 0.95,
+          "discharge_efficiency": 0.95,
+          "max_charge_kw": 6.0,
+          "max_discharge_kw": 8.0
+        },
+        "inverter": {
+          "max_kw": 8.0,
+          "islanding_capable": true
+        },
+        "load": {
+          "critical_kw": 1.5,
+          "noncritical_kw": 2.0,
+          "shed_noncritical_during_outage": true
+        },
+        "solar": {
+          "generation_kw": 0.0,
+          "profile_kw": null,
+          "islanding_capable": false
+        },
+        "grid": {
+          "online": false,
+          "profile_online": null,
+          "import_limit_kw": 50.0,
+          "charge_battery": false
+        },
+        "provenance": {
+          "category": "synthetic",
+          "references": [
+            "docs/physics/MODEL.md"
+          ]
+        }
+      },
+      "summary": {
+        "critical_survival_hours": 11.4,
+        "served_critical_fraction": 0.9499999999999988,
+        "unserved_critical_kwh": 0.9000000000000208,
+        "first_failure_utc": "2026-01-01T11:24:00Z",
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": false,
+        "idealized_autonomy_hours": 11.4,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 17.09999999999998,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 17.09999999999998,
+        "conversion_loss_kwh": 0.8999999999999979,
+        "initial_battery_energy_kwh": 24.0,
+        "final_battery_energy_kwh": 6.0,
+        "usable_capacity_kwh": 24.0,
+        "ending_soc": 0.2,
+        "cumulative_balance_residual_kwh": 2.19824158875781e-14
+      },
+      "warnings": [
+        "Quasi-static energy model; not a field test or transient AC network model.",
+        "Solar generation is zero; omitted generation defaults to zero (no inferred weather)."
+      ]
+    },
+    {
+      "capacity_kwh": 32.0,
+      "valid": true,
+      "feasible": true,
+      "infeasibility_reasons": [],
+      "cost_amount": null,
+      "model_version": "lastlight-dispatch-1.0.0",
+      "schema_version": "1.0.0",
+      "provenance": {
+        "category": "synthetic",
+        "references": [
+          "docs/physics/MODEL.md"
+        ]
+      },
+      "simulation_run_id": "d864ca83-804a-5347-b6e2-09aa22a23939",
+      "simulation_input_hash": "62093cb4af829cb93f2c47f548800d71cc1ccb5b3cf90ccbd69887ce2cb52fca",
+      "simulation_result_hash": "7c9ccc3daa6816089dc1035b37e2100ac07106ca4da4a9e1b6e75e96e4ebaec5",
+      "input": {
+        "start_utc": "2026-01-01T00:00:00Z",
+        "duration_hours": 12.0,
+        "step_minutes": 15,
+        "seed": 0,
+        "battery": {
+          "capacity_kwh": 32.0,
+          "initial_soc": 0.8,
+          "minimum_soc": 0.2,
+          "maximum_soc": 1.0,
+          "charge_efficiency": 0.95,
+          "discharge_efficiency": 0.95,
+          "max_charge_kw": 6.0,
+          "max_discharge_kw": 8.0
+        },
+        "inverter": {
+          "max_kw": 8.0,
+          "islanding_capable": true
+        },
+        "load": {
+          "critical_kw": 1.5,
+          "noncritical_kw": 2.0,
+          "shed_noncritical_during_outage": true
+        },
+        "solar": {
+          "generation_kw": 0.0,
+          "profile_kw": null,
+          "islanding_capable": false
+        },
+        "grid": {
+          "online": false,
+          "profile_online": null,
+          "import_limit_kw": 50.0,
+          "charge_battery": false
+        },
+        "provenance": {
+          "category": "synthetic",
+          "references": [
+            "docs/physics/MODEL.md"
+          ]
+        }
+      },
+      "summary": {
+        "critical_survival_hours": null,
+        "served_critical_fraction": 1.0,
+        "unserved_critical_kwh": 0.0,
+        "first_failure_utc": null,
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": true,
+        "idealized_autonomy_hours": 12.16,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 18.0,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 18.0,
+        "conversion_loss_kwh": 0.9473684210526305,
+        "initial_battery_energy_kwh": 25.6,
+        "final_battery_energy_kwh": 6.6526315789473465,
+        "usable_capacity_kwh": 25.6,
+        "ending_soc": 0.20789473684210458,
+        "cumulative_balance_residual_kwh": 2.4424906541753444e-14
+      },
+      "warnings": [
+        "Quasi-static energy model; not a field test or transient AC network model.",
+        "Solar generation is zero; omitted generation defaults to zero (no inferred weather)."
+      ]
+    },
+    {
+      "capacity_kwh": 36.0,
+      "valid": true,
+      "feasible": true,
+      "infeasibility_reasons": [],
+      "cost_amount": null,
+      "model_version": "lastlight-dispatch-1.0.0",
+      "schema_version": "1.0.0",
+      "provenance": {
+        "category": "synthetic",
+        "references": [
+          "docs/physics/MODEL.md"
+        ]
+      },
+      "simulation_run_id": "c7be4c57-070b-5549-b56b-95d2567643ef",
+      "simulation_input_hash": "28a876f325b8d5f56d943591a131fa025f8908679c12b79da0a0bde245090b79",
+      "simulation_result_hash": "975ba14f808382b2e7380809ced1848d08851e3021061e257331f5ea3bbf1408",
+      "input": {
+        "start_utc": "2026-01-01T00:00:00Z",
+        "duration_hours": 12.0,
+        "step_minutes": 15,
+        "seed": 0,
+        "battery": {
+          "capacity_kwh": 36.0,
+          "initial_soc": 0.8,
+          "minimum_soc": 0.2,
+          "maximum_soc": 1.0,
+          "charge_efficiency": 0.95,
+          "discharge_efficiency": 0.95,
+          "max_charge_kw": 6.0,
+          "max_discharge_kw": 8.0
+        },
+        "inverter": {
+          "max_kw": 8.0,
+          "islanding_capable": true
+        },
+        "load": {
+          "critical_kw": 1.5,
+          "noncritical_kw": 2.0,
+          "shed_noncritical_during_outage": true
+        },
+        "solar": {
+          "generation_kw": 0.0,
+          "profile_kw": null,
+          "islanding_capable": false
+        },
+        "grid": {
+          "online": false,
+          "profile_online": null,
+          "import_limit_kw": 50.0,
+          "charge_battery": false
+        },
+        "provenance": {
+          "category": "synthetic",
+          "references": [
+            "docs/physics/MODEL.md"
+          ]
+        }
+      },
+      "summary": {
+        "critical_survival_hours": null,
+        "served_critical_fraction": 1.0,
+        "unserved_critical_kwh": 0.0,
+        "first_failure_utc": null,
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": true,
+        "idealized_autonomy_hours": 13.68,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 18.0,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 18.0,
+        "conversion_loss_kwh": 0.9473684210526305,
+        "initial_battery_energy_kwh": 28.8,
+        "final_battery_energy_kwh": 9.852631578947342,
+        "usable_capacity_kwh": 28.8,
+        "ending_soc": 0.2736842105263151,
+        "cumulative_balance_residual_kwh": 2.7977620220553945e-14
+      },
+      "warnings": [
+        "Quasi-static energy model; not a field test or transient AC network model.",
+        "Solar generation is zero; omitted generation defaults to zero (no inferred weather)."
+      ]
+    }
+  ],
+  "warnings": [
+    "Selection is the smallest passing capacity in the explicit candidate set; no continuous/global or market-cost optimum is claimed.",
+    "Capacity changes only: inverter, charge/discharge power limits, SOC fractions and loads remain fixed. Hardware compatibility is not established.",
+    "A null observed failure is horizon-censored, not infinite autonomy. Feasibility concerns critical loads only."
+  ]
+}
