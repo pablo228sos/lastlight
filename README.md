@@ -45,5 +45,6 @@ See the [visual review](evidence/phase-00.5/README.md), [1440 x 900 opening](evi
 - `docs/PRODUCT.md`: audience, experience and current claims.
 - `docs/ENGINEERING.md`: the physics contract and a reference calculation.
 - `evidence/phase-00.5`: actual browser screenshots, video and review notes.
+- `reference/legacy-physics`: archived energy balance research and unit tests, not part of the running app.
 
 The next engineering milestone is a validated simulation trace. All figures and visual states that describe physical performance must come from that same trace. See the [change log](CHANGELOG.md) for the project's development path.

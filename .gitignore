@@ -6,3 +6,7 @@ playwright-report/
 .env.*
 *.log
 evidence/phase-00.5/page@*.webm
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.venv/

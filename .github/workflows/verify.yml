@@ -26,3 +26,17 @@ jobs:
       - run: npm run test:smoke
         env:
           CI: 'true'
+
+  reference-physics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: reference/legacy-physics
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -q

@@ -13,3 +13,7 @@ Rebuilt the district as a persistent 3D world with directed camera movement. Add
 ### Public repository
 
 Prepared a focused source history, product and engineering boundaries, browser evidence and automated build, lint and interaction checks. The validated energy simulation remains the next dependency.
+
+### Simulation research reference
+
+Preserved the earlier single-bus calculation and its 11 unit tests in a separate reference directory. The live scene still has no physical dispatch connection.
