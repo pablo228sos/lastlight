@@ -3,6 +3,8 @@ export default defineConfig({
   testDir: './tests',
   reporter: 'list',
   timeout: 120000,
+  // SwiftShader and model loading share CPU; parallel worlds starve animation frames on CI.
+  workers: 1,
   use: {
     baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',

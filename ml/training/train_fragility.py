@@ -6,6 +6,8 @@ import hashlib
 import json
 from pathlib import Path
 import random
+import platform
+from importlib.metadata import version
 from time import perf_counter
 
 import numpy as np
@@ -37,13 +39,20 @@ def train(data: pd.DataFrame, output: Path, seed=20261024, max_epochs=240) -> di
     torch.manual_seed(seed)
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
-    if set(data.physics_version) != {MODEL_VERSION} or set(data.feature_version) != {FEATURE_VERSION}:
-        raise ValueError('Dataset physics/preprocessing versions do not match this implementation')
+    if set(data.physics_version) != {MODEL_VERSION} or set(data.feature_version) != {
+        FEATURE_VERSION
+    }:
+        raise ValueError(
+            "Dataset physics/preprocessing versions do not match this implementation"
+        )
     if not data.scenario_id.is_unique or not data.input_hash.is_unique:
-        raise ValueError('Scenario identities and input hashes must be unique')
+        raise ValueError("Scenario identities and input hashes must be unique")
     all_features = np.stack(data.features)
-    if all_features.shape[1] != len(FEATURE_NAMES) or not np.isfinite(all_features).all():
-        raise ValueError('Dataset features have an invalid shape or nonfinite values')
+    if (
+        all_features.shape[1] != len(FEATURE_NAMES)
+        or not np.isfinite(all_features).all()
+    ):
+        raise ValueError("Dataset features have an invalid shape or nonfinite values")
     # Prevent train/test contamination even when callers supply a custom parquet.
     if data.physical_signature.duplicated().any():
         raise ValueError("Duplicate physical scenarios are forbidden")
@@ -148,6 +157,13 @@ def train(data: pd.DataFrame, output: Path, seed=20261024, max_epochs=240) -> di
         "best_validation_loss": best_loss,
         "normalization_fitted_on": "train only",
         "torch_version": str(torch.__version__),
+        "environment": {
+            "python": platform.python_version(),
+            **{
+                name: version(name)
+                for name in ["numpy", "scipy", "scikit-learn", "pandas", "pyarrow"]
+            },
+        },
         "provenance": "synthetic_simulation; not measured failures",
     }
     (output / "metadata.json").write_text(json.dumps(meta, indent=2), encoding="utf8")

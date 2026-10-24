@@ -49,6 +49,13 @@ generalization results are reported separately in the model card.
 
 Primary source: [Building Data Genome 2](https://github.com/buds-lab/building-data-genome-project-2),
 pinned commit `9b97ccbe90096aff42ed4fd6493bf7ae692d7118`.
+Credit: Clayton Miller, Anjukan Kathirgamanathan, Balaji Picchetti and the BDG2
+authors, *The Building Data Genome Project 2* (2020). The upstream repository
+provides an [Attribution-ShareAlike 4.0 license](https://github.com/buds-lab/building-data-genome-project-2/blob/9b97ccbe90096aff42ed4fd6493bf7ae692d7118/LICENSE).
+The derived `ml/artifacts/energy-dna-baseline/profiles.json` is distributed under
+those same Attribution-ShareAlike terms, with this attribution and the explicit
+modification notice: hourly category/global means fitted on the selected training
+buildings. No endorsement by the dataset authors is implied.
 The [dataset paper](https://www.nature.com/articles/s41597-020-00712-x)
 documents hourly meter energy sums and local timestamps. These are overseas
 research buildings, not measurements of buildings in Kyrgyzstan.

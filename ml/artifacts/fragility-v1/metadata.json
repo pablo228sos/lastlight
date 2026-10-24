@@ -189,5 +189,13 @@
   "best_validation_loss": 0.16763301193714142,
   "normalization_fitted_on": "train only",
   "torch_version": "2.13.0+cpu",
-  "provenance": "synthetic_simulation; not measured failures"
+  "provenance": "synthetic_simulation; not measured failures",
+  "environment": {
+    "python": "3.13.15",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "scikit-learn": "1.6.1",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.0"
+  }
 }

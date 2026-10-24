@@ -69,6 +69,7 @@ The checked-in small checkpoint is already trained. Full experiments are separat
 from CI; raw data and Parquet datasets are ignored by Git.
 
 ```sh
+python -c "from services.simulation.schemas import SimulationRequest; from services.simulation.engine import simulate; print(simulate(SimulationRequest()).model_dump_json(indent=2))"
 python -m ml.data.generate_scenarios --count 6000
 python -m ml.training.train_fragility --epochs 240
 python -m ml.evaluation.evaluate_fragility
