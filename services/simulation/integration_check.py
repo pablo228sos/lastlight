@@ -252,7 +252,9 @@ def verify_http(base: str, checks: list[str]) -> dict:
     checks.append("bounded design search agrees with four official engine runs")
 
     status, _, precharged = http(
-        base, "/api/v1/design-search", {
+        base,
+        "/api/v1/design-search",
+        {
             "scenario": {"battery": {"initial_soc": 1}},
             "outage_target_hours": 12,
             "candidate_capacities_kwh": [24],
@@ -265,16 +267,15 @@ def verify_http(base: str, checks: list[str]) -> dict:
         "Precharged capacity reference must survive horizon",
     )
     status, _, rejected = http(
-        base, "/api/v1/design-search", {
-            **search_body, "candidate_capacities_kwh": [24, 24]
-        },
+        base,
+        "/api/v1/design-search",
+        {**search_body, "candidate_capacities_kwh": [24, 24]},
     )
     require(
         status == 422 and rejected["error"]["code"] == "validation_error",
         "Design search duplicate-capacity validation",
     )
     checks.append("precharge alternate, strict validation, repeat determinism")
-
 
     regressions = read_json(FIXTURES / "regression-16h.json")
     for upgrade, survival in [("battery_36_kwh", 13.68), ("full_precharge", 12.16)]:
