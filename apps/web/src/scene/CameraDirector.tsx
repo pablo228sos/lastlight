@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useThree } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
 import { Vector3 } from 'three'
 import type { CameraShotId, ScenePhase } from '../app/useMissionState'
@@ -17,6 +17,18 @@ type Props = {
 
 export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onDescentComplete }: Props) {
   const { camera, gl } = useThree()
+  const exposeCapturePose = new URLSearchParams(window.location.search).has('capture')
+
+  // Test-only observation: never mutates camera transforms, camera targets or
+  // animation timelines. Browser art tests wait for the actual destination pose.
+  useFrame(() => {
+    if (!exposeCapturePose) return
+    gl.domElement.dataset.cameraPosition = [
+      camera.position.x.toFixed(3),
+      camera.position.y.toFixed(3),
+      camera.position.z.toFixed(3),
+    ].join(',')
+  })
   const target = useRef(new Vector3(...SHOTS.orbital.target))
   const timeline = useRef<gsap.core.Timeline | null>(null)
   const phaseRef = useRef(phase)
