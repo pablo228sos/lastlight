@@ -78,6 +78,7 @@ const campusFenceRails: MatrixItem[] = [.5, 1.35].flatMap(y => [
 ])
 const schoolLit = new MeshStandardMaterial({ color: '#7c5a37', emissive: '#ffbc70', emissiveIntensity: 1.6, toneMapped: false })
 const schoolEmergency = new MeshStandardMaterial({ color: '#386566', emissive: '#65d4c8', emissiveIntensity: 3.5, toneMapped: false })
+const roofEmergency = new MeshBasicMaterial({ color: '#72e7d5', toneMapped: false })
 
 function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 1, castShadow = true }: {
   items: MatrixItem[]; color: string; emissive?: string; emissiveIntensity?: number; roughness?: number; castShadow?: boolean
@@ -246,6 +247,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     schoolLit.emissiveIntensity = MathUtils.damp(schoolLit.emissiveIntensity, visual.noncriticalLit ? 1.6 : 0, 3, delta)
     schoolLit.color.lerp(new Color(visual.noncriticalLit ? '#7c5a37' : '#1c3338'), Math.min(1, delta * 3))
     schoolEmergency.emissiveIntensity = MathUtils.damp(schoolEmergency.emissiveIntensity, visual.criticalLit ? 3.5 : .08, 2, delta)
+    roofEmergency.color.lerp(new Color(visual.criticalLit ? '#72e7d5' : '#183c42'), Math.min(1, delta * 2.8))
   })
   return <group position={[13, 0, 7]} onClick={(event) => { event.stopPropagation(); onSelect() }} onPointerOver={() => { document.body.style.cursor = 'pointer' }} onPointerOut={() => { document.body.style.cursor = 'auto' }}>
     {showHotspots && <Line points={[[-30, .19, -25], [30, .19, -25], [30, .19, 25], [-30, .19, 25], [-30, .19, -25]]}
@@ -263,6 +265,10 @@ function School({ visual, layer, onSelect, showHotspots }: {
     <mesh position={[-18, .125, 17]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[3.1, 3.18, 28]} /><meshBasicMaterial color="#a2a087" side={2} /></mesh>
     <mesh position={[0, 4.1, 6]} castShadow receiveShadow><boxGeometry args={[30, 8, 14]} /><meshStandardMaterial color="#a0a69d" roughness={.88} metalness={.05} /></mesh>
     <mesh position={[0, 8.3, 6]} castShadow><boxGeometry args={[31, .65, 15]} /><meshStandardMaterial color="#293e47" roughness={.7} /></mesh>
+    {[-12, -4, 4, 12].map(x => <group key={'emergency-roof-' + x} position={[x, 8.8, 13.28]}>
+      <mesh><boxGeometry args={[1.7, .12, .42]} /><primitive object={roofEmergency} attach="material" /></mesh>
+      <mesh position={[0, -.14, .13]}><boxGeometry args={[2.1, .12, .22]} /><meshStandardMaterial color="#364a4c" metalness={.4} /></mesh>
+    </group>)}
     {[1.2, 3.95, 6.7].map(y => <group key={'course' + y}>
       <mesh position={[0, y, 13.09]}><boxGeometry args={[30, .075, .12]} /><meshStandardMaterial color="#6e827d" /></mesh>
       <mesh position={[15.06, y, 6]}><boxGeometry args={[.12, .075, 14]} /><meshStandardMaterial color="#6e827d" /></mesh>
