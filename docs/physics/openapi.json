@@ -247,59 +247,59 @@
         "properties": {
           "capacity_kwh": {
             "type": "number",
-            "maximum": 20000,
+            "maximum": 20000.0,
             "minimum": 0.001,
             "title": "Capacity Kwh",
             "default": 24
           },
           "initial_soc": {
             "type": "number",
-            "maximum": 1,
-            "minimum": 0,
+            "maximum": 1.0,
+            "minimum": 0.0,
             "title": "Initial Soc",
             "default": 0.8
           },
           "minimum_soc": {
             "type": "number",
-            "maximum": 1,
-            "minimum": 0,
+            "maximum": 1.0,
+            "minimum": 0.0,
             "title": "Minimum Soc",
             "default": 0.2
           },
           "maximum_soc": {
             "type": "number",
-            "maximum": 1,
-            "minimum": 0,
+            "maximum": 1.0,
+            "minimum": 0.0,
             "title": "Maximum Soc",
-            "default": 1
+            "default": 1.0
           },
           "charge_efficiency": {
             "type": "number",
-            "maximum": 1,
+            "maximum": 1.0,
             "minimum": 0.01,
             "title": "Charge Efficiency",
             "default": 0.95
           },
           "discharge_efficiency": {
             "type": "number",
-            "maximum": 1,
+            "maximum": 1.0,
             "minimum": 0.01,
             "title": "Discharge Efficiency",
             "default": 0.95
           },
           "max_charge_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Max Charge Kw",
-            "default": 6
+            "default": 6.0
           },
           "max_discharge_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Max Discharge Kw",
-            "default": 8
+            "default": 8.0
           }
         },
         "additionalProperties": false,
@@ -307,35 +307,35 @@
         "title": "Battery"
       },
       "ComparableCost": {
-        "additionalProperties": false,
-        "description": "User-entered comparable amount, not a market quote or cost optimization.",
         "properties": {
           "capacity_kwh": {
-            "maximum": 20000,
+            "type": "number",
+            "maximum": 20000.0,
             "minimum": 0.001,
-            "title": "Capacity Kwh",
-            "type": "number"
+            "title": "Capacity Kwh"
           },
           "amount": {
-            "maximum": 1000000000000,
-            "minimum": 0,
-            "title": "Amount",
-            "type": "number"
+            "type": "number",
+            "maximum": 1000000000000.0,
+            "minimum": 0.0,
+            "title": "Amount"
           },
           "currency": {
+            "type": "string",
             "maxLength": 3,
             "minLength": 3,
             "pattern": "^[A-Z]{3}$",
-            "title": "Currency",
-            "type": "string"
+            "title": "Currency"
           },
           "basis": {
+            "type": "string",
             "maxLength": 120,
             "minLength": 1,
-            "title": "Basis",
-            "type": "string"
+            "title": "Basis"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "capacity_kwh",
           "amount",
@@ -343,7 +343,7 @@
           "basis"
         ],
         "title": "ComparableCost",
-        "type": "object"
+        "description": "User-entered comparable amount, not a market quote or cost optimization."
       },
       "ComparisonDelta": {
         "properties": {
@@ -443,19 +443,18 @@
         "title": "ComparisonResult"
       },
       "DesignCandidateResult": {
-        "additionalProperties": false,
         "properties": {
           "capacity_kwh": {
-            "title": "Capacity Kwh",
-            "type": "number"
+            "type": "number",
+            "title": "Capacity Kwh"
           },
           "valid": {
-            "title": "Valid",
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Valid"
           },
           "survived_target": {
-            "title": "Survived Target",
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Survived Target"
           },
           "first_critical_failure_hours": {
             "anyOf": [
@@ -480,27 +479,27 @@
             "title": "First Critical Failure Utc"
           },
           "unserved_critical_kwh": {
-            "title": "Unserved Critical Kwh",
-            "type": "number"
+            "type": "number",
+            "title": "Unserved Critical Kwh"
           },
           "ending_soc": {
-            "title": "Ending Soc",
-            "type": "number"
+            "type": "number",
+            "title": "Ending Soc"
           },
           "infeasibility_reasons": {
             "items": {
               "type": "string"
             },
-            "title": "Infeasibility Reasons",
-            "type": "array"
+            "type": "array",
+            "title": "Infeasibility Reasons"
           },
           "physics_run_id": {
-            "title": "Physics Run Id",
-            "type": "string"
+            "type": "string",
+            "title": "Physics Run Id"
           },
           "physics_input_hash": {
-            "title": "Physics Input Hash",
-            "type": "string"
+            "type": "string",
+            "title": "Physics Input Hash"
           },
           "comparable_cost": {
             "anyOf": [
@@ -510,10 +509,11 @@
               {
                 "type": "null"
               }
-            ],
-            "default": null
+            ]
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "capacity_kwh",
           "valid",
@@ -526,29 +526,27 @@
           "physics_run_id",
           "physics_input_hash"
         ],
-        "title": "DesignCandidateResult",
-        "type": "object"
+        "title": "DesignCandidateResult"
       },
       "DesignSearchRequest": {
-        "additionalProperties": false,
         "properties": {
           "scenario": {
             "$ref": "#/components/schemas/SimulationRequest"
           },
           "outage_target_hours": {
-            "exclusiveMinimum": 0,
-            "maximum": 168,
-            "title": "Outage Target Hours",
-            "type": "number"
+            "type": "number",
+            "maximum": 168.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Outage Target Hours"
           },
           "candidate_capacities_kwh": {
             "items": {
               "type": "number"
             },
+            "type": "array",
             "maxItems": 32,
             "minItems": 1,
-            "title": "Candidate Capacities Kwh",
-            "type": "array"
+            "title": "Candidate Capacities Kwh"
           },
           "comparable_costs": {
             "anyOf": [
@@ -556,64 +554,63 @@
                 "items": {
                   "$ref": "#/components/schemas/ComparableCost"
                 },
-                "maxItems": 32,
-                "type": "array"
+                "type": "array",
+                "maxItems": 32
               },
               {
                 "type": "null"
               }
             ],
-            "default": null,
             "title": "Comparable Costs"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "scenario",
           "outage_target_hours",
           "candidate_capacities_kwh"
         ],
-        "title": "DesignSearchRequest",
-        "type": "object"
+        "title": "DesignSearchRequest"
       },
       "DesignSearchResult": {
-        "additionalProperties": false,
         "properties": {
           "schema_version": {
-            "default": "1.0.0",
+            "type": "string",
             "title": "Schema Version",
-            "type": "string"
+            "default": "1.0.0"
           },
           "physics_model_version": {
-            "default": "lastlight-dispatch-1.0.0",
+            "type": "string",
             "title": "Physics Model Version",
-            "type": "string"
+            "default": "lastlight-dispatch-1.0.0"
           },
           "run_id": {
-            "title": "Run Id",
-            "type": "string"
+            "type": "string",
+            "title": "Run Id"
           },
           "input_hash": {
-            "title": "Input Hash",
-            "type": "string"
+            "type": "string",
+            "title": "Input Hash"
           },
           "result_hash": {
-            "title": "Result Hash",
-            "type": "string"
+            "type": "string",
+            "title": "Result Hash"
           },
           "seed": {
-            "title": "Seed",
-            "type": "integer"
+            "type": "integer",
+            "title": "Seed"
           },
           "outage_target_hours": {
-            "title": "Outage Target Hours",
-            "type": "number"
+            "type": "number",
+            "title": "Outage Target Hours"
           },
           "provenance": {
             "$ref": "#/components/schemas/Provenance"
           },
           "candidate_count": {
-            "title": "Candidate Count",
-            "type": "integer"
+            "type": "integer",
+            "title": "Candidate Count"
           },
           "selected_capacity_kwh": {
             "anyOf": [
@@ -627,28 +624,30 @@
             "title": "Selected Capacity Kwh"
           },
           "selection_rule": {
-            "title": "Selection Rule",
-            "type": "string"
+            "type": "string",
+            "title": "Selection Rule"
           },
           "physics_verified": {
-            "title": "Physics Verified",
-            "type": "boolean"
+            "type": "boolean",
+            "title": "Physics Verified"
           },
           "candidates": {
             "items": {
               "$ref": "#/components/schemas/DesignCandidateResult"
             },
-            "title": "Candidates",
-            "type": "array"
+            "type": "array",
+            "title": "Candidates"
           },
           "warnings": {
             "items": {
               "type": "string"
             },
-            "title": "Warnings",
-            "type": "array"
+            "type": "array",
+            "title": "Warnings"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "run_id",
           "input_hash",
@@ -663,8 +662,7 @@
           "candidates",
           "warnings"
         ],
-        "title": "DesignSearchResult",
-        "type": "object"
+        "title": "DesignSearchResult"
       },
       "ErrorBody": {
         "properties": {
@@ -747,21 +745,21 @@
           },
           "soc_points": {
             "type": "integer",
-            "maximum": 41,
-            "minimum": 3,
+            "maximum": 41.0,
+            "minimum": 3.0,
             "title": "Soc Points",
             "default": 13
           },
           "duration_points": {
             "type": "integer",
-            "maximum": 49,
-            "minimum": 3,
+            "maximum": 49.0,
+            "minimum": 3.0,
             "title": "Duration Points",
             "default": 21
           },
           "maximum_hours": {
             "type": "number",
-            "maximum": 48,
+            "maximum": 48.0,
             "minimum": 0.25,
             "title": "Maximum Hours",
             "default": 12
@@ -800,10 +798,10 @@
           },
           "import_limit_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Import Limit Kw",
-            "default": 50
+            "default": 50.0
           },
           "charge_battery": {
             "type": "boolean",
@@ -842,10 +840,10 @@
         "properties": {
           "max_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Max Kw",
-            "default": 8
+            "default": 8.0
           },
           "islanding_capable": {
             "type": "boolean",
@@ -861,17 +859,17 @@
         "properties": {
           "critical_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Critical Kw",
             "default": 1.5
           },
           "noncritical_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Noncritical Kw",
-            "default": 2
+            "default": 2.0
           },
           "shed_noncritical_during_outage": {
             "type": "boolean",
@@ -921,22 +919,22 @@
           },
           "duration_hours": {
             "type": "number",
-            "maximum": 168,
+            "maximum": 168.0,
             "minimum": 0.016666666666666666,
             "title": "Duration Hours",
             "default": 12
           },
           "step_minutes": {
             "type": "integer",
-            "maximum": 60,
-            "minimum": 1,
+            "maximum": 60.0,
+            "minimum": 1.0,
             "title": "Step Minutes",
             "default": 15
           },
           "seed": {
             "type": "integer",
-            "maximum": 4294967295,
-            "minimum": 0,
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
             "title": "Seed",
             "default": 0
           },
@@ -1329,18 +1327,18 @@
         "properties": {
           "generation_kw": {
             "type": "number",
-            "maximum": 50000,
-            "minimum": 0,
+            "maximum": 50000.0,
+            "minimum": 0.0,
             "title": "Generation Kw",
-            "default": 0
+            "default": 0.0
           },
           "profile_kw": {
             "anyOf": [
               {
                 "items": {
                   "type": "number",
-                  "maximum": 50000,
-                  "minimum": 0
+                  "maximum": 50000.0,
+                  "minimum": 0.0
                 },
                 "type": "array",
                 "maxItems": 10080
