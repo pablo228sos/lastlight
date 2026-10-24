@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0a151d"/><stop offset="1" stop-color="#15282c"/></linearGradient><linearGradient id="concrete" x2="1" y2="1"><stop stop-color="#b8b8ae"/><stop offset=".6" stop-color="#898e88"/><stop offset="1" stop-color="#b0b3a8"/></linearGradient><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".19" numOctaves="3" seed="12" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".11"/></feComponentTransfer></filter></defs>
+<rect width="1400" height="780" fill="url(#bg)"/>
+<text x="64" y="76" fill="#e3e9e5" font-family="Arial,sans-serif" font-size="48" font-weight="700">LASTLIGHT / SCHOOL GEOMETRY LOCK</text><text x="64" y="112" fill="#98bbb8" font-family="Arial" font-size="17">ISSUE #4 · SOURCE-DERIVED SCHEMATIC · NOT AN APPLICATION SCREENSHOT</text>
+<rect x="445" y="112" width="520" height="475" fill="#0c1f26" stroke="#779a93" stroke-width="1"/>
+<rect x="490" y="160" width="420" height="350" fill="#283b36" stroke="#83b8a9" stroke-width="2" rx="2"/><rect x="507.5" y="405" width="133" height="98" fill="#21474f" stroke="#67958f" stroke-width="2" rx="2"/>
+<rect x="595" y="328" width="210" height="98" fill="url(#concrete)" stroke="#d3ddd3" stroke-width="2" rx="2"/>
+<rect x="774.9000000000001" y="380.5" width="70" height="63" fill="#9ea69e" stroke="#c5cfc4" stroke-width="2" rx="2"/>
+<rect x="603.05" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="634.55" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="666.05" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="697.55" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="729.05" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="760.55" y="342" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="603.05" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="634.55" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="666.05" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="697.55" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="729.05" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<rect x="760.55" y="365.79999999999995" width="25.900000000000002" height="18.2" fill="#12334a" stroke="#8aafc5" stroke-width="2" rx="2"/>
+<path d="M 511 510 H 637" stroke="#f6b769" stroke-width="8" stroke-dasharray="8 8" />
+<path d="M 490 160 H 910 V 510 H 637 M 511 510 H 490 Z" fill="none" stroke="#9fc2b4" stroke-width="6"/>
+<circle cx="835.8" cy="357.4" r="12" fill="#e1bc7b" stroke="#101f28" stroke-width="4"/>
+<circle cx="809.9000000000001" cy="357.4" r="10" fill="#d5aa68" stroke="#101f28" stroke-width="3"/>
+<g font-family="Arial,sans-serif" font-size="18" fill="#dae9e5"><text x="1010" y="202">WORLD ORIGIN  [13,0,7]</text><text x="1010" y="252">CAMPUS          60 × 50</text><text x="1010" y="302">MAIN BODY    30 × 8 × 14</text><text x="1010" y="352">RIGHT ANNEX  10 × 6 × 9</text><text x="1010" y="402">ROOF PV         2 × 6 = 12</text><text x="1010" y="452">NO BUILDING RELOCATION</text><text x="1010" y="502">NO CAMERA REPOSITIONING</text></g>
+<rect x="60" y="158" width="304" height="320" fill="#22343a" stroke="#607673"/><rect x="78" y="180" width="268" height="262" fill="url(#concrete)"/><rect x="78" y="180" width="268" height="262" filter="url(#grain)"/>
+<text x="77" y="510" fill="#dbe6e0" font-family="Arial" font-size="22" font-weight="bold">MINERAL CONCRETE</text><text x="77" y="542" fill="#9fb6b1" font-family="Arial" font-size="16">MATTE / SUBTLE / WARM-GRAY</text>
+<text x="60" y="658" fill="#bad7cb" font-family="Arial" font-size="22">One existing school. One continuous WebGL district.</text>
+<text x="60" y="702" fill="#9fb6b1" font-family="Arial" font-size="16">Concept lighting is not approved as a geometry reference. No invented buildings or solar arrays.</text>
+</svg>

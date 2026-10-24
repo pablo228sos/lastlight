@@ -1,0 +1,50 @@
+{
+  "name": "LASTLIGHT visual review branch",
+  "issue": 4,
+  "version": "1.0-source-locked-review",
+  "source": {
+    "repository": "pablo228sos/lastlight",
+    "districtWorldBlob": "91aaa7a33ad93e9dd1022821c4eaf7576d700486",
+    "cameraSource": "apps/web/src/app/useMissionState.ts"
+  },
+  "status": "DRAFT awaiting live WebGL QA",
+  "files": [
+    {
+      "path": "assets/creative-references/issue04_school_geometry_material_direction.svg",
+      "type": "source-derived schematic",
+      "directlyUsableAsTexture": false
+    },
+    {
+      "path": "assets/creative-references/issue04_camera_storyboard_schematic.svg",
+      "type": "schematic concept",
+      "directlyUsableAsTexture": false
+    },
+    {
+      "path": "apps/web/src/scene/SchoolFacadeWall.tsx",
+      "type": "R3F component",
+      "directlyUsableAsTexture": false
+    },
+    {
+      "path": "apps/web/public/assets/materials/facade02/facade02_mineral_concrete_basecolor_srgb_1024.png",
+      "type": "generated procedural 1024px material candidate",
+      "isOriginalImageGenAsset": false,
+      "directlyUsableAsTexture": true
+    },
+    {
+      "path": "apps/web/public/assets/materials/facade02/facade02_mineral_concrete_roughness_linear_1024.png",
+      "type": "generated procedural 1024px material candidate",
+      "isOriginalImageGenAsset": false,
+      "directlyUsableAsTexture": true
+    },
+    {
+      "path": "apps/web/public/assets/materials/facade02/facade02_mineral_concrete_normal_opengl_1024.png",
+      "type": "generated procedural 1024px material candidate",
+      "isOriginalImageGenAsset": false,
+      "directlyUsableAsTexture": true
+    }
+  ],
+  "imageGenOriginalsUploaded": false,
+  "geometryEdits": false,
+  "worldCount": 1,
+  "pvModules": 12
+}

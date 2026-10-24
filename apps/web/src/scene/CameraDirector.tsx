@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useThree } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
 import { Vector3 } from 'three'
 import type { CameraShotId, ScenePhase } from '../app/useMissionState'
@@ -17,10 +17,49 @@ type Props = {
 
 export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onDescentComplete }: Props) {
   const { camera, gl } = useThree()
+  const exposeCapturePose = new URLSearchParams(window.location.search).has('capture')
+
+  // Test-only observation: never mutates camera transforms, camera targets or
+  // animation timelines. Browser art tests wait for the actual destination pose.
+  useFrame(() => {
+    if (!exposeCapturePose) return
+    gl.domElement.dataset.cameraPosition = [
+      camera.position.x.toFixed(3),
+      camera.position.y.toFixed(3),
+      camera.position.z.toFixed(3),
+    ].join(',')
+  })
   const target = useRef(new Vector3(...SHOTS.orbital.target))
   const timeline = useRef<gsap.core.Timeline | null>(null)
   const phaseRef = useRef(phase)
   useEffect(() => { phaseRef.current = phase }, [phase])
+
+  // Opt-in QA-only canonical camera lock. It is triggered exclusively by
+  // automated art captures at ?capture=1 and does not change normal navigation.
+  // These captures validate material pixels, not the smoothness of camera travel.
+  useEffect(() => {
+    if (!exposeCapturePose) return
+    const canvas = gl.domElement
+    const lock = (event: Event) => {
+      const requested = (event as CustomEvent<{ shot?: CameraShotId }>).detail?.shot
+      if (requested !== shot) return
+      const pose = SHOTS[shot]
+      const [ox, oz] = shot === 'facility' || shot === 'equipment' || shot === 'orbit'
+        ? siteOffsets[siteId] : [0, 0]
+      timeline.current?.kill()
+      timeline.current = null
+      camera.position.set(pose.position[0] + ox, pose.position[1], pose.position[2] + oz)
+      target.current.set(pose.target[0] + ox, pose.target[1], pose.target[2] + oz)
+      camera.lookAt(target.current)
+      canvas.dataset.cameraPosition = [
+        camera.position.x.toFixed(3),
+        camera.position.y.toFixed(3),
+        camera.position.z.toFixed(3),
+      ].join(',')
+    }
+    canvas.addEventListener('lastlight:capture-lock-pose', lock)
+    return () => canvas.removeEventListener('lastlight:capture-lock-pose', lock)
+  }, [camera, gl, shot, siteId, exposeCapturePose])
 
   useEffect(() => {
     camera.position.set(...SHOTS.orbital.position)

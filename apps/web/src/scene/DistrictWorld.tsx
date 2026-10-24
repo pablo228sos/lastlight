@@ -1,5 +1,7 @@
 import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react'
 import { Line } from '@react-three/drei'
+import { SchoolFacadeWall } from './SchoolFacadeWall'
+import { SchoolSolarArray } from './SchoolSolarArray'
 import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Color, MathUtils, MeshBasicMaterial, MeshStandardMaterial, Object3D, type InstancedMesh } from 'three'
 import type { SceneLayer, ScenePhase, VisualRehearsalState } from '../app/useMissionState'
@@ -206,7 +208,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     <mesh position={[-26.9, .115, 17]}><boxGeometry args={[.1, .02, 14]} /><meshBasicMaterial color="#a2a087" /></mesh>
     <mesh position={[-9.1, .115, 17]}><boxGeometry args={[.1, .02, 14]} /><meshBasicMaterial color="#a2a087" /></mesh>
     <mesh position={[-18, .125, 17]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[3.1, 3.18, 28]} /><meshBasicMaterial color="#a2a087" side={2} /></mesh>
-    <mesh position={[0, 4.1, 6]} castShadow receiveShadow><boxGeometry args={[30, 8, 14]} /><meshStandardMaterial color="#a0a69d" roughness={.88} metalness={.05} /></mesh>
+    <SchoolFacadeWall variant="main" />
     <mesh position={[0, 8.3, 6]} castShadow><boxGeometry args={[31, .65, 15]} /><meshStandardMaterial color="#293e47" roughness={.7} /></mesh>
     {[1.2, 3.95, 6.7].map(y => <group key={'course' + y}>
       <mesh position={[0, y, 13.09]}><boxGeometry args={[30, .075, .12]} /><meshStandardMaterial color="#6e827d" /></mesh>
@@ -215,7 +217,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     {[-13.3, -4.5, 4.5, 13.3].map(x => <mesh key={'pier' + x} position={[x, 4.1, 13.16]}>
       <boxGeometry args={[.35, 8, .2]} /><meshStandardMaterial color="#697d79" />
     </mesh>)}
-    <mesh position={[15.7, 3.1, 11]} castShadow><boxGeometry args={[10, 6, 9]} /><meshStandardMaterial color="#9a9f93" roughness={.9} /></mesh>
+    <SchoolFacadeWall variant="annex" />
     <mesh position={[15.7, 6.45, 11]}><boxGeometry args={[10.6, .5, 9.5]} /><meshStandardMaterial color="#263e46" /></mesh>
     <mesh position={[0, .2, 17.5]}><boxGeometry args={[10, .1, 6]} /><meshStandardMaterial color="#787e72" /></mesh>
     <mesh position={[0, 4.6, 15]} castShadow><boxGeometry args={[7, .2, 4.5]} /><meshStandardMaterial color="#314b51" metalness={.2} /></mesh>
@@ -231,14 +233,7 @@ function School({ visual, layer, onSelect, showHotspots }: {
     {[11.8, 15, 18.2].map(x => <mesh key={'annex' + x} position={[x, 3.4, 15.55]}>
       <boxGeometry args={[1.8, 1.7, .12]} /><primitive object={schoolEmergency} attach="material" />
     </mesh>)}
-    {Array.from({ length: 12 }, (_, i) => {
-      const x = -12 + (i % 6) * 4.5, z = 2.3 + Math.floor(i / 6) * 3.4
-      return <group key={i} position={[x, 8.75, z]} rotation={[-.12, 0, 0]}>
-        <mesh castShadow><boxGeometry args={[3.7, .12, 2.6]} /><meshStandardMaterial color="#102b3c" metalness={.45} roughness={.3} /></mesh>
-        <mesh position={[0, .075, 0]}><boxGeometry args={[3.45, .025, 2.35]} /><meshStandardMaterial color="#234e64" metalness={.62} roughness={.24} /></mesh>
-        <mesh position={[0, .093, 0]}><boxGeometry args={[.045, .01, 2.35]} /><meshBasicMaterial color="#6e9fa9" /></mesh>
-      </group>
-    })}
+    <SchoolSolarArray />
     <mesh position={[19.4, 1.65, 3.2]} castShadow><boxGeometry args={[2.5, 3.1, 1.8]} /><meshStandardMaterial color="#253d45" metalness={.55} roughness={.5} /></mesh>
     <mesh position={[19.4, 1.8, 4.13]}><boxGeometry args={[1.5, .8, .05]} /><meshStandardMaterial color="#254f56" emissive="#69c8bd" emissiveIntensity={layer === 'power' ? 1.4 : .25} /></mesh>
     <mesh position={[15.7, 1.5, 3.2]} castShadow><boxGeometry args={[2.3, 2.8, 1.7]} /><meshStandardMaterial color="#454d4e" metalness={.5} roughness={.45} /></mesh>
