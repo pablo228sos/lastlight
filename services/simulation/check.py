@@ -24,6 +24,7 @@ def main() -> int:
             "--cov=services.simulation.engine",
             "--cov=services.simulation.schemas",
             "--cov=services.simulation.api",
+            "--cov=services.simulation.design_search",
             "--cov-report=term-missing",
             "--cov-fail-under=95",
         ],

@@ -1,0 +1,710 @@
+{
+  "$defs": {
+    "Battery": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kwh": {
+          "default": 24,
+          "maximum": 20000,
+          "minimum": 0.001,
+          "title": "Capacity Kwh",
+          "type": "number"
+        },
+        "initial_soc": {
+          "default": 0.8,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Initial Soc",
+          "type": "number"
+        },
+        "minimum_soc": {
+          "default": 0.2,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Soc",
+          "type": "number"
+        },
+        "maximum_soc": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Maximum Soc",
+          "type": "number"
+        },
+        "charge_efficiency": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0.01,
+          "title": "Charge Efficiency",
+          "type": "number"
+        },
+        "discharge_efficiency": {
+          "default": 0.95,
+          "maximum": 1,
+          "minimum": 0.01,
+          "title": "Discharge Efficiency",
+          "type": "number"
+        },
+        "max_charge_kw": {
+          "default": 6.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Charge Kw",
+          "type": "number"
+        },
+        "max_discharge_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Discharge Kw",
+          "type": "number"
+        }
+      },
+      "title": "Battery",
+      "type": "object"
+    },
+    "CapacityCost": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kwh": {
+          "maximum": 20000,
+          "minimum": 0.001,
+          "title": "Capacity Kwh",
+          "type": "number"
+        },
+        "amount": {
+          "maximum": 1000000000000.0,
+          "minimum": 0,
+          "title": "Amount",
+          "type": "number"
+        }
+      },
+      "required": [
+        "capacity_kwh",
+        "amount"
+      ],
+      "title": "CapacityCost",
+      "type": "object"
+    },
+    "ComparableCosts": {
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "basis": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/CapacityCost"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "required": [
+        "currency",
+        "basis",
+        "entries"
+      ],
+      "title": "ComparableCosts",
+      "type": "object"
+    },
+    "DesignCandidateResult": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kwh": {
+          "title": "Capacity Kwh",
+          "type": "number"
+        },
+        "valid": {
+          "const": true,
+          "default": true,
+          "title": "Valid",
+          "type": "boolean"
+        },
+        "feasible": {
+          "title": "Feasible",
+          "type": "boolean"
+        },
+        "infeasibility_reasons": {
+          "items": {
+            "const": "critical_shortfall_within_outage",
+            "type": "string"
+          },
+          "title": "Infeasibility Reasons",
+          "type": "array"
+        },
+        "cost_amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cost Amount"
+        },
+        "model_version": {
+          "title": "Model Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "simulation_run_id": {
+          "title": "Simulation Run Id",
+          "type": "string"
+        },
+        "simulation_input_hash": {
+          "title": "Simulation Input Hash",
+          "type": "string"
+        },
+        "simulation_result_hash": {
+          "title": "Simulation Result Hash",
+          "type": "string"
+        },
+        "input": {
+          "$ref": "#/$defs/SimulationRequest"
+        },
+        "summary": {
+          "$ref": "#/$defs/SimulationSummary"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "capacity_kwh",
+        "feasible",
+        "infeasibility_reasons",
+        "cost_amount",
+        "model_version",
+        "schema_version",
+        "provenance",
+        "simulation_run_id",
+        "simulation_input_hash",
+        "simulation_result_hash",
+        "input",
+        "summary",
+        "warnings"
+      ],
+      "title": "DesignCandidateResult",
+      "type": "object"
+    },
+    "DesignSearchRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "$ref": "#/$defs/SimulationRequest"
+        },
+        "outage_hours": {
+          "description": "Test [scenario.start_utc, start + outage_hours); no profile extrapolation.",
+          "maximum": 168,
+          "minimum": 0.016666666666666666,
+          "title": "Outage Hours",
+          "type": "number"
+        },
+        "candidate_capacities_kwh": {
+          "items": {
+            "maximum": 20000,
+            "minimum": 0.001,
+            "type": "number"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Candidate Capacities Kwh",
+          "type": "array"
+        },
+        "costs": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComparableCosts"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "scenario",
+        "outage_hours",
+        "candidate_capacities_kwh"
+      ],
+      "title": "DesignSearchRequest",
+      "type": "object"
+    },
+    "Grid": {
+      "additionalProperties": false,
+      "properties": {
+        "online": {
+          "default": false,
+          "title": "Online",
+          "type": "boolean"
+        },
+        "profile_online": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "boolean"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Online"
+        },
+        "import_limit_kw": {
+          "default": 50.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Import Limit Kw",
+          "type": "number"
+        },
+        "charge_battery": {
+          "default": false,
+          "title": "Charge Battery",
+          "type": "boolean"
+        }
+      },
+      "title": "Grid",
+      "type": "object"
+    },
+    "Inverter": {
+      "additionalProperties": false,
+      "properties": {
+        "max_kw": {
+          "default": 8.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Max Kw",
+          "type": "number"
+        },
+        "islanding_capable": {
+          "default": true,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Inverter",
+      "type": "object"
+    },
+    "Load": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_kw": {
+          "default": 1.5,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Critical Kw",
+          "type": "number"
+        },
+        "noncritical_kw": {
+          "default": 2.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Noncritical Kw",
+          "type": "number"
+        },
+        "shed_noncritical_during_outage": {
+          "default": true,
+          "title": "Shed Noncritical During Outage",
+          "type": "boolean"
+        }
+      },
+      "title": "Load",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "default": "synthetic",
+          "enum": [
+            "measured",
+            "research_derived",
+            "synthetic"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "maxLength": 500,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "References",
+          "type": "array"
+        }
+      },
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SimulationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "start_utc": {
+          "default": "2026-01-01T00:00:00Z",
+          "description": "Timezone-aware ISO 8601 time; normalized to UTC. Fixed default for replay.",
+          "format": "date-time",
+          "title": "Start Utc",
+          "type": "string"
+        },
+        "duration_hours": {
+          "default": 12,
+          "maximum": 168,
+          "minimum": 0.016666666666666666,
+          "title": "Duration Hours",
+          "type": "number"
+        },
+        "step_minutes": {
+          "default": 15,
+          "maximum": 60,
+          "minimum": 1,
+          "title": "Step Minutes",
+          "type": "integer"
+        },
+        "seed": {
+          "default": 0,
+          "maximum": 4294967295,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "battery": {
+          "$ref": "#/$defs/Battery"
+        },
+        "inverter": {
+          "$ref": "#/$defs/Inverter"
+        },
+        "load": {
+          "$ref": "#/$defs/Load"
+        },
+        "solar": {
+          "$ref": "#/$defs/Solar"
+        },
+        "grid": {
+          "$ref": "#/$defs/Grid"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        }
+      },
+      "title": "SimulationRequest",
+      "type": "object"
+    },
+    "SimulationSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "critical_survival_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Critical Survival Hours"
+        },
+        "served_critical_fraction": {
+          "title": "Served Critical Fraction",
+          "type": "number"
+        },
+        "unserved_critical_kwh": {
+          "title": "Unserved Critical Kwh",
+          "type": "number"
+        },
+        "first_failure_utc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "First Failure Utc"
+        },
+        "max_balance_residual_kwh": {
+          "title": "Max Balance Residual Kwh",
+          "type": "number"
+        },
+        "observed_duration_hours": {
+          "title": "Observed Duration Hours",
+          "type": "number"
+        },
+        "survived_full_window": {
+          "title": "Survived Full Window",
+          "type": "boolean"
+        },
+        "idealized_autonomy_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Idealized Autonomy Hours"
+        },
+        "total_critical_demand_kwh": {
+          "title": "Total Critical Demand Kwh",
+          "type": "number"
+        },
+        "served_critical_kwh": {
+          "title": "Served Critical Kwh",
+          "type": "number"
+        },
+        "served_noncritical_kwh": {
+          "title": "Served Noncritical Kwh",
+          "type": "number"
+        },
+        "unserved_noncritical_kwh": {
+          "title": "Unserved Noncritical Kwh",
+          "type": "number"
+        },
+        "grid_import_kwh": {
+          "title": "Grid Import Kwh",
+          "type": "number"
+        },
+        "solar_available_kwh": {
+          "title": "Solar Available Kwh",
+          "type": "number"
+        },
+        "solar_used_kwh": {
+          "title": "Solar Used Kwh",
+          "type": "number"
+        },
+        "solar_curtailed_kwh": {
+          "title": "Solar Curtailed Kwh",
+          "type": "number"
+        },
+        "battery_charge_kwh": {
+          "title": "Battery Charge Kwh",
+          "type": "number"
+        },
+        "battery_discharge_kwh": {
+          "title": "Battery Discharge Kwh",
+          "type": "number"
+        },
+        "conversion_loss_kwh": {
+          "title": "Conversion Loss Kwh",
+          "type": "number"
+        },
+        "initial_battery_energy_kwh": {
+          "title": "Initial Battery Energy Kwh",
+          "type": "number"
+        },
+        "final_battery_energy_kwh": {
+          "title": "Final Battery Energy Kwh",
+          "type": "number"
+        },
+        "usable_capacity_kwh": {
+          "title": "Usable Capacity Kwh",
+          "type": "number"
+        },
+        "ending_soc": {
+          "title": "Ending Soc",
+          "type": "number"
+        },
+        "cumulative_balance_residual_kwh": {
+          "title": "Cumulative Balance Residual Kwh",
+          "type": "number"
+        }
+      },
+      "required": [
+        "critical_survival_hours",
+        "served_critical_fraction",
+        "unserved_critical_kwh",
+        "first_failure_utc",
+        "max_balance_residual_kwh",
+        "observed_duration_hours",
+        "survived_full_window",
+        "idealized_autonomy_hours",
+        "total_critical_demand_kwh",
+        "served_critical_kwh",
+        "served_noncritical_kwh",
+        "unserved_noncritical_kwh",
+        "grid_import_kwh",
+        "solar_available_kwh",
+        "solar_used_kwh",
+        "solar_curtailed_kwh",
+        "battery_charge_kwh",
+        "battery_discharge_kwh",
+        "conversion_loss_kwh",
+        "initial_battery_energy_kwh",
+        "final_battery_energy_kwh",
+        "usable_capacity_kwh",
+        "ending_soc",
+        "cumulative_balance_residual_kwh"
+      ],
+      "title": "SimulationSummary",
+      "type": "object"
+    },
+    "Solar": {
+      "additionalProperties": false,
+      "properties": {
+        "generation_kw": {
+          "default": 0.0,
+          "maximum": 50000,
+          "minimum": 0,
+          "title": "Generation Kw",
+          "type": "number"
+        },
+        "profile_kw": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 50000,
+                "minimum": 0,
+                "type": "number"
+              },
+              "maxItems": 10080,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile Kw"
+        },
+        "islanding_capable": {
+          "default": false,
+          "title": "Islanding Capable",
+          "type": "boolean"
+        }
+      },
+      "title": "Solar",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "search_version": {
+      "default": "lastlight-battery-search-1.0.0",
+      "title": "Search Version",
+      "type": "string"
+    },
+    "model_version": {
+      "default": "lastlight-dispatch-1.0.0",
+      "title": "Model Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "search_id": {
+      "title": "Search Id",
+      "type": "string"
+    },
+    "input_hash": {
+      "title": "Input Hash",
+      "type": "string"
+    },
+    "result_hash": {
+      "title": "Result Hash",
+      "type": "string"
+    },
+    "input": {
+      "$ref": "#/$defs/DesignSearchRequest"
+    },
+    "status": {
+      "enum": [
+        "feasible_candidate_found",
+        "no_feasible_candidate"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "selection_rule": {
+      "const": "smallest_passing_capacity_in_candidate_set",
+      "title": "Selection Rule",
+      "type": "string"
+    },
+    "selected_capacity_kwh": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Capacity Kwh"
+    },
+    "selected_simulation_run_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Simulation Run Id"
+    },
+    "physics_calls": {
+      "title": "Physics Calls",
+      "type": "integer"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/DesignCandidateResult"
+      },
+      "title": "Candidates",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "search_id",
+    "input_hash",
+    "result_hash",
+    "input",
+    "status",
+    "selection_rule",
+    "selected_capacity_kwh",
+    "selected_simulation_run_id",
+    "physics_calls",
+    "candidates",
+    "warnings"
+  ],
+  "title": "DesignSearchResult",
+  "type": "object"
+}

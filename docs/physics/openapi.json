@@ -190,6 +190,55 @@
           }
         }
       }
+    },
+    "/api/v1/design-search": {
+      "post": {
+        "summary": "Run Design Search",
+        "description": "Test every supplied capacity; select the smallest critical-load survivor.",
+        "operationId": "run_design_search_api_v1_design_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesignSearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignSearchResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -256,6 +305,61 @@
         "additionalProperties": false,
         "type": "object",
         "title": "Battery"
+      },
+      "CapacityCost": {
+        "properties": {
+          "capacity_kwh": {
+            "type": "number",
+            "maximum": 20000.0,
+            "minimum": 0.001,
+            "title": "Capacity Kwh"
+          },
+          "amount": {
+            "type": "number",
+            "maximum": 1000000000000.0,
+            "minimum": 0.0,
+            "title": "Amount"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capacity_kwh",
+          "amount"
+        ],
+        "title": "CapacityCost"
+      },
+      "ComparableCosts": {
+        "properties": {
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currency"
+          },
+          "basis": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Basis"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/CapacityCost"
+            },
+            "type": "array",
+            "maxItems": 32,
+            "minItems": 1,
+            "title": "Entries"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "currency",
+          "basis",
+          "entries"
+        ],
+        "title": "ComparableCosts"
       },
       "ComparisonDelta": {
         "properties": {
@@ -353,6 +457,243 @@
           "delta"
         ],
         "title": "ComparisonResult"
+      },
+      "DesignCandidateResult": {
+        "properties": {
+          "capacity_kwh": {
+            "type": "number",
+            "title": "Capacity Kwh"
+          },
+          "valid": {
+            "type": "boolean",
+            "const": true,
+            "title": "Valid",
+            "default": true
+          },
+          "feasible": {
+            "type": "boolean",
+            "title": "Feasible"
+          },
+          "infeasibility_reasons": {
+            "items": {
+              "type": "string",
+              "const": "critical_shortfall_within_outage"
+            },
+            "type": "array",
+            "title": "Infeasibility Reasons"
+          },
+          "cost_amount": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Amount"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "simulation_run_id": {
+            "type": "string",
+            "title": "Simulation Run Id"
+          },
+          "simulation_input_hash": {
+            "type": "string",
+            "title": "Simulation Input Hash"
+          },
+          "simulation_result_hash": {
+            "type": "string",
+            "title": "Simulation Result Hash"
+          },
+          "input": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SimulationSummary"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "capacity_kwh",
+          "feasible",
+          "infeasibility_reasons",
+          "cost_amount",
+          "model_version",
+          "schema_version",
+          "provenance",
+          "simulation_run_id",
+          "simulation_input_hash",
+          "simulation_result_hash",
+          "input",
+          "summary",
+          "warnings"
+        ],
+        "title": "DesignCandidateResult"
+      },
+      "DesignSearchRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "outage_hours": {
+            "type": "number",
+            "maximum": 168.0,
+            "minimum": 0.016666666666666666,
+            "title": "Outage Hours",
+            "description": "Test [scenario.start_utc, start + outage_hours); no profile extrapolation."
+          },
+          "candidate_capacities_kwh": {
+            "items": {
+              "type": "number",
+              "maximum": 20000.0,
+              "minimum": 0.001
+            },
+            "type": "array",
+            "maxItems": 32,
+            "minItems": 1,
+            "title": "Candidate Capacities Kwh"
+          },
+          "costs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparableCosts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario",
+          "outage_hours",
+          "candidate_capacities_kwh"
+        ],
+        "title": "DesignSearchRequest"
+      },
+      "DesignSearchResult": {
+        "properties": {
+          "search_version": {
+            "type": "string",
+            "title": "Search Version",
+            "default": "lastlight-battery-search-1.0.0"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "search_id": {
+            "type": "string",
+            "title": "Search Id"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "result_hash": {
+            "type": "string",
+            "title": "Result Hash"
+          },
+          "input": {
+            "$ref": "#/components/schemas/DesignSearchRequest"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "feasible_candidate_found",
+              "no_feasible_candidate"
+            ],
+            "title": "Status"
+          },
+          "selection_rule": {
+            "type": "string",
+            "const": "smallest_passing_capacity_in_candidate_set",
+            "title": "Selection Rule"
+          },
+          "selected_capacity_kwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Capacity Kwh"
+          },
+          "selected_simulation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Simulation Run Id"
+          },
+          "physics_calls": {
+            "type": "integer",
+            "title": "Physics Calls"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/DesignCandidateResult"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "search_id",
+          "input_hash",
+          "result_hash",
+          "input",
+          "status",
+          "selection_rule",
+          "selected_capacity_kwh",
+          "selected_simulation_run_id",
+          "physics_calls",
+          "candidates",
+          "warnings"
+        ],
+        "title": "DesignSearchResult"
       },
       "ErrorBody": {
         "properties": {
