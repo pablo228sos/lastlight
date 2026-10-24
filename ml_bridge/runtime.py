@@ -5,11 +5,12 @@ import json
 from pathlib import Path
 
 from services.simulation import MODEL_VERSION, SCHEMA_VERSION
+from services import simulation as official_package
+from services.simulation import engine as official_engine, schemas as official_schemas
 from services.simulation.schemas import SimulationRequest
 
 OFFICIAL_PHYSICS = "lastlight-dispatch-1.0.0"
 OFFICIAL_SCHEMA = "1.0.0"
-ROOT = Path(__file__).resolve().parents[1]
 
 
 def source_identity() -> dict[str, str]:
@@ -17,12 +18,16 @@ def source_identity() -> dict[str, str]:
         raise ValueError(
             "Bridge requires the official v1 runtime, not a relabelled candidate engine"
         )
-    files = ["__init__.py", "schemas.py", "engine.py"]
+    files = {
+        "__init__.py": official_package,
+        "schemas.py": official_schemas,
+        "engine.py": official_engine,
+    }
     sources = {
         name: hashlib.sha256(
-            (ROOT / "services/simulation" / name).read_text(encoding="utf-8").encode()
+            Path(module.__file__).read_text(encoding="utf-8").encode()
         ).hexdigest()
-        for name in files
+        for name, module in files.items()
     }
     digest = hashlib.sha256(json.dumps(sources, sort_keys=True).encode()).hexdigest()
     schema = json.dumps(

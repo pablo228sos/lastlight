@@ -8,6 +8,8 @@ from ml_bridge.contracts import AssessmentRequest
 from services.simulation.engine import simulate
 from services.simulation.schemas import SimulationRequest
 from ml_bridge.features import feature_source_sha256
+from ml_bridge.runtime import source_identity
+import services.simulation.engine as official_engine
 
 
 def test_feature_source_contract_has_a_stable_serializable_fingerprint():
@@ -15,6 +17,20 @@ def test_feature_source_contract_has_a_stable_serializable_fingerprint():
     assert len(value) == 64
     assert int(value, 16) >= 0
     assert feature_source_sha256() == value
+
+
+def test_runtime_fingerprint_follows_the_actually_imported_engine(
+    monkeypatch, tmp_path
+):
+    before = source_identity()["source_sha256"]
+    changed_source = tmp_path / "engine.py"
+    changed_source.write_text(
+        Path(official_engine.__file__).read_text(encoding="utf-8")
+        + "\n# different imported source\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(official_engine, "__file__", str(changed_source))
+    assert source_identity()["source_sha256"] != before
 
 
 @pytest.mark.parametrize("step", [1, 15, 60])
