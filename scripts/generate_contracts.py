@@ -17,9 +17,9 @@ def ts(schema):
     if "$ref" in schema:
         return name(schema["$ref"])
     if "anyOf" in schema:
-        return " | ".join(ts(part) for part in schema["anyOf"])
+        return " | ".join(sorted(ts(part) for part in schema["anyOf"]))
     if "enum" in schema:
-        return " | ".join(json.dumps(value) for value in schema["enum"])
+        return " | ".join(sorted(json.dumps(value) for value in schema["enum"]))
     if "const" in schema:
         return json.dumps(schema["const"])
     kind = schema.get("type")
