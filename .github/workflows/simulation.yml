@@ -38,8 +38,6 @@ jobs:
             services/simulation/requirements-dev.lock
       - name: Install locked development dependencies
         run: python -m pip install --require-hashes -r services/simulation/requirements-dev.lock
-      - name: Show deterministic formatter diff during integration
-        run: python -m ruff format --diff services/simulation/design_search.py services/simulation/integration_check.py tests/simulation/test_design_search.py
       - name: Verify production physics, API, contracts and fixtures
         run: python -m services.simulation.check
       - name: Prepare same-platform hashed wheels for offline setup
