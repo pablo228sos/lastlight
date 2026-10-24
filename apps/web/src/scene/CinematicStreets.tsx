@@ -85,6 +85,20 @@ function Stripes({ pieces, color }: { pieces: Strip[]; color: string }) {
   </instancedMesh>
 }
 
+const ROAD_SEGMENTS = (() => {
+  const sections: Array<{center:number; length:number}> = []
+  let from = -135
+  // Leave intersections genuinely open; sidewalks are NOT uninterrupted slabs
+  // across other roads. Crosswalks sit on those roadway gaps.
+  for (const road of ORIGINAL_STREET_AXES) {
+    const to = road - 6.7
+    if (to > from) sections.push({center:(from+to)/2,length:to-from})
+    from = road + 6.7
+  }
+  if (from < 135) sections.push({center:(from+135)/2,length:135-from})
+  return sections
+})()
+
 const markings: Strip[] = ORIGINAL_STREET_AXES.flatMap(at => Array.from({length:26}, (_,j) => [
   {x:at,y:.047,z:-128+j*10,w:.13,h:.015,d:2.5},
   {x:-128+j*10,y:.047,z:at,w:2.5,h:.015,d:.13},
@@ -126,25 +140,25 @@ export function CinematicStreets() {
         <meshStandardMaterial map={maps.asphaltEW} color="#d0d5d0" metalness={0} roughness={.94}/>
       </mesh>
       {/* Sidewalks exist only along old roads, keeping urban topology intact. */}
-      {[-1,1].map(side=><group key={side}>
-        <mesh position={[at+side*6.47,.064,0]} receiveShadow>
-          <boxGeometry args={[2.55,.11,270]}/>
+      {[-1,1].map(side => ROAD_SEGMENTS.map((part,index)=><group key={side + '/' + index}>
+        <mesh position={[at+side*6.47,.064,part.center]} receiveShadow>
+          <boxGeometry args={[2.55,.11,part.length]}/>
           <meshStandardMaterial color="#a7aaa4" map={maps.pavementNS} roughness={.96}/>
         </mesh>
-        <mesh position={[0,.064,at+side*6.47]} receiveShadow>
-          <boxGeometry args={[270,.11,2.55]}/>
+        <mesh position={[part.center,.064,at+side*6.47]} receiveShadow>
+          <boxGeometry args={[part.length,.11,2.55]}/>
           <meshStandardMaterial color="#a7aaa4" map={maps.pavementEW} roughness={.96}/>
         </mesh>
-        {/* Narrow cast-concrete upstands, no luminous sci-fi line strips. */}
-        <mesh position={[at+side*5.14,.078,0]}>
-          <boxGeometry args={[.18,.15,270]}/>
+        {/* Narrow concrete upstands stop at each roadway crossing. */}
+        <mesh position={[at+side*5.14,.078,part.center]}>
+          <boxGeometry args={[.18,.15,part.length]}/>
           <meshStandardMaterial color="#777e79" roughness={.97}/>
         </mesh>
-        <mesh position={[0,.078,at+side*5.14]}>
-          <boxGeometry args={[270,.15,.18]}/>
+        <mesh position={[part.center,.078,at+side*5.14]}>
+          <boxGeometry args={[part.length,.15,.18]}/>
           <meshStandardMaterial color="#777e79" roughness={.97}/>
         </mesh>
-      </group>)}
+      </group>))}
     </group>)}
     <Stripes pieces={markings} color="#b4a482"/>
     <Stripes pieces={crosswalks} color="#c7cac0"/>
