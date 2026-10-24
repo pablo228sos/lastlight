@@ -52,6 +52,7 @@ function App() {
 
   useEffect(() => {
     const keys = (event: KeyboardEvent) => {
+      if (event.target instanceof Element && event.target.closest('dialog[open]')) return
       if (event.target instanceof HTMLInputElement) return
       if (event.target instanceof HTMLButtonElement && (event.key === 'Enter' || event.key === ' ')) return
       if (event.key === 'Escape') { if (mission.evidenceOpen) mission.setEvidenceOpen(false); else { setComponent(null); returnCity() } }
@@ -162,7 +163,10 @@ function App() {
 
     {physics.busy && <p className="simulation-warning" role="status">Calculating physics. The scene currently shows a synthetic rehearsal.</p>}
     {physics.warning && <p className="simulation-warning" role="status" data-testid="simulation-warning">{physics.warning}</p>}
-    {physics.result && <PhysicsPanel result={physics.result} index={physics.index} onIndex={physics.setIndex} frontier={physics.frontier} frontierBusy={physics.frontierBusy} onFrontier={includeMl => void physics.loadFrontier(includeMl)} />}
+    {physics.result && <PhysicsPanel result={physics.result} index={physics.index} onIndex={physics.setIndex}
+      frontier={physics.frontier} frontierBusy={physics.frontierBusy} frontierWarning={physics.frontierWarning}
+      onFrontier={includeMl => void physics.loadFrontier(includeMl)} prediction={physics.prediction}
+      predictionBusy={physics.predictionBusy} predictionWarning={physics.predictionWarning} onAnalyze={() => void physics.analyze()} />}
     <footer className="footnote"><span>NO LIVE GRID DATA <i /> {physics.result ? 'PHYSICS / SYNTHETIC INPUTS' : 'GEOMETRY + LIGHTING / SYNTHETIC'}</span><span>CURSED · KYRGYZSTAN · 2026</span></footer>
     {mission.evidenceOpen && <EvidenceDrawer onClose={() => mission.setEvidenceOpen(false)} run={physics.result} />}
   </main>
