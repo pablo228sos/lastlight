@@ -33,16 +33,28 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
       facility: [65, 39, 58],
       equipment: [53, 26, 41],
     }
+    const targets: Record<string, [number, number, number]> = {
+      district: [6, 1, 2],
+      facility: [13, 3, 7],
+      equipment: [16, 5, 7],
+    }
     const pose = poses[expectedShot]
     if (!pose) throw new Error('Unknown locked camera pose: ' + expectedShot)
 
     // Freeze the app's *real* Three.js camera at its own published target pose.
     // Only active at ?capture=1. This is not a camera-transition test.
-    await page.locator('canvas').evaluate((canvas: HTMLCanvasElement, lockedShot) => {
-      canvas.dispatchEvent(new CustomEvent('lastlight:capture-lock-pose', {
+    const canvas = page.locator('canvas')
+    const beforeFrame = Number(await canvas.getAttribute('data-render-frame') ?? '0')
+    await canvas.evaluate((element: HTMLCanvasElement, lockedShot) => {
+      element.dispatchEvent(new CustomEvent('lastlight:capture-lock-pose', {
         detail: { shot: lockedShot },
       }))
     }, expectedShot)
+    // React state and camera positions update before the GPU draws. Wait for
+    // fresh actual R3F frames, otherwise snapshots can contain stale viewpoints.
+    await expect.poll(async () => Number(await canvas.getAttribute('data-render-frame') ?? '0'), {
+      timeout: 30_000, intervals: [100, 250, 500],
+    }).toBeGreaterThan(beforeFrame + 3)
     await expect.poll(async () => {
       const actual = await page.locator('canvas').getAttribute('data-camera-position')
       if (!actual) return Number.POSITIVE_INFINITY
@@ -56,7 +68,22 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
         coordinates[2] - pose[2],
       )
     }, { timeout: 45_000, intervals: [200, 500, 1_000] }).toBeLessThan(0.015)
-    const pngUrl = await page.locator('canvas').evaluate((canvas: HTMLCanvasElement) => canvas.toDataURL('image/png'))
+    await expect.poll(async () => {
+      const parts = (await canvas.getAttribute('data-camera-forward'))?.split(',').map(Number)
+      if (!parts || parts.length !== 3 || parts.some(v => !Number.isFinite(v))) {
+        return Number.POSITIVE_INFINITY
+      }
+      const target = targets[expectedShot]
+      const forward = target.map((v, i) => v - pose[i])
+      const length = Math.hypot(forward[0], forward[1], forward[2])
+      return Math.hypot(
+        parts[0] - forward[0]/length,
+        parts[1] - forward[1]/length,
+        parts[2] - forward[2]/length,
+      )
+    }, { timeout: 30_000, intervals: [100, 250, 500] }).toBeLessThan(0.01)
+    await page.waitForTimeout(300)
+    const pngUrl = await canvas.evaluate((element: HTMLCanvasElement) => element.toDataURL('image/png'))
     expect(pngUrl.startsWith('data:image/png;base64,')).toBe(true)
     const png = Buffer.from(pngUrl.split(',')[1], 'base64')
     expect(png.byteLength).toBeGreaterThan(20_000)
@@ -65,7 +92,9 @@ test('capture one unchanged school from one WebGL canvas', async ({ page }) => {
     captures.push({
       label,
       shot: expectedShot,
-      cameraPosition: await page.locator('canvas').getAttribute('data-camera-position') ?? 'unknown',
+      cameraPosition: await canvas.getAttribute('data-camera-position') ?? 'unknown',
+      cameraForward: await canvas.getAttribute('data-camera-forward') ?? 'unknown',
+      renderFrame: Number(await canvas.getAttribute('data-render-frame') ?? '0'),
       phase: expectedPhase,
       grid: await main.getAttribute('data-visual-step') ?? 'unknown',
       canvasWidth: await page.locator('canvas').evaluate((c: HTMLCanvasElement) => c.width),
