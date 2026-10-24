@@ -1,132 +1,147 @@
-# Phase 02: integration candidate
+# LASTLIGHT: final physics handoff
 
-The production contract remains schema **1.0.0**, model
-**lastlight-dispatch-1.0.0** on `feature/physics-api`, [Draft PR #6](https://github.com/pablo228sos/lastlight/pull/6).
-Equations, result shape and all generated fixtures are unchanged in this phase.
-Abai owns frontend integration; Askar owns ML / Failure Frontier.
+**Status: official backend tested on Linux; production CI / Windows acceptance
+is blocked pending Abai's workflow activation.** No physics, frontend or ML
+source was changed for this final review. Neither PR was merged.
 
-## Compatibility with PR #7
+## Official source and contract
 
-Reviewed final #6 physics at `874840dfede83a07699e792af6ff38f3995c348f`, then
-the Phase 02 candidate `bd37f17ab4c704c1286025e885e21e962d0a0aa5`, against #7
-first at `198eee9784c9a0e7990f1664d0498fa7390fef40` and again at its updated
-head `0fff6f18d170c4b28e9d103576953039baae6dcd`. Their common ancestor remains
-`776caa4d6922417731b7ff66bdbd553952aaeb32`; #7 includes the first #6 increment,
-not the final `874840d` hardening. The updated #7 now includes ML/frontier code,
-forecast/intelligence endpoints, frontend integration and additional CI steps.
-Its dispatch engine is byte-identical to the earlier reviewed #7 engine
-(Git blob `6681d01b642a092890c9c3a842783b732c4e7dc5`); the horizon defect remains.
+- Branch: `feature/physics-api`, [Draft PR #6](https://github.com/pablo228sos/lastlight/pull/6).
+  Verified runtime source: `59b286b2d1a56a3b4634971e988e65a1eaaf0b2e`;
+  subsequent final-handoff changes contain only documentation/evidence.
+- Base URL: **http://127.0.0.1:8000**. Schema **1.0.0**;
+  physics model **lastlight-dispatch-1.0.0**; HTTP namespace **/api/v1**.
+- Authoritative contract: [CONTRACT.md](CONTRACT.md),
+  [simulation-request.schema.json](simulation-request.schema.json),
+  [simulation-result.schema.json](simulation-result.schema.json).
+- Exact baseline pair: `docs/physics/fixtures/baseline.request.json` and
+  `docs/physics/fixtures/baseline.result.json`. Comparison pair:
+  `docs/physics/fixtures/comparison.request.json` and
+  `docs/physics/fixtures/comparison.result.json`.
+  `docs/physics/fixtures/regression-16h.json` observes all three failures.
+- Frontend types/instructions: [contracts.proposed.ts](contracts.proposed.ts),
+  [FRONTEND.md](FRONTEND.md). SOC is a fraction; power is AC kW; storage is DC kWh.
+  Each trace row is `[t_utc, t_end_utc)` with start/end SOC and actual duration.
 
-| Change in #7 | Integration decision |
+## Presentation scenario and commands
+
+From repository root on Windows, Python 3.12 with its `py` launcher installed:
+
+```powershell
+.\services\simulation\start.cmd
+```
+
+In a second PowerShell terminal:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8000/health
+$run = Invoke-RestMethod http://127.0.0.1:8000/api/v1/simulations -Method Post -ContentType application/json -Body '{}'
+$run.summary
+$comparison = Invoke-RestMethod http://127.0.0.1:8000/api/v1/comparisons -Method Post -ContentType application/json -Body '{"baseline":{"duration_hours":12},"upgrade":"battery_36_kwh"}'
+$comparison.upgraded.summary
+```
+
+After the first installation, Ctrl+C, then restart with
+`.\services\simulation\start.cmd --offline`. **These are the intended Windows
+entrypoints, not verified Windows executions.** The cross-platform entrypoint
+is `python3.12 services/simulation/run.py`, executed on Linux; native macOS
+has not been tested. API/CLI work offline after installation; first offline setup needs
+same-platform wheels. Swagger UI uses CDN assets; `/openapi.json` remains local.
+
+The baseline is synthetic: 24 kWh, SOC .8, reserve .2, discharge efficiency .95,
+1.5 kW critical demand, zero solar, no grid, deliberate noncritical shedding.
+It first fails at **9.12 h / 2026-01-01T09:07:12Z**. At 12 hours the 36 kWh
+upgrade has **null observed failure**, ending SOC **.2736842105263151** (~27.4%).
+13.68 h is its analytic reference, not a failure observed within that window.
+For observed upgrade failure use `baseline.duration_hours=16`; full precharge
+is the other approved comparison and fails at 12.16 h in that longer window.
+
+## Verification and actual CI
+
+Fresh final checks on Linux / Python 3.12.14: **124 passed, 0 failed; 99.44%**
+engine/schema/API coverage; all 12 frozen schema/fixture files verified.
+**20 launcher/HTTP checks** passed, including fresh hash-locked installation,
+full response equality, CORS/errors, offline restart, graceful shutdown and
+first-time offline wheel setup. The runtime source hashes remain unchanged.
+See [final review evidence](evidence/final/review.json),
+[official test log](evidence/final/official-check.linux.log), and
+[offline restart log](evidence/final/offline-restart.linux.log).
+
+- Official #6 [Verify 40084865359](https://github.com/pablo228sos/lastlight/actions/runs/40084865359)
+  passed web + archived reference physics. It does **not** run the official 124-test suite.
+- Askar #7 [Verify 40084814511](https://github.com/pablo228sos/lastlight/actions/runs/40084814511)
+  passed its 31 Python tests and 6 browser tests, with 1 intentional media skip,
+  on Ubuntu. The earlier browser failure is resolved. It is not official Windows
+  or production-matrix evidence.
+- **No approved production Python CI or Windows run exists yet.** Abai was asked
+  to activate [simulation-workflow.patch](simulation-workflow.patch) in a reviewed
+  integration branch: [coordination request](https://github.com/pablo228sos/lastlight/issues/1#issuecomment-6383191192).
+  The unchanged [workflow source](simulation-ci.yml) runs the official check,
+  real launcher/HTTP probe and offline restart on Ubuntu + Windows / Python 3.12.
+  Shared workflow paths remain untouched; no teammate response/activation was observed.
+
+## PR #7 at 7147b3f: verified improvements and remaining conflicts
+
+Reviewed `7147b3f1d0808886c1ca7dc5954ba94edc1564bd`, not just the earlier revision.
+Its engine is still blob `6681d01b642a092890c9c3a842783b732c4e7dc5`, unchanged
+from `0fff6f1`; its common ancestor with #6 remains `776caa4`.
+
+| Check | Verified result |
 | --- | --- |
-| Critical/noncritical demand arrays, exact length validation, per-interval dispatch demand, demand integrals | Useful; propose a dedicated reviewed Physics follow-up on final #6 |
-| Disable scalar analytic autonomy when demand arrays are supplied | Retain with that extension; trace remains the source of observed failure |
-| `physics_version` and ML version metadata | Distinguishing versions is useful in ML envelopes; retain physical `model_version` semantics in `SimulationResult` and put ML version in a separate estimate/envelope |
-| Output `assumptions` list | Optional metadata proposal; current detailed MODEL.md is authoritative |
-| Schema/model 1.1.0 and regenerated JSON | Unapproved until consumers review; do not mix with v1 fixtures/types |
-| Shorter MODEL.md | Preserve #6's detailed topology, equations, validity limits and numerical guards |
-| Stable HTTP error descriptions, structural JSON fixture comparison | Useful portability proposals; review separately without weakening fixture values or physical guards |
-| Lazy-loaded ML/intelligence endpoints | API imports still work in the official lightweight environment; review routes/envelopes separately from dispatch and preserve the core service's independence |
+| Constant-input autonomy at steps 1/15/60 minutes | All 9 cases reproduce 9.12 / 13.68 / 12.16 h |
+| Variable critical/noncritical loads | 100 seeded changing PV/grid/load scenarios pass independent AC/storage/system equations, equipment/SOC bounds and exact replay; maximum checked residual 6.86e-15 kWh |
+| Partial profile interval | 1.1 h scenario integrates 3.0 kWh critical and 1.35 kWh noncritical demand correctly |
+| 12-hour 36 kWh comparison | Correct null observed failure |
+| Exclusive 9.12-hour horizon | Still wrong at 1- and 15-minute steps: false failure in a ~1.97e-13 / 5.33e-15 h final row; 60-minute step passes. Official #6 passes all three |
+| Schema compatibility | #7 returns 1.1.0; official strict v1 rejects its extra metadata and resolved load-profile fields |
+| Physics/ML identity | Plain simulation names physics correctly. Prediction inherits the result but changes `model_version` to ML/null; `physics_version` remains physical. Use an explicitly reviewed ML envelope/adapter |
 
-A dry three-way merge of final #6 with updated #7 has textual conflicts in
-`services/simulation/engine.py`, `services/simulation/api.py`,
-`docs/physics/CONTRACT.md` and `docs/physics/MODEL.md`. Generated schemas/fixtures also differ and must be
-regenerated from the chosen schemas/engine, not combined manually. The standalone
-#7 checkout lacks #6's final exact-horizon correction, lower efficiency/capacity
-bounds, hardened exception handling, extended tests, TypeScript proposal and
-locked/offline tooling. These files are absent because #7 predates them, not
-because Askar deliberately deleted them. A normal merge preserves files added
-only in #6; replacing #6 wholesale with #7 would lose them.
-
-Confirmed numerical defect: for `duration_hours=9.12`, PR #7 reports a critical
-failure at the exclusive horizon with 1- and 15-minute steps, creating final
-intervals of approximately 1.97e-13 and 5.33e-15 hours. This was reproduced at
-both reviewed #7 heads. The original 21 physics tests pass but do not cover
-this case. Official #6 returns null at all three 1/15/60-minute
-steps, as required. Exact results: [pr7-horizon.json](evidence/phase02/pr7-horizon.json).
-The case can be reproduced in either checkout with:
+Reproduce the remaining timing defect in a #7 checkout:
 
 ```python
 from services.simulation.engine import simulate
 from services.simulation.schemas import SimulationRequest
-result = simulate(SimulationRequest(duration_hours=9.12, step_minutes=15))
-print(result.summary.first_failure_utc)  # Official v1: None
+r = simulate(SimulationRequest(duration_hours=9.12, step_minutes=15))
+print(r.summary.first_failure_utc)  # expected None; #7 gives 2026-01-01T09:07:12Z
 ```
 
-The updated ML prediction response inherits `SimulationResult` but replaces its
-`model_version` with the ML version, or null when ML is unavailable, while
-`physics_version` identifies dispatch. Keep those meanings explicit in a
-separate ML envelope rather than changing the meaning of the official result.
-PR #7's frontend accepts any `schema_version` starting with `1.` but reads the
-1.1-only `physics_version` field. That is not a valid v1 compatibility check:
-Abai must adapt to the exact agreed schema and read `model_version` for v1.
+A fresh dry merge still conflicts in `services/simulation/engine.py`,
+`services/simulation/api.py`, `docs/physics/CONTRACT.md`, `docs/physics/MODEL.md`.
+Useful demand/portability changes should be ported through a reviewed follow-up
+on the official engine; team agreement is still pending. Preserve #6's complete
+`tests/simulation/`, especially exact-horizon, energy, API, CLI and independent
+legacy regressions, plus hash locks, check command and offline launcher. Their
+absence on #7 comes from older ancestry, not intentional deletion by Askar.
 
-Proposed ordering: review/validate #6, then port the useful demand extension onto
-that final implementation with profile conservation, shedding, partial-horizon,
-event timing and reproducibility tests. ML consumes an adapter to this engine.
-No branch was overwritten, force-pushed or merged. The proposal was sent to
-[Askar in PR #7](https://github.com/pablo228sos/lastlight/pull/7#issuecomment-6382698914).
-**Agreement is pending**; a posted proposal is not teammate approval.
+## Frontend physics acceptance: reproduction for Abai
 
-## Production CI activation and Windows evidence
+Abai's published #8 head is still `18f84dd`, with visual work only. The available
+numerical frontend reviewed here is #7 at `7147b3f`. No frontend edits were made.
+Verification used actual TypeScript modules rendered with React on the server,
+the real adapter, source inspection and the linked browser CI. Local Chromium
+is unavailable; this is not a local browser/GPU acceptance claim.
 
-Current active workflow on #6 is `Verify`. Its green
-[run 40084249280](https://github.com/pablo228sos/lastlight/actions/runs/40084249280)
-contains `web` and `reference-physics` jobs only. It does not execute the
-production service suite. **There is no executed official production Python CI
-run for #6 yet.** Updated #7 independently modifies Verify: its
-[run 40084045257](https://github.com/pablo228sos/lastlight/actions/runs/40084045257)
-passed 31 tests plus its schema checks on Ubuntu, but failed one browser smoke
-test (five passed). That is evidence for #7's own subset, not the official
-124-test suite, locked launcher, or Windows. It does not execute the official
-`python -m services.simulation.check` command.
+| Reproduction | Finding / acceptance requirement |
+| --- | --- |
+| Select school, disconnect, then FIRST FAILURE | Correct baseline: SOC 80.0% then 20.0%, failure 9.12 h; adapter keeps critical light on before failure and off after, with noncritical lights shed |
+| Run official #6 API with #7 frontend; open MODEL & PROVENANCE | Validator accepts v1 but panel reads 1.1-only `physics_version`, so the physics version is blank. The validator even accepts `1.999.0`. Gate explicit supported versions and use v1 `model_version`; ML/frontier routes need a separate agreed adapter |
+| Drag OUTAGE TRACE across baseline rows 36/37/38 | Row indices have equal slider spacing despite event-split durations; panel reads neither `t_end_utc` nor duration. Implement time-aware intervals/end labels; the existing FIRST FAILURE jump itself selects the correct event |
+| Render `PhysicsPanel` with `comparison.result.json.upgraded`, index 47 | Correct NOT OBSERVED, but selected state is 11:45 / 28.5%, not horizon 12:00 / 27.4%. Add an explicit horizon end state using returned end SOC; never relabel last-row start as final SOC |
+| Open school controls and inspect simulation requests | Only a fixed 16-hour baseline is requested; no comparison/36 kWh control exists. Connect the approved comparison endpoint for before/after demonstration |
+| Inspect initial baseline row (`status=degraded`) | Critical-served text and lighting are correct, but no explicit degraded label is shown. Surface noncritical shedding separately from critical failure |
+| Stop/block API, then disconnect | Explicit labelled rehearsal and no numeric result: correct. Approved fixture replay is not implemented; add an explicit synthetic fixture mode rather than silent success fallback |
 
-The exact reviewed change is [simulation-workflow.patch](simulation-workflow.patch)
-and its source is [simulation-ci.yml](simulation-ci.yml). It adds a separate
-`.github/workflows/simulation.yml` without altering existing Verify. Matrix:
-Ubuntu + Windows, Python 3.12, hash-locked installs, official
-`python -m services.simulation.check`, fresh launcher installation, live HTTP
-fixture comparison/CORS/errors, offline stop/restart, fresh offline wheel setup,
-and retained log/report artifacts. The Windows probe runs the actual `start.cmd`.
+## Remaining release gates and tested limits
 
-Activation is outside Issue #2's owned paths and was requested from
-[Abai in Issue #1](https://github.com/pablo228sos/lastlight/issues/1#issuecomment-6382701940).
-The shared workflow has not been changed. Once Abai agrees, the workflow owner
-can apply this exact patch in a reviewable activation PR:
+Abai must activate/pass the official production matrix, including actual
+Windows startup/HTTP/offline evidence, and confirm the integration target.
+Abai's adapter must use the agreed contract and expose the approved upgrade and
+fixture fallback; Askar's useful changes need reviewed reconciliation. Required
+team review remains before merging either PR. These gates are not declared done.
 
-```sh
-git apply --check docs/physics/simulation-workflow.patch
-git apply docs/physics/simulation-workflow.patch
-```
-
-The candidate cannot be called **production-CI-verified** until both matrix jobs
-actually pass. Native Windows is unavailable in this Linux environment;
-Windows installation, console signal handling, HTTP and offline restart are
-**unverified** until that runner executes. Linux evidence must not be cited as
-Windows verification. The cross-platform probe is reproducible by anyone using
-the commands in [README.md](README.md#reproduce-the-release-integration-check).
-
-## Contract and frontend handoff
-
-- [CONTRACT.md](CONTRACT.md): units, intervals, status/failure/censoring, versions,
-  reproducibility, error envelopes, CORS and variable-load upgrade policy.
-- [simulation-request.schema.json](simulation-request.schema.json) /
-  [simulation-result.schema.json](simulation-result.schema.json): authoritative schemas.
-- [fixtures/baseline.request.json](fixtures/baseline.request.json) /
-  [fixtures/baseline.result.json](fixtures/baseline.result.json): full baseline.
-- [fixtures/comparison.request.json](fixtures/comparison.request.json) /
-  [fixtures/comparison.result.json](fixtures/comparison.result.json): 12-hour comparison.
-- [fixtures/regression-16h.json](fixtures/regression-16h.json): observed 9.12 / 13.68 /
-  12.16 h events; the 12-hour upgrade results correctly have null observed failure.
-- [contracts.proposed.ts](contracts.proposed.ts), [FRONTEND.md](FRONTEND.md): reviewed
-  type proposal, launch/request commands, playback and labelled offline replay.
-
-Frontend adapter application and scene integration belong in Abai's PR; they
-are not claimed complete here. Numerical verification and release logs are
-recorded in [VALIDATION.md](VALIDATION.md).
-
-Remaining demonstration blockers: activate and pass the production matrix,
-including actual Windows evidence; obtain the required teammate review before
-integration; keep Abai's adapter on the agreed v1 contract while the demand
-extension remains under review. The synthetic model still excludes transient AC
-network behaviour, startup/protection dynamics and measured school validation.
+This is a synthetic single-bus energy model with constant efficiencies, not a
+measured school dataset or a transient voltage/protection/startup model. No
+weather is inferred from missing solar inputs. Bounds/units are fixed by the
+schemas; offline docs UI, native Windows/macOS and presentation-machine GPU
+behaviour have the explicit limitations above. Full setup details remain in
+[README.md](README.md), equations in [MODEL.md](MODEL.md).

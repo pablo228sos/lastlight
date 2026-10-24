@@ -1,0 +1,516 @@
+{
+  "reviewed_utc": "2026-10-24T10:49:31.510591+00:00",
+  "official_backend_branch": "feature/physics-api",
+  "verified_backend_code_commit": "59b286b2d1a56a3b4634971e988e65a1eaaf0b2e",
+  "reviewed_pr7_commit": "7147b3f1d0808886c1ca7dc5954ba94edc1564bd",
+  "reviewed_abai_pr8_commit": "18f84dd15f0731f84deb354656c7ad8f7f5649ee",
+  "official_suite": {
+    "passed": 124,
+    "failed": 0,
+    "coverage_percent_engine_schemas_api": 99.44,
+    "platform": "Linux",
+    "python": "3.12.14",
+    "command": "python -m services.simulation.check"
+  },
+  "official_numeric_audit": {
+    "label": "official",
+    "horizon": [
+      {
+        "step_minutes": 1,
+        "expected_failure": null,
+        "first_failure_utc": null,
+        "critical_survival_hours": null,
+        "last_interval_hours": 0.003333333333332078,
+        "passed": true
+      },
+      {
+        "step_minutes": 15,
+        "expected_failure": null,
+        "first_failure_utc": null,
+        "critical_survival_hours": null,
+        "last_interval_hours": 0.11999999999999922,
+        "passed": true
+      },
+      {
+        "step_minutes": 60,
+        "expected_failure": null,
+        "first_failure_utc": null,
+        "critical_survival_hours": null,
+        "last_interval_hours": 0.11999999999999922,
+        "passed": true
+      }
+    ],
+    "constant_input": [
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      }
+    ],
+    "variable_profiles": null,
+    "comparison_12h": {
+      "critical_survival_hours": null,
+      "served_critical_fraction": 1.0,
+      "unserved_critical_kwh": 0.0,
+      "first_failure_utc": null,
+      "max_balance_residual_kwh": 5.828670879282072e-16,
+      "observed_duration_hours": 12.0,
+      "survived_full_window": true,
+      "idealized_autonomy_hours": 13.68,
+      "total_critical_demand_kwh": 18.0,
+      "served_critical_kwh": 18.0,
+      "served_noncritical_kwh": 0.0,
+      "unserved_noncritical_kwh": 24.0,
+      "grid_import_kwh": 0.0,
+      "solar_available_kwh": 0.0,
+      "solar_used_kwh": 0.0,
+      "solar_curtailed_kwh": 0.0,
+      "battery_charge_kwh": 0.0,
+      "battery_discharge_kwh": 18.0,
+      "conversion_loss_kwh": 0.9473684210526305,
+      "initial_battery_energy_kwh": 28.8,
+      "final_battery_energy_kwh": 9.852631578947342,
+      "usable_capacity_kwh": 28.8,
+      "ending_soc": 0.2736842105263151,
+      "cumulative_balance_residual_kwh": 2.7977620220553945e-14
+    },
+    "plain_identity": {
+      "schema_version": "1.0.0",
+      "model_version": "lastlight-dispatch-1.0.0",
+      "physics_version": null
+    }
+  },
+  "pr7_numeric_audit": {
+    "label": "pr7-7147b3f",
+    "horizon": [
+      {
+        "step_minutes": 1,
+        "expected_failure": null,
+        "first_failure_utc": "2026-01-01T09:07:12Z",
+        "critical_survival_hours": 9.12,
+        "last_interval_hours": 1.971756091734278e-13,
+        "passed": false
+      },
+      {
+        "step_minutes": 15,
+        "expected_failure": null,
+        "first_failure_utc": "2026-01-01T09:07:12Z",
+        "critical_survival_hours": 9.12,
+        "last_interval_hours": 5.329070518200751e-15,
+        "passed": false
+      },
+      {
+        "step_minutes": 60,
+        "expected_failure": null,
+        "first_failure_utc": null,
+        "critical_survival_hours": null,
+        "last_interval_hours": 0.11999999999999922,
+        "passed": true
+      }
+    ],
+    "constant_input": [
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 1,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 15,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 24,
+        "initial_soc": 0.8,
+        "observed_hours": 9.12
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 36,
+        "initial_soc": 0.8,
+        "observed_hours": 13.68
+      },
+      {
+        "step_minutes": 60,
+        "capacity_kwh": 24,
+        "initial_soc": 1.0,
+        "observed_hours": 12.16
+      }
+    ],
+    "variable_profiles": {
+      "seed": 20261024,
+      "cases_passed": 100,
+      "max_residual_kwh": 6.855627177060342e-15,
+      "partial_window_critical_kwh": 3.0000000000000004,
+      "partial_window_noncritical_kwh": 1.35
+    },
+    "comparison_12h": {
+      "critical_survival_hours": null,
+      "served_critical_fraction": 1.0,
+      "unserved_critical_kwh": 0.0,
+      "first_failure_utc": null,
+      "max_balance_residual_kwh": 5.828670879282072e-16,
+      "observed_duration_hours": 12.0,
+      "survived_full_window": true,
+      "idealized_autonomy_hours": 13.68,
+      "total_critical_demand_kwh": 18.0,
+      "served_critical_kwh": 18.0,
+      "served_noncritical_kwh": 0.0,
+      "unserved_noncritical_kwh": 24.0,
+      "grid_import_kwh": 0.0,
+      "solar_available_kwh": 0.0,
+      "solar_used_kwh": 0.0,
+      "solar_curtailed_kwh": 0.0,
+      "battery_charge_kwh": 0.0,
+      "battery_discharge_kwh": 18.0,
+      "conversion_loss_kwh": 0.9473684210526305,
+      "initial_battery_energy_kwh": 28.8,
+      "final_battery_energy_kwh": 9.852631578947342,
+      "usable_capacity_kwh": 28.8,
+      "ending_soc": 0.2736842105263151,
+      "cumulative_balance_residual_kwh": 2.7977620220553945e-14
+    },
+    "plain_identity": {
+      "schema_version": "1.1.0",
+      "model_version": "lastlight-dispatch-1.1.0",
+      "physics_version": "lastlight-dispatch-1.1.0"
+    },
+    "prediction_identity": {
+      "schema_version": "1.1.0",
+      "model_version": null,
+      "physics_version": "lastlight-dispatch-1.1.0",
+      "physics_run_id": "a1363234-5fee-56e9-9901-7890183cd059"
+    },
+    "prediction_warnings": [
+      "Quasi-static energy model; not a field test or transient AC network model.",
+      "Solar generation is zero; omitted generation defaults to zero (no inferred weather).",
+      "ML unavailable (ModuleNotFoundError); authoritative physics evaluation used."
+    ]
+  },
+  "pr7_response_in_official_schema": {
+    "accepted_by_official_v1_model": false,
+    "errors": [
+      {
+        "location": [
+          "physics_version"
+        ],
+        "type": "extra_forbidden"
+      },
+      {
+        "location": [
+          "assumptions"
+        ],
+        "type": "extra_forbidden"
+      },
+      {
+        "location": [
+          "input",
+          "load",
+          "critical_profile_kw"
+        ],
+        "type": "extra_forbidden"
+      },
+      {
+        "location": [
+          "input",
+          "load",
+          "noncritical_profile_kw"
+        ],
+        "type": "extra_forbidden"
+      }
+    ]
+  },
+  "frontend_readonly_audit": {
+    "reviewed_commit": "7147b3f1d0808886c1ca7dc5954ba94edc1564bd",
+    "method": "actual TypeScript modules transpiled in memory; React server rendering; no frontend source edits",
+    "browser_executed_locally": false,
+    "validation": {
+      "accepted_official_v1": true,
+      "accepted_unreviewed_1_999_0": true
+    },
+    "rows": [
+      {
+        "name": "baseline-start",
+        "index": 0,
+        "row_status": "degraded",
+        "t_utc": "2026-01-01T00:00:00Z",
+        "t_end_utc": "2026-01-01T00:15:00Z",
+        "duration_hours": 0.25,
+        "soc_display": "80.0%",
+        "first_failure_display": "9.12 h",
+        "critical_status": "CRITICAL LOAD SERVED \u00b7 0.00 h",
+        "lights": {
+          "kind": "physics_calculated",
+          "gridConnected": false,
+          "noncriticalLit": false,
+          "criticalLit": true,
+          "event": "GRID_LOST"
+        },
+        "physical_model_version_visible": false,
+        "degraded_label_visible": false
+      },
+      {
+        "name": "baseline-failure",
+        "index": 37,
+        "row_status": "critical_failure",
+        "t_utc": "2026-01-01T09:07:12Z",
+        "t_end_utc": "2026-01-01T09:15:00Z",
+        "duration_hours": 0.1300000000000061,
+        "soc_display": "20.0%",
+        "first_failure_display": "9.12 h",
+        "critical_status": "CRITICAL LOAD UNSERVED \u00b7 9.12 h",
+        "lights": {
+          "kind": "physics_calculated",
+          "gridConnected": false,
+          "noncriticalLit": false,
+          "criticalLit": false,
+          "event": "GRID_LOST"
+        },
+        "physical_model_version_visible": false,
+        "degraded_label_visible": false
+      },
+      {
+        "name": "upgrade-12h-last-interval",
+        "index": 47,
+        "row_status": "degraded",
+        "t_utc": "2026-01-01T11:45:00Z",
+        "t_end_utc": "2026-01-01T12:00:00Z",
+        "duration_hours": 0.25,
+        "soc_display": "28.5%",
+        "first_failure_display": "NOT OBSERVED",
+        "critical_status": "CRITICAL LOAD SERVED \u00b7 11.75 h",
+        "lights": {
+          "kind": "physics_calculated",
+          "gridConnected": false,
+          "noncriticalLit": false,
+          "criticalLit": true,
+          "event": "GRID_LOST"
+        },
+        "physical_model_version_visible": false,
+        "degraded_label_visible": false
+      }
+    ],
+    "panel_reads_interval_end_timestamp": false,
+    "panel_reads_interval_duration": false,
+    "requests_comparison_endpoint": false,
+    "bundled_fixture_replay_path": false,
+    "approved_upgrade_horizon_soc": 0.2736842105263151,
+    "last_selected_interval_soc": 0.2846491228070168
+  },
+  "official_launcher": {
+    "started_utc": "2026-10-24T10:41:48.598179+00:00",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "windows_launcher_executed": false,
+    "checks": [
+      "fresh hash-locked launcher installation in path containing spaces",
+      "health and frozen versions",
+      "live OpenAPI equals frozen contract",
+      "minimal/full baseline requests reproduce every fixture interval",
+      "12h comparison fixture, including null observed upgrade failure",
+      "both 16h upgrades reproduce full frozen traces",
+      "all four Vite origins allowed; external preflight rejected",
+      "simulation/comparison validation errors and HTTP 404/405",
+      "repeated request is exactly reproducible",
+      "offline-start: graceful shutdown and released port",
+      "health and frozen versions",
+      "live OpenAPI equals frozen contract",
+      "minimal/full baseline requests reproduce every fixture interval",
+      "12h comparison fixture, including null observed upgrade failure",
+      "both 16h upgrades reproduce full frozen traces",
+      "all four Vite origins allowed; external preflight rejected",
+      "simulation/comparison validation errors and HTTP 404/405",
+      "repeated request is exactly reproducible",
+      "offline-restart: graceful shutdown and released port",
+      "first-time offline install from local hash-verified wheels"
+    ],
+    "success": true,
+    "source_sha256": {
+      "__init__.py": "94ccf3d50cb85654c2aa44a9b6e0ea11dc0a7858095b7b59cb2409520df8b697",
+      "__main__.py": "dc2eb1a8e2481e8693fab30ce49113e724eb7591dc8e8296e3f59f2cf375f9c3",
+      "api.py": "dde0882c1fe37b1f689629af641a590dcdfaa47f51638761d048388462b6c575",
+      "check.py": "c6c9b089dfaef85d457d13cc86d4b930838a598ad12dc4efb9576f4486baca2e",
+      "engine.py": "02af9989bd148b2373cb61c266a1538b6caca916cc692f12913f8ea80e0f9760",
+      "fixtures.py": "730beb65cebad76521155dad74cbcacd359d738fca36a5c0f5c9035cf28f84ea",
+      "integration_check.py": "73ec9cb15e61c206b9b387fb86eef29c32fba28d60df43e7e0cd397fc62c573f",
+      "requirements-dev.lock": "25a836efcc72607c352a3e12ce066a2da7d1a57fab00dc30ec446f5e9c6104dd",
+      "requirements.lock": "02d631ba3dc5479545fb811ce7aa59410740caa8b64a4553abb38d341055d8a7",
+      "run.py": "d1664a815c5ce2342f6059142d4c3385229e0196c647e4f8dbac0f2e09ff2f30",
+      "schemas.py": "8bbf811c4d900cfa57cfbc977c8ee77436bdb3ea527415f36980dfac70b97f45",
+      "start.cmd": "a7f30ac9594611978198da04a96343b9fa11aea81cf1a3e07a3f9375d3684de6"
+    },
+    "offline-start": {
+      "baseline": {
+        "critical_survival_hours": 9.12,
+        "served_critical_fraction": 0.7599999999999993,
+        "unserved_critical_kwh": 4.320000000000009,
+        "first_failure_utc": "2026-01-01T09:07:12Z",
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": false,
+        "idealized_autonomy_hours": 9.12,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 13.679999999999989,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 13.679999999999989,
+        "conversion_loss_kwh": 0.7199999999999986,
+        "initial_battery_energy_kwh": 19.200000000000003,
+        "final_battery_energy_kwh": 4.800000000000001,
+        "usable_capacity_kwh": 19.2,
+        "ending_soc": 0.20000000000000004,
+        "cumulative_balance_residual_kwh": 1.4432899320127035e-14
+      },
+      "run_id": "3055515b-6053-57cc-b40c-ec6302c24726",
+      "schema_version": "1.0.0",
+      "model_version": "lastlight-dispatch-1.0.0"
+    },
+    "offline-start_exit_code": 0,
+    "offline-restart": {
+      "baseline": {
+        "critical_survival_hours": 9.12,
+        "served_critical_fraction": 0.7599999999999993,
+        "unserved_critical_kwh": 4.320000000000009,
+        "first_failure_utc": "2026-01-01T09:07:12Z",
+        "max_balance_residual_kwh": 5.828670879282072e-16,
+        "observed_duration_hours": 12.0,
+        "survived_full_window": false,
+        "idealized_autonomy_hours": 9.12,
+        "total_critical_demand_kwh": 18.0,
+        "served_critical_kwh": 13.679999999999989,
+        "served_noncritical_kwh": 0.0,
+        "unserved_noncritical_kwh": 24.0,
+        "grid_import_kwh": 0.0,
+        "solar_available_kwh": 0.0,
+        "solar_used_kwh": 0.0,
+        "solar_curtailed_kwh": 0.0,
+        "battery_charge_kwh": 0.0,
+        "battery_discharge_kwh": 13.679999999999989,
+        "conversion_loss_kwh": 0.7199999999999986,
+        "initial_battery_energy_kwh": 19.200000000000003,
+        "final_battery_energy_kwh": 4.800000000000001,
+        "usable_capacity_kwh": 19.2,
+        "ending_soc": 0.20000000000000004,
+        "cumulative_balance_residual_kwh": 1.4432899320127035e-14
+      },
+      "run_id": "3055515b-6053-57cc-b40c-ec6302c24726",
+      "schema_version": "1.0.0",
+      "model_version": "lastlight-dispatch-1.0.0"
+    },
+    "offline-restart_exit_code": 0
+  },
+  "ci": {
+    "official_verify": {
+      "url": "https://github.com/pablo228sos/lastlight/actions/runs/40084865359",
+      "conclusion": "success",
+      "coverage": "web and archived reference physics, not official production suite"
+    },
+    "pr7_verify": {
+      "url": "https://github.com/pablo228sos/lastlight/actions/runs/40084814511",
+      "conclusion": "success",
+      "python_tests_passed": 31,
+      "browser_tests_passed": 6,
+      "browser_tests_skipped": 1,
+      "platform": "Ubuntu",
+      "windows_run": false
+    },
+    "official_production_matrix": {
+      "activated": false,
+      "run_url": null,
+      "windows_verified": false,
+      "coordination_url": "https://github.com/pablo228sos/lastlight/issues/1#issuecomment-6383191192"
+    }
+  },
+  "merge_conflict_paths": [
+    "services/simulation/engine.py",
+    "services/simulation/api.py",
+    "docs/physics/CONTRACT.md",
+    "docs/physics/MODEL.md"
+  ],
+  "method_limits": [
+    "No native Windows environment or runner execution available.",
+    "No local Chromium binary; frontend verification uses actual module React server rendering, pure adapter evaluation, source inspection and the linked actual browser CI.",
+    "No frontend, ML or physics source changes made."
+  ]
+}

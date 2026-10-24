@@ -1,0 +1,18 @@
+Creating isolated LASTLIGHT Python environment
+Looking in links: /workspace/scratch/c0de98d16f9f/physics-wheelhouse
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/annotated_doc-0.0.5-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 3))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 7))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/anyio-4.15.1-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 11))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/click-8.5.0-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 15))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/fastapi-0.135.1-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 19))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/h11-0.16.0-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 23))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/idna-3.20-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 27))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/pydantic-2.14.1-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 31))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 37))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/starlette-0.52.1-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 176))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 182))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/typing_inspection-0.4.4-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 192))
+Processing /workspace/scratch/c0de98d16f9f/physics-wheelhouse/uvicorn-0.42.0-py3-none-any.whl (from -r /tmp/lastlight release b9s0tsr_/first offline setup/services/simulation/requirements.lock (line 198))
+Installing collected packages: typing-extensions, idna, h11, click, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic-core, anyio, starlette, pydantic, fastapi
+Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 fastapi-0.135.1 h11-0.16.0 idna-3.20 pydantic-2.14.1 pydantic-core-2.50.1 starlette-0.52.1 typing-extensions-4.16.0 typing-inspection-0.4.4 uvicorn-0.42.0
+No broken requirements found.
