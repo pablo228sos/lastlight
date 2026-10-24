@@ -46,6 +46,8 @@ class Inverter(Contract):
 class Load(Contract):
     critical_kw: Power = 1.5
     noncritical_kw: Power = 2.0
+    critical_profile_kw: list[Power] | None = Field(default=None, max_length=10_080)
+    noncritical_profile_kw: list[Power] | None = Field(default=None, max_length=10_080)
     shed_noncritical_during_outage: bool = True
 
 
@@ -101,6 +103,8 @@ class SimulationRequest(Contract):
         for name, profile in [
             ("solar.profile_kw", self.solar.profile_kw),
             ("grid.profile_online", self.grid.profile_online),
+            ("load.critical_profile_kw", self.load.critical_profile_kw),
+            ("load.noncritical_profile_kw", self.load.noncritical_profile_kw),
         ]:
             if profile is not None and len(profile) != self.interval_count:
                 raise ValueError(f"{name} must have exactly {self.interval_count} entries")
@@ -173,6 +177,12 @@ class SimulationSummary(Contract):
 class SimulationResult(Contract):
     run_id: str
     model_version: str = MODEL_VERSION
+    physics_version: str = MODEL_VERSION
+    assumptions: list[str] = Field(default_factory=lambda: [
+        "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+        "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+        "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation.",
+    ])
     input_hash: str
     seed: int
     summary: SimulationSummary

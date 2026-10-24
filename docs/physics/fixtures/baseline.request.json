@@ -20,6 +20,8 @@
   "load": {
     "critical_kw": 1.5,
     "noncritical_kw": 2.0,
+    "critical_profile_kw": null,
+    "noncritical_profile_kw": null,
     "shed_noncritical_during_outage": true
   },
   "solar": {

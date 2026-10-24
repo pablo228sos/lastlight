@@ -3,7 +3,7 @@
   "info": {
     "title": "LASTLIGHT Physics API",
     "description": "Deterministic single-bus energy dispatch. kW power; DC kWh storage; UTC time.",
-    "version": "lastlight-dispatch-1.0.0"
+    "version": "lastlight-dispatch-1.1.0"
   },
   "paths": {
     "/health": {
@@ -22,7 +22,7 @@
             }
           },
           "422": {
-            "description": "Unprocessable Entity",
+            "description": "Unprocessable Content",
             "content": {
               "application/json": {
                 "schema": {
@@ -70,7 +70,7 @@
             }
           },
           "422": {
-            "description": "Unprocessable Entity",
+            "description": "Unprocessable Content",
             "content": {
               "application/json": {
                 "schema": {
@@ -118,7 +118,7 @@
             }
           },
           "422": {
-            "description": "Unprocessable Entity",
+            "description": "Unprocessable Content",
             "content": {
               "application/json": {
                 "schema": {
@@ -273,7 +273,7 @@
           "schema_version": {
             "type": "string",
             "title": "Schema Version",
-            "default": "1.0.0"
+            "default": "1.1.0"
           },
           "upgrade": {
             "type": "string",
@@ -427,12 +427,12 @@
           "model_version": {
             "type": "string",
             "title": "Model Version",
-            "default": "lastlight-dispatch-1.0.0"
+            "default": "lastlight-dispatch-1.1.0"
           },
           "schema_version": {
             "type": "string",
             "title": "Schema Version",
-            "default": "1.0.0"
+            "default": "1.1.0"
           }
         },
         "additionalProperties": false,
@@ -473,6 +473,40 @@
             "minimum": 0.0,
             "title": "Noncritical Kw",
             "default": 2.0
+          },
+          "critical_profile_kw": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number",
+                  "maximum": 50000.0,
+                  "minimum": 0.0
+                },
+                "type": "array",
+                "maxItems": 10080
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Critical Profile Kw"
+          },
+          "noncritical_profile_kw": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number",
+                  "maximum": 50000.0,
+                  "minimum": 0.0
+                },
+                "type": "array",
+                "maxItems": 10080
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Noncritical Profile Kw"
           },
           "shed_noncritical_during_outage": {
             "type": "boolean",
@@ -573,7 +607,19 @@
           "model_version": {
             "type": "string",
             "title": "Model Version",
-            "default": "lastlight-dispatch-1.0.0"
+            "default": "lastlight-dispatch-1.1.0"
+          },
+          "physics_version": {
+            "type": "string",
+            "title": "Physics Version",
+            "default": "lastlight-dispatch-1.1.0"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
           },
           "input_hash": {
             "type": "string",
@@ -599,7 +645,7 @@
           "schema_version": {
             "type": "string",
             "title": "Schema Version",
-            "default": "1.0.0"
+            "default": "1.1.0"
           },
           "input": {
             "$ref": "#/components/schemas/SimulationRequest"

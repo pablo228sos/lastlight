@@ -1,6 +1,8 @@
-# Physics API v1: integration contract
+# Physics API v1.1: integration contract
 
-Frozen for Askar (frontend) and Abai (ML) on `feature/physics-api` for Issue #2.
+Based on the team contract from `feature/physics-api` commit `776caa4` for Issue #2.
+The foundation branch adds load profiles, physics_version and assumptions in 1.1;
+the original contribution and its branch are preserved.
 The Python schemas, checked-in JSON Schemas and real API fixtures are authoritative.
 Every existing `SimulationResult` / `SimulationTracePoint` field in
 `apps/web/src/lib/contracts.ts` is retained. Proposed additions live here; no
@@ -39,7 +41,8 @@ numeric strings and booleans passed as numbers receive HTTP 422.
 
 `duration_hours` is 1 minute through 168 hours. `step_minutes` is an integer
 1..60. A partial final interval is supported. Optional `solar.profile_kw` and
-`grid.profile_online` arrays each require exactly
+`grid.profile_online`, `load.critical_profile_kw` and
+`load.noncritical_profile_kw` arrays each require exactly
 `ceil(duration_hours * 60 / step_minutes)` entries, including the final partial
 interval. Entries are constant over their interval. Arrays override their
 constant `generation_kw` / `online` settings. Missing PV data means zero PV;

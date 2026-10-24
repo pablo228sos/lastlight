@@ -1,10 +1,16 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "upgrade": "battery_36_kwh",
   "baseline": {
-    "run_id": "3055515b-6053-57cc-b40c-ec6302c24726",
-    "model_version": "lastlight-dispatch-1.0.0",
-    "input_hash": "b95dad3fbb9125a5e197e256c5a3003460e0df8bd5af89dd9b1b92c31f4ce1b9",
+    "run_id": "a1363234-5fee-56e9-9901-7890183cd059",
+    "model_version": "lastlight-dispatch-1.1.0",
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "assumptions": [
+      "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+      "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+      "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation."
+    ],
+    "input_hash": "d1bda203220e67be08151d49aa26b720a4016ff377ae588cb11e86ac40af01e0",
     "seed": 0,
     "summary": {
       "critical_survival_hours": 9.12,
@@ -1461,7 +1467,7 @@
         "docs/physics/MODEL.md"
       ]
     },
-    "schema_version": "1.0.0",
+    "schema_version": "1.1.0",
     "input": {
       "start_utc": "2026-01-01T00:00:00Z",
       "duration_hours": 12.0,
@@ -1484,6 +1490,8 @@
       "load": {
         "critical_kw": 1.5,
         "noncritical_kw": 2.0,
+        "critical_profile_kw": null,
+        "noncritical_profile_kw": null,
         "shed_noncritical_during_outage": true
       },
       "solar": {
@@ -1510,9 +1518,15 @@
     ]
   },
   "upgraded": {
-    "run_id": "c7be4c57-070b-5549-b56b-95d2567643ef",
-    "model_version": "lastlight-dispatch-1.0.0",
-    "input_hash": "28a876f325b8d5f56d943591a131fa025f8908679c12b79da0a0bde245090b79",
+    "run_id": "e3f20049-7c1a-56d2-afc9-cb4c3f4e8628",
+    "model_version": "lastlight-dispatch-1.1.0",
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "assumptions": [
+      "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+      "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+      "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation."
+    ],
+    "input_hash": "c6148f42d76a3e2a88279340355f0f802e6cae609b52c70059f019c6c4df13f1",
     "seed": 0,
     "summary": {
       "critical_survival_hours": null,
@@ -2940,7 +2954,7 @@
         "docs/physics/MODEL.md"
       ]
     },
-    "schema_version": "1.0.0",
+    "schema_version": "1.1.0",
     "input": {
       "start_utc": "2026-01-01T00:00:00Z",
       "duration_hours": 12.0,
@@ -2963,6 +2977,8 @@
       "load": {
         "critical_kw": 1.5,
         "noncritical_kw": 2.0,
+        "critical_profile_kw": null,
+        "noncritical_profile_kw": null,
         "shed_noncritical_during_outage": true
       },
       "solar": {

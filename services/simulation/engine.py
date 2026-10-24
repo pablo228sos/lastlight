@@ -56,7 +56,8 @@ class Dispatch:
 
 
 def dispatch(
-    s: SimulationRequest, energy: float, grid_online: bool, pv: float
+    s: SimulationRequest, energy: float, grid_online: bool, pv: float,
+    critical_demand: float, noncritical_demand: float,
 ) -> Dispatch:
     """Critical priority, solar -> grid -> battery, with optional surplus charging.
 
@@ -70,9 +71,9 @@ def dispatch(
     pv_kw = min(pv, inverter_kw) if grid_online or s.solar.islanding_capable else 0.0
     grid_limit = s.grid.import_limit_kw if grid_online else 0.0
     noncritical = (
-        0.0 if not grid_online and s.load.shed_noncritical_during_outage else s.load.noncritical_kw
+        0.0 if not grid_online and s.load.shed_noncritical_during_outage else noncritical_demand
     )
-    requested = s.load.critical_kw + noncritical
+    requested = critical_demand + noncritical
     solar_load = min(pv_kw, requested)
     grid_load = min(grid_limit, requested - solar_load)
     discharge = 0.0
@@ -83,7 +84,7 @@ def dispatch(
             max(0.0, inverter_kw - solar_load),
         )
     served = solar_load + grid_load + discharge
-    critical_served = min(s.load.critical_kw, served)
+    critical_served = min(critical_demand, served)
     noncritical_served = min(noncritical, max(0.0, served - critical_served))
     solar_charge = grid_charge = 0.0
     if discharge == 0.0 and energy < b.capacity_kwh * b.maximum_soc:
@@ -117,6 +118,8 @@ def idealized_autonomy(s: SimulationRequest) -> float | None:
     if (
         not all_outage
         or not all_dark
+        or s.load.critical_profile_kw is not None
+        or s.load.noncritical_profile_kw is not None
         or not s.inverter.islanding_capable
         or critical == 0
         or min(s.battery.max_discharge_kw, s.inverter.max_kw) < critical
@@ -147,9 +150,11 @@ def simulate(request: SimulationRequest) -> SimulationResult:
         interval_end = min((index + 1) * step, s.duration_hours)
         grid_online = s.grid.profile_online[index] if s.grid.profile_online is not None else s.grid.online
         pv_available = s.solar.profile_kw[index] if s.solar.profile_kw is not None else s.solar.generation_kw
+        critical_demand = s.load.critical_profile_kw[index] if s.load.critical_profile_kw is not None else s.load.critical_kw
+        noncritical_demand = s.load.noncritical_profile_kw[index] if s.load.noncritical_profile_kw is not None else s.load.noncritical_kw
 
         while t < interval_end:
-            p = dispatch(s, energy, grid_online, pv_available)
+            p = dispatch(s, energy, grid_online, pv_available, critical_demand, noncritical_demand)
             rate = p.charge * b.charge_efficiency - p.discharge / b.discharge_efficiency
             remaining = interval_end - t
             dt = remaining
@@ -173,8 +178,8 @@ def simulate(request: SimulationRequest) -> SimulationResult:
             residual = max(abs(ac_residual), abs(storage_residual), abs(balance))
             if residual > BALANCE_TOLERANCE_KWH or not minimum <= next_energy <= maximum:
                 raise EnergyBalanceError("energy conservation or battery bound violated")
-            unserved = max(0.0, s.load.critical_kw - p.critical)
-            unserved_noncritical = max(0.0, s.load.noncritical_kw - p.noncritical)
+            unserved = max(0.0, critical_demand - p.critical)
+            unserved_noncritical = max(0.0, noncritical_demand - p.noncritical)
             if unserved > POWER_TOLERANCE_KW:
                 status = "critical_failure"
                 if first_failure is None:
@@ -201,9 +206,9 @@ def simulate(request: SimulationRequest) -> SimulationResult:
                     battery_soc_end=next_energy / b.capacity_kwh,
                     battery_energy_kwh=energy,
                     battery_energy_end_kwh=next_energy,
-                    critical_demand_kw=s.load.critical_kw,
+                    critical_demand_kw=critical_demand,
                     critical_served_kw=p.critical,
-                    noncritical_demand_kw=s.load.noncritical_kw,
+                    noncritical_demand_kw=noncritical_demand,
                     noncritical_served_kw=p.noncritical,
                     unserved_critical_kw=unserved,
                     unserved_noncritical_kw=unserved_noncritical,
@@ -221,7 +226,7 @@ def simulate(request: SimulationRequest) -> SimulationResult:
         return fsum(getattr(point, field) * point.duration_hours for point in trace)
 
     served_critical = integral("critical_served_kw")
-    total_critical = s.load.critical_kw * s.duration_hours
+    total_critical = integral("critical_demand_kw")
     grid_energy = integral("grid_kw")
     solar_energy = integral("solar_kw")
     noncritical_energy = integral("noncritical_served_kw")

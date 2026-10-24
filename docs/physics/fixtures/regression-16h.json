@@ -1,8 +1,14 @@
 {
   "baseline": {
-    "run_id": "edae1669-3586-5f2f-8b89-c736f5d4f133",
-    "model_version": "lastlight-dispatch-1.0.0",
-    "input_hash": "36d6e6369e1410f014cec556db0f9ff025ad66a5f0ad12c49efd8be6a415a711",
+    "run_id": "4addfc90-b2c9-524f-b1b9-8e68ac8a1e86",
+    "model_version": "lastlight-dispatch-1.1.0",
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "assumptions": [
+      "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+      "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+      "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation."
+    ],
+    "input_hash": "3496eb8917e11e8acfd8e3a23a44f16054413a0ee501bdd43b0fa8cee8b77657",
     "seed": 0,
     "summary": {
       "critical_survival_hours": 9.12,
@@ -1923,7 +1929,7 @@
         "docs/physics/MODEL.md"
       ]
     },
-    "schema_version": "1.0.0",
+    "schema_version": "1.1.0",
     "input": {
       "start_utc": "2026-01-01T00:00:00Z",
       "duration_hours": 16.0,
@@ -1946,6 +1952,8 @@
       "load": {
         "critical_kw": 1.5,
         "noncritical_kw": 2.0,
+        "critical_profile_kw": null,
+        "noncritical_profile_kw": null,
         "shed_noncritical_during_outage": true
       },
       "solar": {
@@ -1972,9 +1980,15 @@
     ]
   },
   "battery_36_kwh": {
-    "run_id": "40f09c85-d4b1-5266-93db-f01a45f87e11",
-    "model_version": "lastlight-dispatch-1.0.0",
-    "input_hash": "a669b2e048e9b6d283321a7b9941b9da1198248d69d5e672c15fce9a70f2db4b",
+    "run_id": "26b7b36c-1aa3-5239-948e-fba192191bcd",
+    "model_version": "lastlight-dispatch-1.1.0",
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "assumptions": [
+      "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+      "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+      "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation."
+    ],
+    "input_hash": "6965eba03378215abdb5f0c28c8adf136f0d8afcabdf531caa9f3a197ad3a339",
     "seed": 0,
     "summary": {
       "critical_survival_hours": 13.68,
@@ -3895,7 +3909,7 @@
         "docs/physics/MODEL.md"
       ]
     },
-    "schema_version": "1.0.0",
+    "schema_version": "1.1.0",
     "input": {
       "start_utc": "2026-01-01T00:00:00Z",
       "duration_hours": 16.0,
@@ -3918,6 +3932,8 @@
       "load": {
         "critical_kw": 1.5,
         "noncritical_kw": 2.0,
+        "critical_profile_kw": null,
+        "noncritical_profile_kw": null,
         "shed_noncritical_during_outage": true
       },
       "solar": {
@@ -3944,9 +3960,15 @@
     ]
   },
   "full_precharge": {
-    "run_id": "1baffdb6-1ef6-5152-a1a7-c80ed981e281",
-    "model_version": "lastlight-dispatch-1.0.0",
-    "input_hash": "36c744b7c2908842544949be12a701a45b5c70330f81727a233cf7472cbb1e0b",
+    "run_id": "ee22643b-9f65-5d1a-9b42-403ab235d04a",
+    "model_version": "lastlight-dispatch-1.1.0",
+    "physics_version": "lastlight-dispatch-1.1.0",
+    "assumptions": [
+      "Single AC bus; piecewise-constant input power; default step 15 minutes.",
+      "SOC is a fraction; stored energy is DC kWh; demand and generation are AC kW.",
+      "Exact SOC-boundary events; no voltage, AC transients, degradation or protection simulation."
+    ],
+    "input_hash": "cbca7b64edaa7e284fa6626e7b5eb2a8711ec1dd399963b4dc19b958b7966a15",
     "seed": 0,
     "summary": {
       "critical_survival_hours": 12.16,
@@ -5867,7 +5889,7 @@
         "docs/physics/MODEL.md"
       ]
     },
-    "schema_version": "1.0.0",
+    "schema_version": "1.1.0",
     "input": {
       "start_utc": "2026-01-01T00:00:00Z",
       "duration_hours": 16.0,
@@ -5890,6 +5912,8 @@
       "load": {
         "critical_kw": 1.5,
         "noncritical_kw": 2.0,
+        "critical_profile_kw": null,
+        "noncritical_profile_kw": null,
         "shed_noncritical_during_outage": true
       },
       "solar": {
