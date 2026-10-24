@@ -3,6 +3,7 @@
 Run at repo root: python -m services.simulation.design_example
 This calls the exact same production validator and official design_search code.
 """
+
 import json
 from pathlib import Path
 
