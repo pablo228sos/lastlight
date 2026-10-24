@@ -1,0 +1,7 @@
+-r ../services/simulation/requirements-dev.txt
+numpy==2.2.6
+pandas==3.1.0
+pyarrow==26.0.0
+scipy==1.15.3
+scikit-learn==1.6.1
+torch==2.13.0

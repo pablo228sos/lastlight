@@ -1,0 +1,46 @@
+name: Official v1 ML bridge
+on:
+  pull_request:
+    paths:
+      - 'ml_bridge/**'
+      - 'tests/ml_bridge/**'
+      - 'research/**'
+      - 'docs/ml/**'
+      - 'services/simulation/**'
+      - '.github/workflows/ml-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ml-bridge-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  bridge:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            services/simulation/requirements-dev.lock
+            ml_bridge/requirements.txt
+      - name: Install unchanged official physics dependencies
+        run: python -m pip install --require-hashes -r services/simulation/requirements-dev.lock
+      - name: Check official engine, API and frozen fixtures
+        run: python -m services.simulation.check
+      - name: Verify physical bridge works before installing ML packages
+        run: python -m pytest tests/ml_bridge/test_bridge.py -q
+      - name: Install CPU neural research runtime
+        run: python -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r ml_bridge/requirements.txt
+      - run: python -m ruff check ml_bridge tests/ml_bridge
+      - run: python -m ruff format --check ml_bridge tests/ml_bridge
+      - run: python -m ml_bridge.export_contract --check
+      - run: python -m pytest tests/ml_bridge -q

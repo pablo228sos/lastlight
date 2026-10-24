@@ -1,0 +1,152 @@
+{
+  "official": {
+    "physics_version": "lastlight-dispatch-1.0.0",
+    "schema_version": "1.0.0",
+    "source_sha256": "d776af652f8bba19b666ff9acf6cea1f801c0d57f6af033de230eb1581cc4a7a",
+    "request_schema_sha256": "9c34b8a93dd12eaaf69aee15719f6894ab205daa5f053135b7462683a9f23986"
+  },
+  "legacy_model_version": "fragility-1-0e9fbf8a5ba1",
+  "legacy_physics_version": "lastlight-dispatch-1.1.0",
+  "legacy_checkpoint_sha256": "0e9fbf8a5ba1af3a9913c0e457f5e9fda598dcab08172211860ee32c2129e60b",
+  "legacy_rows": 6000,
+  "strict_v1_request_rejections": 6000,
+  "constant_profile_projection_rows": 1819,
+  "projected_label_disagreements": 0,
+  "projected_holdout_metrics": {
+    "generalization": {
+      "accuracy": 0.8872832369942196,
+      "precision": 0.8709677419354839,
+      "dangerous_recall": 0.9878048780487805,
+      "f1": 0.9257142857142857,
+      "confusion_matrix": [
+        [
+          64,
+          36
+        ],
+        [
+          3,
+          243
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 3,
+      "pr_auc": 0.9878857893139597,
+      "roc_auc": 0.9703658536585367,
+      "brier_score": 0.06339320331920535,
+      "ece_10_bins": 0.021405588172146026,
+      "threshold": 0.13,
+      "n": 346
+    },
+    "test": {
+      "accuracy": 0.9067357512953368,
+      "precision": 0.8947368421052632,
+      "dangerous_recall": 1.0,
+      "f1": 0.9444444444444444,
+      "confusion_matrix": [
+        [
+          22,
+          18
+        ],
+        [
+          0,
+          153
+        ]
+      ],
+      "confusion_order": [
+        "survives",
+        "fails"
+      ],
+      "false_negatives": 0,
+      "pr_auc": 0.9927994928254517,
+      "roc_auc": 0.9733660130718954,
+      "brier_score": 0.05045733587159532,
+      "ece_10_bins": 0.048118662519182606,
+      "threshold": 0.13,
+      "n": 193
+    }
+  },
+  "exclusive_horizon_cases": [
+    {
+      "step_minutes": 1,
+      "duration_hours": 9.119,
+      "legacy_survives": true,
+      "official_survives": true,
+      "legacy_first_failure": null,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 1,
+      "duration_hours": 9.12,
+      "legacy_survives": false,
+      "official_survives": true,
+      "legacy_first_failure": 9.12,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 1,
+      "duration_hours": 9.120001,
+      "legacy_survives": false,
+      "official_survives": false,
+      "legacy_first_failure": 9.12,
+      "official_first_failure": 9.12
+    },
+    {
+      "step_minutes": 15,
+      "duration_hours": 9.119,
+      "legacy_survives": true,
+      "official_survives": true,
+      "legacy_first_failure": null,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 15,
+      "duration_hours": 9.12,
+      "legacy_survives": false,
+      "official_survives": true,
+      "legacy_first_failure": 9.12,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 15,
+      "duration_hours": 9.120001,
+      "legacy_survives": false,
+      "official_survives": false,
+      "legacy_first_failure": 9.12,
+      "official_first_failure": 9.12
+    },
+    {
+      "step_minutes": 60,
+      "duration_hours": 9.119,
+      "legacy_survives": true,
+      "official_survives": true,
+      "legacy_first_failure": null,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 60,
+      "duration_hours": 9.12,
+      "legacy_survives": true,
+      "official_survives": true,
+      "legacy_first_failure": null,
+      "official_first_failure": null
+    },
+    {
+      "step_minutes": 60,
+      "duration_hours": 9.120001,
+      "legacy_survives": false,
+      "official_survives": false,
+      "legacy_first_failure": 9.12,
+      "official_first_failure": 9.12
+    }
+  ],
+  "decision": "retrain_on_official_v1",
+  "limitations": [
+    "Constant profile projection is an explicitly restricted audit, not an official request compatibility adapter.",
+    "Variable-load research inputs cannot be represented by official v1 without changing their meaning.",
+    "Old feature extraction depends on 1.1 load fields and omits some official grid controls.",
+    "An old model score or 93% research figure does not validate a new production checkpoint."
+  ]
+}
