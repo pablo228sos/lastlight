@@ -216,6 +216,67 @@ def verify_http(base: str, checks: list[str]) -> dict:
         "Analytic autonomy is not observed failure",
     )
     checks.append("12h comparison fixture, including null observed upgrade failure")
+
+    search_body = {
+        "scenario": {"duration_hours": 12, "grid": {"online": False}},
+        "outage_target_hours": 12,
+        "candidate_capacities_kwh": [36, 24, 32, 30],
+    }
+    status, _, design = http(base, "/api/v1/design-search", search_body)
+    require(status == 200, "Design search HTTP 200")
+    require(
+        design["selected_capacity_kwh"] == 32
+        and [x["capacity_kwh"] for x in design["candidates"]] == [24, 30, 32, 36]
+        and [x["first_critical_failure_hours"] for x in design["candidates"]]
+        == [9.12, 11.4, None, None]
+        and all(x["valid"] for x in design["candidates"])
+        and design["physics_model_version"] == expected["model_version"],
+        "Design search official observed physics reference",
+    )
+    for row in design["candidates"]:
+        status, _, rerun = http(
+            base,
+            "/api/v1/simulations",
+            {"battery": {"capacity_kwh": row["capacity_kwh"]}},
+        )
+        require(
+            status == 200
+            and rerun["run_id"] == row["physics_run_id"]
+            and rerun["input_hash"] == row["physics_input_hash"]
+            and rerun["summary"]["unserved_critical_kwh"]
+            == row["unserved_critical_kwh"],
+            "Design search must agree with direct official simulation",
+        )
+    status, _, repeated = http(base, "/api/v1/design-search", search_body)
+    require(status == 200 and repeated == design, "Design search deterministic HTTP")
+    checks.append("bounded design search agrees with four official engine runs")
+
+    status, _, precharged = http(
+        base,
+        "/api/v1/design-search",
+        {
+            "scenario": {"battery": {"initial_soc": 1}},
+            "outage_target_hours": 12,
+            "candidate_capacities_kwh": [24],
+        },
+    )
+    require(
+        status == 200
+        and precharged["selected_capacity_kwh"] == 24
+        and precharged["candidates"][0]["first_critical_failure_utc"] is None,
+        "Precharged capacity reference must survive horizon",
+    )
+    status, _, rejected = http(
+        base,
+        "/api/v1/design-search",
+        {**search_body, "candidate_capacities_kwh": [24, 24]},
+    )
+    require(
+        status == 422 and rejected["error"]["code"] == "validation_error",
+        "Design search duplicate-capacity validation",
+    )
+    checks.append("precharge alternate, strict validation, repeat determinism")
+
     regressions = read_json(FIXTURES / "regression-16h.json")
     for upgrade, survival in [("battery_36_kwh", 13.68), ("full_precharge", 12.16)]:
         status, _, actual = http(

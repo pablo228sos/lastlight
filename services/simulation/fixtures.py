@@ -25,6 +25,11 @@ FIXTURE_ROOT = Path(__file__).resolve().parents[2] / "docs" / "physics"
 def artifacts() -> dict[str, dict]:
     baseline = SimulationRequest().model_dump(mode="json")
     comparison = ComparisonRequest().model_dump(mode="json")
+    design_example = json.loads(
+        (FIXTURE_ROOT / "examples/design-search.request.json").read_text(
+            encoding="utf-8"
+        )
+    )
     with TestClient(app) as client:
 
         def post(path: str, body: dict, status: int = 200) -> dict:
@@ -43,6 +48,10 @@ def artifacts() -> dict[str, dict]:
             "comparison-result.schema.json": ComparisonResult.model_json_schema(),
             "error.schema.json": ErrorResponse.model_json_schema(),
             "openapi.json": client.get("/openapi.json").json(),
+            "examples/design-search.request.json": design_example,
+            "examples/design-search.response.json": post(
+                "/api/v1/design-search", design_example
+            ),
             "fixtures/baseline.request.json": baseline,
             "fixtures/baseline.result.json": response,
             "fixtures/comparison.request.json": comparison,
