@@ -1,0 +1,41 @@
+name: Public deployment verification
+
+on:
+  push:
+    branches: [deployment/public-web]
+  workflow_dispatch:
+
+jobs:
+  public-webgl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: '1'
+      LASTLIGHT_PUBLIC_URL: https://pablo228sos.github.io/lastlight/?demo=offline
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+        working-directory: apps/web
+      - run: npx playwright install --with-deps chromium
+        working-directory: apps/web
+      - name: Verify GitHub Pages
+        run: node scripts/verify-public.mjs
+        working-directory: apps/web
+      - name: Verify Vercel production
+        run: node scripts/verify-public.mjs
+        working-directory: apps/web
+        env:
+          LASTLIGHT_PUBLIC_URL: https://web-rosy-iota-krwtmih6ds.vercel.app/?demo=offline
+          LASTLIGHT_PUBLIC_EVIDENCE_DIR: vercel-deployment
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-deployment-evidence
+          path: |
+            evidence/public-deployment
+            evidence/vercel-deployment
