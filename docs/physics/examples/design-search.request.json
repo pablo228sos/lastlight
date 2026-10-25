@@ -1,0 +1,27 @@
+{
+  "scenario": {
+    "duration_hours": 12,
+    "step_minutes": 15,
+    "grid": {
+      "online": false
+    },
+    "load": {
+      "critical_kw": 1.5
+    },
+    "solar": {
+      "generation_kw": 0
+    },
+    "battery": {
+      "initial_soc": 0.8,
+      "minimum_soc": 0.2,
+      "discharge_efficiency": 0.95
+    }
+  },
+  "outage_target_hours": 12,
+  "candidate_capacities_kwh": [
+    24,
+    30,
+    32,
+    36
+  ]
+}
