@@ -4,5 +4,6 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: process.env.LASTLIGHT_BASE_PATH ?? '/',
   server: { proxy: { '/api/v1': 'http://127.0.0.1:8000', '/health': 'http://127.0.0.1:8000' } },
 })
