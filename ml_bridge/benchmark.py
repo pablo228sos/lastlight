@@ -66,6 +66,20 @@ def setup(case):
     raise ValueError(case)
 
 
+def require_real_model(case, result):
+    status = None
+    if case == "neural":
+        status = result.status
+    elif case == "assessment":
+        status = result.neural.status
+    elif case in {"forecast", "candidates"}:
+        status = result.neural_status
+    if status is not None and status != "available":
+        raise RuntimeError(
+            f"Cannot benchmark {case}: real neural model is {status}; fallback is not an inference measurement"
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cold-case")
@@ -73,8 +87,10 @@ def main():
     if args.cold_case:
         start = perf_counter()
         run = setup(args.cold_case)
-        run()
-        print(json.dumps({"ms": (perf_counter() - start) * 1000}))
+        result = run()
+        elapsed = (perf_counter() - start) * 1000
+        require_real_model(args.cold_case, result)
+        print(json.dumps({"ms": elapsed}))
         return
     report = {
         "environment": "local Windows CPU Python3.12; no browser rendering included",
@@ -100,12 +116,14 @@ def main():
             )
             cold.append(json.loads(process.stdout)["ms"])
         run = setup(case)
-        run()
+        require_real_model(case, run())
         times = []
         for _ in range(20):
             start = perf_counter()
-            run()
-            times.append((perf_counter() - start) * 1000)
+            result = run()
+            elapsed = (perf_counter() - start) * 1000
+            require_real_model(case, result)
+            times.append(elapsed)
         report["workloads"][case] = {
             "cold_import_first_ms": cold,
             "cold_median_ms": statistics.median(cold),
