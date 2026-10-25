@@ -1,0 +1,32 @@
+{
+  "source_sha": "0463d42282b371b57c68de7b1a9ba0323e09fd60",
+  "url": "http://127.0.0.1:4173",
+  "viewport": "1920x1080",
+  "physics_model_version": "lastlight-dispatch-1.0.0",
+  "design_search_run_id": "f1588e86-ad6c-5f03-b5d1-819020d365f2",
+  "selected_capacity_kwh": 32,
+  "verified_candidates": [
+    {
+      "capacity_kwh": 24,
+      "survived_target": false,
+      "first_critical_failure_hours": 9.12
+    },
+    {
+      "capacity_kwh": 30,
+      "survived_target": false,
+      "first_critical_failure_hours": 11.4
+    },
+    {
+      "capacity_kwh": 32,
+      "survived_target": true,
+      "first_critical_failure_hours": null
+    },
+    {
+      "capacity_kwh": 36,
+      "survived_target": true,
+      "first_critical_failure_hours": null
+    }
+  ],
+  "frontier_cells": 273,
+  "browser_errors": []
+}
