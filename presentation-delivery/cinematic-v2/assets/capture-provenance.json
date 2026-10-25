@@ -1,0 +1,8 @@
+{
+  "url": "http://127.0.0.1:4173/?capture=1",
+  "browser": "Google Chrome / Playwright on NVIDIA RTX 3070 D3D11",
+  "viewport": "1920x1080",
+  "capture": "HTMLCanvasElement.captureStream(30), MediaRecorder VP8 target 10 Mbps",
+  "physics": "Live local Physics API",
+  "recorded": "2026-10-25T05:21:40.264Z"
+}

@@ -1,0 +1,11 @@
+# Source and calculation provenance
+
+- Product source: `integration/final-demo-hardening`, commit `24b43f99a4c4d561a9ec32ea14170c9e6c27ff69`.
+- Release checks inspected before capture: Verify workflow `40161360633` and Physics API workflow `40161360558`, both successful.
+- Capture: Google Chrome, Playwright, 1920×1080 viewport, NVIDIA RTX 3070 D3D11 WebGL, local application at `127.0.0.1:4173`, local Physics API at `127.0.0.1:8000`.
+- `assets/*.webm` are the unmodified local browser and canvas recordings. `assets/*.png` are browser screenshots at the same viewport. `assets/actual-live-report.json` was downloaded from the actual app after a live Physics API run.
+- The canvas used `HTMLCanvasElement.captureStream(30)` and VP8 MediaRecorder. The opening descent and close roof zoom use Playwright's 25 fps full-browser recordings because their first canvas recorder segments did not contain decodable frames. The zoom is a crop of the actual 1920×1080 browser recording, shown in a smaller 1080×610 frame; it is not upscaled to full-screen 1080p. The 30 fps editing intermediates repeat source frames when the WebGL renderer produced fewer than 30 unique frames. They must not be described as 30 unique WebGL frames per second.
+- School input is synthetic. The illustrated rooftop panels do not generate power in this reference night run: accepted PV is 0 kW. The geometry is illustrative and does not represent surveyed infrastructure.
+- Numerical evidence: `assets/actual-live-report.json` and the existing `presentation-delivery/verified-live-school-report.json` exported from the live local Physics API. The 24 kWh baseline has first unmet critical demand at 9.12 hours, exactly 09:07:12. The 36 kWh candidate has no observed critical deficit inside the exclusive 12-hour test horizon. Capacity search tests the explicit set 24, 30, 32 and 36 kWh; 32 kWh is the smallest passing member of that set, not a global or cost optimum.
+- The Failure Frontier screenshot is genuine application output. Its 273 classified cells derive from 13 official physical runs; the crop and spotlight do not change any classification.
+- The report scene shows real top-level JSON fields from the export, with a condensed display. It is not a separate certificate or PDF.
