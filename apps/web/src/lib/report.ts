@@ -1,14 +1,16 @@
 import type { ComparisonResult, SimulationResult } from './contracts'
 import type { PhysicsSource } from '../app/usePhysicsRun'
+import type { DesignSearchResult } from './designSearch'
 
 export interface ReportSelection {
   source: PhysicsSource
   baseline: SimulationResult
   comparison: ComparisonResult | null
+  designSearch: DesignSearchResult | null
   selectedRun: 'baseline' | 'upgraded'
 }
 
-export function createEvidenceReport({ source, baseline, comparison, selectedRun }: ReportSelection) {
+export function createEvidenceReport({ source, baseline, comparison, designSearch, selectedRun }: ReportSelection) {
   const selected = selectedRun === 'upgraded' && comparison ? comparison.upgraded : baseline
   return {
     document_version: '1.0.0',
@@ -52,6 +54,7 @@ export function createEvidenceReport({ source, baseline, comparison, selectedRun
       baseline: { run_id: comparison.baseline.run_id, input_hash: comparison.baseline.input_hash, input: comparison.baseline.input, summary: comparison.baseline.summary },
       upgraded: { run_id: comparison.upgraded.run_id, input_hash: comparison.upgraded.input_hash, input: comparison.upgraded.input, summary: comparison.upgraded.summary },
     } : null,
+    design_search: designSearch,
     warnings: selected.warnings,
     limitations: [
       'This report uses a synthetic school archetype and illustrative geometry.',

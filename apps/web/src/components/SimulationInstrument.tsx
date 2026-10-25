@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { usePhysicsRun } from '../app/usePhysicsRun'
 import { failureHours } from '../lib/physics'
 import { FailureFrontierPanel } from './FailureFrontierPanel'
+import { DesignSearchPanel } from './DesignSearchPanel'
 
 type Physics = ReturnType<typeof usePhysicsRun>
 const hours = (value: number) => {
@@ -12,6 +13,7 @@ const kw = (value: number) => value.toFixed(2)
 
 export function SimulationInstrument({ physics }: { physics: Physics }) {
   const [frontierOpen, setFrontierOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   if (physics.status === 'idle') return null
   if (physics.status === 'loading') return <aside className="simulation-instrument pending" aria-label="Simulation status">
     <div className="instrument-header"><span>PHYSICS / CONNECTING</span><i /></div>
@@ -59,8 +61,10 @@ export function SimulationInstrument({ physics }: { physics: Physics }) {
       {physics.comparison.upgraded.summary.idealized_autonomy_hours !== null && <small>ANALYTICAL BATTERY-ONLY REFERENCE / {physics.comparison.upgraded.summary.idealized_autonomy_hours.toFixed(2)} H</small>}
     </div>}
     {physics.compareError && <p role="alert" className="instrument-error">{physics.compareError}</p>}
-    <button className="frontier-launch" onClick={() => setFrontierOpen(true)} data-testid="open-frontier">EXPLORE VERIFIED FAILURE FRONTIER ↗</button>
+    <div className="analysis-launches"><button className="frontier-launch" onClick={() => setFrontierOpen(true)} data-testid="open-frontier">FAILURE FRONTIER ↗</button>
+      {physics.source === 'live' && <button className="design-launch" onClick={() => { setSearchOpen(true); if (!physics.designSearch && !physics.designSearchLoading) void physics.searchDesign() }} data-testid="open-design-search">FIND VIABLE CAPACITY ↗</button>}</div>
     <div className="instrument-flows"><span>GRID <b>{row.grid_online ? 'ONLINE' : 'OFFLINE'}</b></span><span>PV <b>{kw(row.solar_kw)} kW</b></span><span>BATTERY <b>{kw(row.battery_discharge_kw - row.battery_charge_kw)} kW</b></span></div>
     {frontierOpen && physics.baseline && <FailureFrontierPanel source={physics.source} baseline={physics.baseline} onClose={() => setFrontierOpen(false)} />}
+    {searchOpen && physics.baseline && physics.source === 'live' && <DesignSearchPanel baseline={physics.baseline} result={physics.designSearch} loading={physics.designSearchLoading} error={physics.designSearchError} onRetry={() => void physics.searchDesign()} onClose={() => setSearchOpen(false)} />}
   </aside>
 }

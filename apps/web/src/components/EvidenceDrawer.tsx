@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react'
 import type { PhysicsSource } from '../app/usePhysicsRun'
 import type { ComparisonResult, SimulationResult } from '../lib/contracts'
 import { downloadEvidenceReport } from '../lib/report'
+import type { DesignSearchResult } from '../lib/designSearch'
 
-export function EvidenceDrawer({ onClose, source, baseline, comparison, selectedRun }: {
+export function EvidenceDrawer({ onClose, source, baseline, comparison, designSearch, selectedRun }: {
   onClose: () => void; source: PhysicsSource | null; baseline: SimulationResult | null
-  comparison: ComparisonResult | null; selectedRun: 'baseline' | 'upgraded'
+  comparison: ComparisonResult | null; designSearch: DesignSearchResult | null; selectedRun: 'baseline' | 'upgraded'
 }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   useEffect(() => {
@@ -27,8 +28,8 @@ export function EvidenceDrawer({ onClose, source, baseline, comparison, selected
       <div className="drawer-fact"><span>INPUTS</span><strong>SYNTHETIC SCHOOL ARCHETYPE, NO MEASURED METERS</strong></div>
       <div className="drawer-fact"><span>TIME ZERO</span><strong>PRE-OUTAGE VIEW IS PRESENTATION; TRACE STARTS GRID OFFLINE</strong></div>
       <div className="drawer-fact"><span>BOUNDARY</span><strong>NO LIVE TELEMETRY, WEATHER FEED OR MAPPED GRID</strong></div>
-      {source && baseline && <button className="drawer-download" data-testid="download-report" onClick={() => downloadEvidenceReport({ source, baseline, comparison, selectedRun })}>DOWNLOAD VERIFIED JSON REPORT ↗</button>}
-      {source && baseline && <p className="drawer-report-note">Includes the resolved inputs, complete physics trace, result, run hashes and limitations. {comparison ? 'The baseline and upgrade summaries are both included.' : 'Run the upgrade comparison to include both scenarios.'}</p>}
+      {source && baseline && <button className="drawer-download" data-testid="download-report" onClick={() => downloadEvidenceReport({ source, baseline, comparison, designSearch, selectedRun })}>DOWNLOAD VERIFIED JSON REPORT ↗</button>}
+      {source && baseline && <p className="drawer-report-note">Includes the resolved inputs, complete physics trace, result, run hashes and limitations. {comparison ? 'The baseline and upgrade summaries are both included.' : 'Run the upgrade comparison to include both scenarios.'} {designSearch ? 'The physically tested capacity set is included.' : ''}</p>}
       <button className="drawer-close" onClick={onClose}>CLOSE REGISTER ↗</button>
     </aside>
   </div>
