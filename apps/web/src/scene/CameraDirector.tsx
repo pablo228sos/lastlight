@@ -18,6 +18,8 @@ type Props = {
 export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onDescentComplete }: Props) {
   const { camera, gl } = useThree()
   const exposeCapturePose = new URLSearchParams(window.location.search).has('capture')
+  const captureFrameCount = useRef(0)
+  const captureForward = useRef(new Vector3())
 
   // Test-only observation: never mutates camera transforms, camera targets or
   // animation timelines. Browser art tests wait for the actual destination pose.
@@ -28,6 +30,13 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
       camera.position.y.toFixed(3),
       camera.position.z.toFixed(3),
     ].join(',')
+    camera.getWorldDirection(captureForward.current)
+    gl.domElement.dataset.cameraForward = [
+      captureForward.current.x.toFixed(4),
+      captureForward.current.y.toFixed(4),
+      captureForward.current.z.toFixed(4),
+    ].join(',')
+    gl.domElement.dataset.renderFrame = String(++captureFrameCount.current)
   })
   const target = useRef(new Vector3(...SHOTS.orbital.target))
   const timeline = useRef<gsap.core.Timeline | null>(null)
@@ -101,15 +110,35 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
 
   useEffect(() => {
     const canvas = gl.domElement
-    let lastX = 0, lastY = 0, dragging = false
+    let lastX = 0, lastY = 0, dragging = false, panning = false
     const down = (event: PointerEvent) => {
       if (phaseRef.current === 'INTRO' || phaseRef.current === 'DESCENT') return
-      dragging = true; lastX = event.clientX; lastY = event.clientY; canvas.setPointerCapture(event.pointerId)
+      if (event.button !== 0 && event.button !== 2) return
+      dragging = true
+      panning = event.button === 2 || event.shiftKey
+      lastX = event.clientX; lastY = event.clientY
+      canvas.setPointerCapture(event.pointerId)
     }
     const move = (event: PointerEvent) => {
       if (!dragging || timeline.current?.isActive()) return
       const dx = event.clientX - lastX, dy = event.clientY - lastY
       lastX = event.clientX; lastY = event.clientY
+      if (panning) {
+        // Translate the *same* camera and target together in the ground plane.
+        // No teleport, new map, or altered camera-preset definitions.
+        const forward = new Vector3().subVectors(target.current, camera.position)
+        forward.y = 0
+        if (forward.lengthSq() < .0001) return
+        forward.normalize()
+        const right = new Vector3(forward.z, 0, -forward.x)
+        const distance = camera.position.distanceTo(target.current)
+        const speed = Math.max(.022, Math.min(.13, distance * .0013))
+        const movement = right.multiplyScalar(-dx * speed).add(forward.multiplyScalar(dy * speed))
+        camera.position.add(movement)
+        target.current.add(movement)
+        camera.lookAt(target.current)
+        return
+      }
       const direction = new Vector3().subVectors(camera.position, target.current)
       const theta = Math.atan2(direction.x, direction.z) - dx * .004
       const radius = Math.sqrt(direction.x ** 2 + direction.z ** 2)
@@ -117,7 +146,7 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
       camera.position.set(target.current.x + Math.sin(theta) * radius, target.current.y + y, target.current.z + Math.cos(theta) * radius)
       camera.lookAt(target.current)
     }
-    const up = () => { dragging = false }
+    const up = () => { dragging = false; panning = false }
     const wheel = (event: WheelEvent) => {
       if (phaseRef.current === 'INTRO' || phaseRef.current === 'DESCENT' || timeline.current?.isActive()) return
       event.preventDefault()
@@ -126,11 +155,14 @@ export function CameraDirector({ shot, phase, siteId, paused, reducedMotion, onD
       camera.position.copy(target.current).add(vector.normalize().multiplyScalar(distance))
       camera.lookAt(target.current)
     }
+    const preventMenu = (event: MouseEvent) => event.preventDefault()
     canvas.addEventListener('pointerdown', down); canvas.addEventListener('pointermove', move)
     canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up)
     canvas.addEventListener('wheel', wheel, { passive: false })
+    canvas.addEventListener('contextmenu', preventMenu)
     return () => { canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move)
-      canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', up); canvas.removeEventListener('wheel', wheel) }
+      canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', up);
+      canvas.removeEventListener('wheel', wheel); canvas.removeEventListener('contextmenu', preventMenu) }
   }, [camera, gl])
   return null
 }

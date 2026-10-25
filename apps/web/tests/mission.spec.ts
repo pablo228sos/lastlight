@@ -156,3 +156,33 @@ test('pointer controls and source geometry switch', async ({ page }) => {
   await expect(canvas).toBeVisible()
   expect(errors).toEqual([])
 })
+
+
+test('mouse city navigation: right-drag pans original district without changing camera shot', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 })
+  await page.goto('/?capture=1')
+  await page.getByTestId('skip-intro').click()
+  const main = page.locator('main')
+  await expect(main).toHaveAttribute('data-shot', 'district')
+  const canvas = page.locator('canvas')
+  await expect(canvas).toBeVisible()
+  await canvas.evaluate((element: HTMLCanvasElement) => {
+    element.dispatchEvent(new CustomEvent('lastlight:capture-lock-pose', {
+      detail: { shot: 'district' },
+    }))
+  })
+  await expect.poll(async () => await canvas.getAttribute('data-camera-position')).not.toBeNull()
+  const before = (await canvas.getAttribute('data-camera-position'))!.split(',').map(Number)
+  const bounds = await canvas.boundingBox()
+  if (!bounds) throw new Error('WebGL canvas missing')
+  await page.mouse.move(bounds.x + bounds.width * .5, bounds.y + bounds.height * .5)
+  await page.mouse.down({ button: 'right' })
+  await page.mouse.move(bounds.x + bounds.width * .64, bounds.y + bounds.height * .55, { steps: 10 })
+  await page.mouse.up({ button: 'right' })
+  await expect.poll(async () => {
+    const current = (await canvas.getAttribute('data-camera-position'))?.split(',').map(Number) ?? before
+    return Math.hypot(current[0]-before[0], current[1]-before[1], current[2]-before[2])
+  }).toBeGreaterThan(.15)
+  await expect(main).toHaveAttribute('data-shot', 'district')
+  await expect(main).toHaveAttribute('data-phase', 'DISTRICT')
+})

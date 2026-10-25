@@ -2,6 +2,10 @@ import { useLayoutEffect, useMemo, useRef, type RefObject } from 'react'
 import { Line } from '@react-three/drei'
 import { SchoolFacadeWall } from './SchoolFacadeWall'
 import { SchoolSolarArray } from './SchoolSolarArray'
+import { SchoolHeroDetails } from './SchoolHeroDetails'
+import { RealNightLights } from './RealNightLights'
+import { ArchitecturalBuildingBodies, ArchitecturalDistrictDetails } from './CityArchitecture'
+import { CinematicStreets } from './CinematicStreets'
 import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Color, MathUtils, MeshBasicMaterial, MeshStandardMaterial, Object3D, type InstancedMesh } from 'three'
 import type { SceneLayer, ScenePhase, VisualRehearsalState } from '../app/useMissionState'
@@ -24,7 +28,6 @@ const buildings: Building[] = parcelX.flatMap((x, ix) => parcelZ.flatMap((z, iz)
     w: 7 + seeded(i + 12) * 6, d: 8 + seeded(i + 13) * 6,
     h: 5 + seeded(i + 14) * (seeded(i + 15) > .74 ? 23 : 13), tone: i % 4 }]
 }))
-const buildingBodies: MatrixItem[] = buildings.map(b => ({ x: b.x, y: b.h / 2, z: b.z, sx: b.w, sy: b.h, sz: b.d }))
 const facadeBands: MatrixItem[] = buildings.flatMap(b => Array.from({ length: Math.max(1, Math.floor(b.h / 2.9)) }, (_, floor) => ({
   x: b.x, y: 2.85 + floor * 2.9, z: b.z, sx: b.w + .09, sy: .09, sz: b.d + .09,
 })))
@@ -44,11 +47,11 @@ const windows: MatrixItem[] = buildings.flatMap((b, index) => {
   for (let floor = 0; floor < floors; floor++) {
     for (let col = 0; col < Math.floor(b.w / 2.1); col++) {
       if (seeded(index * 100 + floor * 20 + col) > .38)
-        result.push({ x: b.x - b.w / 2 + 1.3 + col * 2.1, y: 1.7 + floor * 2.8, z: b.z + b.d / 2 + .035, sx: .58, sy: .62, sz: .05 })
+        result.push({ x: b.x - b.w / 2 + 1.3 + col * 2.1, y: 1.7 + floor * 2.8, z: b.z + b.d / 2 + .145, sx: .74, sy: 1.02, sz: .05 })
     }
     for (let col = 0; col < Math.floor(b.d / 2.1); col++) {
       if (seeded(index * 191 + floor * 17 + col) > .43)
-        result.push({ x: b.x + b.w / 2 + .035, y: 1.7 + floor * 2.8, z: b.z - b.d / 2 + 1.3 + col * 2.1, sx: .05, sy: .62, sz: .58 })
+        result.push({ x: b.x + b.w / 2 + .145, y: 1.7 + floor * 2.8, z: b.z - b.d / 2 + 1.3 + col * 2.1, sx: .05, sy: 1.02, sz: .74 })
     }
   }
   return result
@@ -74,9 +77,6 @@ const campusFenceRails: MatrixItem[] = [.5, 1.35].flatMap(y => [
   { x: -28.5, y, z: 25, sx: 3, sy: .06, sz: .08 },
   { x: 10.5, y, z: 25, sx: 39, sy: .06, sz: .08 },
 ])
-const schoolLit = new MeshStandardMaterial({ color: '#7c5a37', emissive: '#ffbc70', emissiveIntensity: 1.6, toneMapped: false })
-const schoolEmergency = new MeshStandardMaterial({ color: '#386566', emissive: '#65d4c8', emissiveIntensity: 3.5, toneMapped: false })
-
 function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 1 }: {
   items: MatrixItem[]; color: string; emissive?: string; emissiveIntensity?: number; roughness?: number
 }) {
@@ -98,7 +98,7 @@ function Instances({ items, color, emissive, emissiveIntensity = 0, roughness = 
   </instancedMesh>
 }
 
-function CityFabric({ visual }: { visual: VisualRehearsalState }) {
+function CityFabric({ visual, lowPower }: { visual: VisualRehearsalState; lowPower: boolean }) {
   const windowMaterial = useRef<MeshStandardMaterial>(null)
   const lampMaterial = useRef<MeshStandardMaterial>(null)
   const windowMesh = useRef<InstancedMesh>(null)
@@ -122,7 +122,8 @@ function CityFabric({ visual }: { visual: VisualRehearsalState }) {
     if (lampMaterial.current) lampMaterial.current.color.lerp(new Color(visual.gridConnected ? '#eeb974' : '#26393c'), Math.min(1, delta * 3))
   })
   return <>
-    <Instances items={buildingBodies} color="#29343a" roughness={.88} />
+    <ArchitecturalBuildingBodies buildings={buildings} />
+    <ArchitecturalDistrictDetails buildings={buildings} lowPower={lowPower} />
     <Instances items={facadeBands} color="#465356" roughness={.94} />
     <Instances items={entryCanopies} color="#45555a" roughness={.85} />
     <Instances items={roofCaps} color="#3e474b" roughness={.91} />
@@ -170,30 +171,10 @@ function StreetPools({ visual }: { visual: VisualRehearsalState }) {
   </instancedMesh>
 }
 
-function Streets() {
-  const roads = [-80, -33, 55, 100]
-  return <>
-    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[310, 310]} /><meshStandardMaterial color="#17252a" roughness={1} /></mesh>
-    {roads.map((at, i) => <group key={'x' + i}>
-      <mesh position={[at, .015, 0]} receiveShadow><boxGeometry args={[10, .03, 270]} /><meshStandardMaterial color="#222a2c" /></mesh>
-      <mesh position={[0, .018, at]} receiveShadow><boxGeometry args={[270, .03, 10]} /><meshStandardMaterial color="#222a2c" /></mesh>
-      {Array.from({ length: 26 }, (_, j) => <group key={j}>
-        <mesh position={[at, .047, -128 + j * 10]}><boxGeometry args={[.13, .015, 2.5]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-        <mesh position={[-128 + j * 10, .047, at]}><boxGeometry args={[2.5, .015, .13]} /><meshBasicMaterial color="#7b6f58" transparent opacity={.34} /></mesh>
-      </group>)}
-    </group>)}
-  </>
-}
-
 function School({ visual, layer, onSelect, showHotspots }: {
   visual: VisualRehearsalState; layer: SceneLayer; onSelect: () => void
   showHotspots: boolean
 }) {
-  useFrame((_, delta) => {
-    schoolLit.emissiveIntensity = MathUtils.damp(schoolLit.emissiveIntensity, visual.noncriticalLit ? 1.6 : 0, 3, delta)
-    schoolLit.color.lerp(new Color(visual.noncriticalLit ? '#7c5a37' : '#1c3338'), Math.min(1, delta * 3))
-    schoolEmergency.emissiveIntensity = MathUtils.damp(schoolEmergency.emissiveIntensity, visual.criticalLit ? 3.5 : .08, 2, delta)
-  })
   return <group position={[13, 0, 7]} onClick={(event) => { event.stopPropagation(); onSelect() }} onPointerOver={() => { document.body.style.cursor = 'pointer' }} onPointerOut={() => { document.body.style.cursor = 'auto' }}>
     {showHotspots && <Line points={[[-30, .19, -25], [30, .19, -25], [30, .19, 25], [-30, .19, 25], [-30, .19, -25]]}
       color="#a8dbd0" lineWidth={1.2} transparent opacity={.64} />}
@@ -224,20 +205,15 @@ function School({ visual, layer, onSelect, showHotspots }: {
     {[[-3, 2.2, 16.4], [3, 2.2, 16.4]].map(([x,y,z],i)=><mesh key={'canopy' + i} position={[x,y,z]}><boxGeometry args={[.2,4.3,.2]} /><meshStandardMaterial color="#57706b" /></mesh>)}
     <mesh position={[0, 2.2, 13.05]}><boxGeometry args={[4.4, 4.2, .12]} /><meshStandardMaterial color="#1d3037" metalness={.35} roughness={.4} /></mesh>
     <mesh position={[0, 4.8, 13.14]}><boxGeometry args={[7, .22, .15]} /><meshStandardMaterial color="#ebe3c8" emissive="#e4a866" emissiveIntensity={visual.noncriticalLit ? .7 : .02} /></mesh>
-    {[-11, -7, 7, 11].flatMap((x) => [2.1, 5.6].map(y => <mesh key={x + '/' + y} position={[x, y, 13.065]}>
-      <boxGeometry args={[1.7, 1.25, .12]} /><primitive object={schoolLit} attach="material" />
-    </mesh>))}
     {[-10, -6, -2, 2, 6, 10].map(x => <mesh key={'back' + x} position={[x, 4.4, -1.09]}>
       <boxGeometry args={[1.6, 2, .12]} /><meshStandardMaterial color="#7a5835" emissive="#e69852" emissiveIntensity={visual.noncriticalLit ? 1.7 : .04} toneMapped={false} />
     </mesh>)}
-    {[11.8, 15, 18.2].map(x => <mesh key={'annex' + x} position={[x, 3.4, 15.55]}>
-      <boxGeometry args={[1.8, 1.7, .12]} /><primitive object={schoolEmergency} attach="material" />
-    </mesh>)}
+    <SchoolHeroDetails visual={visual} powerVisible={layer === 'power'} />
     <SchoolSolarArray />
     <mesh position={[19.4, 1.65, 3.2]} castShadow><boxGeometry args={[2.5, 3.1, 1.8]} /><meshStandardMaterial color="#253d45" metalness={.55} roughness={.5} /></mesh>
     <mesh position={[19.4, 1.8, 4.13]}><boxGeometry args={[1.5, .8, .05]} /><meshStandardMaterial color="#254f56" emissive="#69c8bd" emissiveIntensity={layer === 'power' ? 1.4 : .25} /></mesh>
     <mesh position={[15.7, 1.5, 3.2]} castShadow><boxGeometry args={[2.3, 2.8, 1.7]} /><meshStandardMaterial color="#454d4e" metalness={.5} roughness={.45} /></mesh>
-    <mesh position={[15.7, 2, 4.08]}><boxGeometry args={[1.5, .16, .04]} /><meshBasicMaterial color="#92d5c4" /></mesh>
+    <mesh position={[15.7, 2, 4.08]}><boxGeometry args={[1.5, .16, .04]} /><meshStandardMaterial color={visual.criticalLit ? "#8dc9be" : "#2b4145"} emissive="#85cabe" emissiveIntensity={visual.criticalLit ? .7 : 0} /></mesh>
     {layer === 'power' && <>
       <Line points={[[-8, 8.95, 5], [11, 8.95, 5], [16, 6.9, 5], [16, 2.5, 4]]} color="#8dd7d1" lineWidth={2} transparent opacity={.88} />
       <Line points={[[19.5, 2.5, 4], [16, 2.5, 4], [16, 1, 10]]} color="#8dd7d1" lineWidth={2} transparent opacity={.88} />
@@ -271,13 +247,14 @@ export function DistrictWorld({ visual, layer, phase, selected, lowPower, onSele
   return <>
     <color attach="background" args={['#09141b']} />
     <fog attach="fog" args={['#09141b', 145, 460]} />
-    <ambientLight intensity={1.15} color="#9fb8b9" />
-    <hemisphereLight intensity={.8} color="#779aa8" groundColor="#382b25" />
-    <directionalLight position={[-60, 150, 80]} intensity={1.9} color="#bbd2d8" castShadow={!lowPower} shadow-mapSize={lowPower ? [512, 512] : [2048, 2048]} shadow-camera-left={-145} shadow-camera-right={145} shadow-camera-top={145} shadow-camera-bottom={-145} />
-    <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 85 : 22} distance={105} color="#f5a45b" decay={2} />
-    <Streets />
+    <ambientLight intensity={.94} color="#9fb8b9" />
+    <hemisphereLight intensity={.64} color="#779aa8" groundColor="#382b25" />
+    <directionalLight position={[-60, 150, 80]} intensity={1.65} color="#bbd2d8" castShadow={!lowPower} shadow-mapSize={lowPower ? [512, 512] : [2048, 2048]} shadow-camera-left={-145} shadow-camera-right={145} shadow-camera-top={145} shadow-camera-bottom={-145} />
+    <pointLight position={[13, 26, 7]} intensity={visual.gridConnected ? 75 : 12} distance={105} color="#f5a45b" decay={2} />
+    <CinematicStreets />
     {!lowPower && <StreetPools visual={visual} />}
-    <CityFabric visual={visual} />
+    <RealNightLights visual={visual} lowPower={lowPower}/>
+    <CityFabric visual={visual} lowPower={lowPower} />
     <School visual={visual} layer={layer} onSelect={() => onSelect('school')} showHotspots={showHotspots} />
     <SpecialFacility id="clinic" visual={visual} onSelect={() => onSelect('clinic')} selected={selected === 'clinic' && showHotspots === false && (phase === 'SITE' || phase === 'INSPECT' || phase === 'BLACKOUT')} />
     <SpecialFacility id="business" visual={visual} onSelect={() => onSelect('business')} selected={selected === 'business' && showHotspots === false && (phase === 'SITE' || phase === 'INSPECT' || phase === 'BLACKOUT')} />

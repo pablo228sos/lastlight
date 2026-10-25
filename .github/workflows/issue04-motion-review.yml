@@ -1,0 +1,42 @@
+name: Issue 04 — WebGL motion proof
+
+on:
+  pull_request:
+    paths:
+      - 'apps/web/tests/issue04.motion.spec.ts'
+      - '.github/workflows/issue04-motion-review.yml'
+      - 'apps/web/src/scene/CameraDirector.tsx'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  motion-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Record real 1366 by 768 district mouse-pan WebGL
+        run: npx playwright test tests/issue04.motion.spec.ts --workers=1
+        env:
+          CI: 'true'
+          LASTLIGHT_MOTION_CAPTURE: '1'
+      - name: Publish real browser video and camera manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue04-real-webgl-motion-1366
+          path: apps/web/artifacts/issue04/motion/
+          if-no-files-found: warn
+          retention-days: 30
