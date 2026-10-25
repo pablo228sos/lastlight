@@ -25,12 +25,12 @@ export function ForecastPreview({ onClose }: { onClose: () => void }) {
   const maximum = Math.max(1, ...history, result?.neural_kw ?? 0, result?.baseline_kw ?? 0, result?.recorded_actual_kw ?? 0)
   const position = (value: number) => 155 - value / maximum * 140
   return <AnalysisDialog title="Energy demand forecasting" label="ENERGYDNA / RESEARCH PREVIEW" onClose={onClose}>
-    <h2>Learning a building’s<br />demand rhythm<span>.</span></h2>
+    <h2>Predict the next hour<span>.</span></h2>
     <p className="frontier-intro">A historical one-hour forecast on overseas BDG2 whole-building meters. Not a measured Kyrgyz school. Not connected to emergency critical-load physics.</p>
-    <label className="forecast-selector">Recorded building example <select value={example} onChange={event => { current.current?.abort(); setBusy(false); setResult(null); setExample(event.target.value) }}>
+    <div className="forecast-controls"><label className="forecast-selector">Recorded building example <select value={example} onChange={event => { current.current?.abort(); setBusy(false); setResult(null); setExample(event.target.value) }}>
       <option value="rat-march20">Rat · assembly · Francine</option><option value="silvia-march20">Rat · assembly · Silvia</option><option value="mouse-march20">Mouse · science · Micheal</option>
     </select></label>
-    <button className="analysis-button" data-testid="run-forecast" disabled={busy} onClick={() => void run()}>{busy ? 'RUNNING GRU + BASELINE…' : 'RUN HISTORICAL FORECAST'}</button>
+    <button className="analysis-button" data-testid="run-forecast" disabled={busy} onClick={() => void run()}>{busy ? 'RUNNING GRU + BASELINE…' : 'RUN HISTORICAL FORECAST'}</button></div>
     {error && <p role="alert">{error}</p>}
     {result && <>
       <p className="model-identity">{result.building_id} · origin {result.forecast_origin_local} · source-local clock · horizon {result.horizon_hours} hour</p>

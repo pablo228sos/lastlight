@@ -65,6 +65,7 @@ function App() {
 
   useEffect(() => {
     const keys = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLElement && event.target.closest('[role="dialog"]')) return
       if (event.target instanceof HTMLInputElement) return
       if (event.target instanceof HTMLButtonElement && (event.key === 'Enter' || event.key === ' ')) return
       if (event.key === 'Escape') { if (evidenceOpen) setEvidenceOpen(false); else returnCity() }

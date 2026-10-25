@@ -21,8 +21,13 @@ test('school connects real official physics, FragilityNet and verified map candi
   await page.getByTestId('site-school').click()
   await page.getByTestId('disconnect-grid').click()
   await expect(page.getByTestId('physics-instrument')).toBeVisible()
+  if (process.env.LASTLIGHT_CAPTURE) {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await mkdir(resolve('../../evidence/unified'), { recursive: true })
+    await page.screenshot({ path: resolve('../../evidence/unified/school-connected-1440x900.png') })
+  }
   await page.getByTestId('run-ai').click()
-  await expect(page.getByTestId('ai-model')).toContainText('fragility-official-v1-8b40929366e6', { timeout: 30_000 })
+  await expect(page.getByTestId('ai-model')).toContainText('fragility-official-v1-timing-1eb5857a2421', { timeout: 30_000 })
   await expect(page.getByTestId('ai-physical-verdict')).toContainText('9.12')
   await expect(page.getByTestId('ai-score')).toContainText(/0\.\d+/)
   await expect(page.getByText('It is not the real-world probability of a city power outage.', { exact: false })).toBeVisible()
@@ -32,7 +37,7 @@ test('school connects real official physics, FragilityNet and verified map candi
   await page.getByTestId('show-ai-candidates').click()
   await expect(page.getByTestId('candidate-count')).toContainText('12 independently checked', { timeout: 30_000 })
   await expect(page.locator('.frontier-plot .ai-checked')).toHaveCount(12)
-  await expect(page.getByTestId('candidate-model')).toContainText('fragility-official-v1-8b40929366e6')
+  await expect(page.getByTestId('candidate-model')).toContainText('fragility-official-v1-timing-1eb5857a2421')
   await captureLayouts(page, 'frontier')
   await page.getByRole('button', { name: 'Close Failure Frontier' }).click()
   await page.getByTestId('change-horizon').click()

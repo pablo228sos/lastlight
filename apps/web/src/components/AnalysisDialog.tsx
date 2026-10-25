@@ -8,6 +8,9 @@ export function AnalysisDialog({ title, label, onClose, children, closeLabel, te
   useEffect(() => { callback.current = onClose }, [onClose])
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null
+    const main = document.querySelector('main')
+    const previousInert = main?.inert ?? false
+    if (main) main.inert = true
     dismiss.current?.focus()
     const key = (event: KeyboardEvent) => {
       if (event.key === 'Escape') { event.stopImmediatePropagation(); callback.current(); return }
@@ -18,7 +21,7 @@ export function AnalysisDialog({ title, label, onClose, children, closeLabel, te
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
     }
     window.addEventListener('keydown', key, true)
-    return () => { window.removeEventListener('keydown', key, true); previous?.focus() }
+    return () => { window.removeEventListener('keydown', key, true); if (main) main.inert = previousInert; previous?.focus() }
   }, [])
   return createPortal(<div className="frontier-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
     <section ref={panel} className="frontier-panel intelligence-panel" role="dialog" aria-modal="true" aria-label={title} data-testid={testId}>

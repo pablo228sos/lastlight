@@ -57,6 +57,6 @@ The Physics API workflow runs this production suite plus a fresh HTTP launcher a
 - `evidence/phase-04`: current screenshots, layout measurements and browser walkthrough.
 - `reference/legacy-physics`: archived research, outside the running app.
 
-See the [change log](CHANGELOG.md) for the project's development path. The public interface uses physical results only for the school. ML estimates from PR #7 remain unavailable until their checkpoint is adapted and validated against official v1 physics.
+See the [change log](CHANGELOG.md) for the project's development path. The public interface uses official physical results only for the school. The incompatible PR #7 checkpoint stays isolated. This branch integrates verified official-v1 FragilityNet models and a separate historical EnergyDNA preview; see the [unified intelligence guide](docs/unified/README.md), [judge overview](docs/unified/OVERVIEW.md) and [two-minute demonstration](docs/unified/DEMO_SCRIPT.md). Physics remains authoritative and works without optional neural packages.
 
 Team contributions follow the [branch and review workflow](CONTRIBUTING.md). Work items and progress belong in GitHub Issues and pull requests.

@@ -10,6 +10,7 @@ async function post(path: string, body: SimulationRequest | ComparisonRequest, s
   const controller = new AbortController()
   const timeout = window.setTimeout(() => controller.abort(), 10_000)
   const cancel = () => controller.abort()
+  if (signal?.aborted) controller.abort()
   signal?.addEventListener('abort', cancel, { once: true })
   try {
     const response = await fetch(endpoint(path), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: controller.signal })
@@ -28,7 +29,7 @@ export async function requestBaseline(signal?: AbortSignal, scenario: Simulation
   return validateSimulation(await post('/api/v1/simulations', scenario, signal))
 }
 export async function requestComparison(signal?: AbortSignal, baseline?: SimulationRequest) {
-  return validateComparison(await post('/api/v1/comparisons', { baseline, upgrade: 'battery_36_kwh' }, signal))
+  return validateComparison(await post('/api/v1/comparisons', { baseline, upgrade: (baseline?.battery?.capacity_kwh ?? 24) >= 36 ? 'full_precharge' : 'battery_36_kwh' }, signal))
 }
 export function verifiedBaseline() { return validateSimulation(baselineFixture) }
 export function verifiedComparison() { return validateComparison(comparisonFixture) }

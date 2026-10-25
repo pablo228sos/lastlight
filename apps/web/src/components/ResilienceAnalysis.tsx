@@ -8,6 +8,7 @@ export function ResilienceAnalysis({ active, onClose }: { active: SimulationResu
   const [busy, setBusy] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const request = useRef<AbortController | null>(null)
+  useEffect(() => () => request.current?.abort(), [])
   const perform = useCallback(async (controller: AbortController) => {
     try { const value = await requestAssessment(active, controller.signal); if (!controller.signal.aborted) setAnalysis(value) }
     catch (cause) { if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : 'AI analysis unavailable.') }

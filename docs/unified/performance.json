@@ -1,0 +1,88 @@
+{
+  "environment": "local Windows CPU Python3.12; no browser rendering included",
+  "cold_definition": "new Python subprocess; timer includes package imports, feature setup and first result; OS file cache not flushed",
+  "warm_definition": "20 serial calls after one warmup; same real request/artifacts; excludes HTTP transport/JSON",
+  "workloads": {
+    "physics": {
+      "cold_import_first_ms": [
+        418.0889000053867,
+        392.0652000015252,
+        386.7785000038566
+      ],
+      "cold_median_ms": 392.0652000015252,
+      "warm_median_ms": 1.7645000043557957,
+      "warm_p95_ms": 1.8619000038597733,
+      "warm_min_ms": 1.7213999963132665,
+      "repetitions": 20
+    },
+    "neural": {
+      "cold_import_first_ms": [
+        3887.9876999999397,
+        3931.973699996888,
+        3782.3751000032644
+      ],
+      "cold_median_ms": 3887.9876999999397,
+      "warm_median_ms": 7.566149997728644,
+      "warm_p95_ms": 8.157500000379514,
+      "warm_min_ms": 7.226100002299063,
+      "repetitions": 20
+    },
+    "assessment": {
+      "cold_import_first_ms": [
+        3705.0290999977733,
+        3874.3522000004305,
+        3800.378699997964
+      ],
+      "cold_median_ms": 3800.378699997964,
+      "warm_median_ms": 14.9175499973353,
+      "warm_p95_ms": 15.245800001139287,
+      "warm_min_ms": 14.113400000496767,
+      "repetitions": 20
+    },
+    "frontier": {
+      "cold_import_first_ms": [
+        408.43670000322163,
+        409.661400000914,
+        410.4875999983051
+      ],
+      "cold_median_ms": 409.661400000914,
+      "warm_median_ms": 24.27700000043842,
+      "warm_p95_ms": 26.074000001244713,
+      "warm_min_ms": 23.62649999849964,
+      "repetitions": 20
+    },
+    "candidates": {
+      "cold_import_first_ms": [
+        3920.6003999934183,
+        3987.8505999949994,
+        4141.820599994389
+      ],
+      "cold_median_ms": 3987.8505999949994,
+      "warm_median_ms": 101.48840000329074,
+      "warm_p95_ms": 110.69519999728072,
+      "warm_min_ms": 98.71759999805363,
+      "repetitions": 20
+    },
+    "forecast": {
+      "cold_import_first_ms": [
+        5094.2648999989615,
+        5074.0666999990935,
+        4981.009299997822
+      ],
+      "cold_median_ms": 5074.0666999990935,
+      "warm_median_ms": 3.972050002630567,
+      "warm_p95_ms": 4.066900000907481,
+      "warm_min_ms": 3.8682999947923236,
+      "repetitions": 20
+    }
+  },
+  "workload_limits": {
+    "physics": "one 16h official simulation, 15-minute base intervals",
+    "neural": "verified timing checkpoint with input features/cache integrity and score, no physical run",
+    "assessment": "one simulation plus verified timing neural analysis",
+    "frontier": "13 official traces classify 273 cells",
+    "candidates": "scores 273 supplied points and independently simulates 12 selected cases; cold setup also constructs the map to supply points",
+    "forecast": "actual packaged 168h history, real one-hour GRU plus persistence and provenance"
+  },
+  "interpretation": "Different output workloads, not a comparable ML acceleration benchmark. Do not claim candidates accelerate the exact Frontier."
+}

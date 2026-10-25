@@ -11,6 +11,8 @@
 | PR14 jury UX | e788cb0 | Readable verdicts/labels/checked-case markers as reference only |
 
 Both PR19 and PR18 merge bases with the release candidate are 479e8d1.
+PR7/PR14 merge bases with the release candidate are `776caa4`; PR14's merge
+base with PR7 is `7147b3f`, confirming its incompatible research ancestry.
 The work branch is `feat/unified-ml-intelligence`, with PR19 as the stacked
 review base. PR18 remains a separate contributor PR; no competing design-search
 implementation or owner-branch rewrite is introduced.

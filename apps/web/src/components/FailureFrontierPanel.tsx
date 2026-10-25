@@ -41,6 +41,11 @@ export function FailureFrontierPanel({ source, scenario, onClose }: { source: Ph
       {error && <div className="frontier-error" role="alert">{error}{archiveMatches && <button onClick={() => { setError(null); setResult(verifiedFrontier()); setShownSource('offline') }}>LOAD MATCHING VERIFIED OFFLINE MAP</button>}</div>}
       {!result && !error && <p role="status">Calculating the physical boundary…</p>}
       {result && <>
+        <div className="candidate-toolbar">
+          <button className="analysis-button" data-testid="show-ai-candidates" onClick={() => void suggest()} disabled={busy}>{busy ? 'CHECKING AI-SUGGESTED CASES…' : 'SHOW AI-SUGGESTED CASES'}</button>
+          {busy && <button className="analysis-button" onClick={() => { proposal.current?.abort(); setBusy(false) }}>CANCEL</button>}
+          {candidates && <div role="status"><p data-testid="candidate-count">{candidates.neural_status === 'available' ? `${checked.length} independently checked synthetic cases.` : 'AI suggestions unavailable. The physical map remains available.'}</p><span className="model-identity" data-testid="candidate-model">{candidates.neural_model_version}</span></div>}
+        </div>
         <div className="frontier-layout">
           <div className="frontier-plot-wrap"><span className="frontier-axis-y">INITIAL BATTERY CHARGE</span>
             <div className="frontier-y-ticks"><span>{(result.axes.initial_soc.at(-1)! * 100).toFixed(0)}%</span><span>{(result.axes.initial_soc[0] * 100).toFixed(0)}%</span></div>
@@ -53,10 +58,8 @@ export function FailureFrontierPanel({ source, scenario, onClose }: { source: Ph
         </div>
         <div className="frontier-legend"><span><i className="sustained" /> SUSTAINED</span><span><i className="failed" /> FAILURE OBSERVED</span><span>○ AI-SUGGESTED, PHYSICS CHECKED</span><span>{result.summary.physics_calls} RUNS / {result.summary.verified_cells} CELLS</span></div>
         <section className="candidate-section"><h3>Additional cases worth checking</h3><p>The model selects cases near its estimated boundary. Official physics independently simulates each selected case; map colors remain physical.</p>
-          <button className="analysis-button" data-testid="show-ai-candidates" onClick={() => void suggest()} disabled={busy}>{busy ? 'CHECKING AI-SUGGESTED CASES…' : 'SHOW AI-SUGGESTED CASES'}</button>
-          {busy && <button className="analysis-button" onClick={() => { proposal.current?.abort(); setBusy(false) }}>CANCEL</button>}
           {candidateError && <p role="alert">{candidateError}</p>}
-          {candidates && <div role="status"><p data-testid="candidate-count">{candidates.neural_status === 'available' ? `${checked.length} independently checked synthetic cases.` : 'AI suggestions unavailable. The physical map remains available.'}</p><p className="model-identity" data-testid="candidate-model">{candidates.neural_model_version}</p>
+          {candidates && <div>
             {!!checked.length && <details><summary>Inspect each independent physical check</summary><ul className="candidate-list">{checked.map(item => <li key={item.input_hash}>{(item.initial_soc * 100).toFixed(0)}% charge · {item.duration_hours.toFixed(2)} h · Physics: {item.physics_summary.survived_full_window ? 'sustained' : `failure at ${item.physics_summary.critical_survival_hours?.toFixed(2)} h`} · AI score {item.neural.synthetic_failure_score.toFixed(4)}{item.neural.outside_training_domain && ' · outside training domain'}<small>Run {item.physics_run_id}</small></li>)}</ul></details>}
           </div>}
           <p className="score-explanation">Candidate count is not model accuracy or measured blackout history. No ML acceleration advantage is claimed.</p>
