@@ -1,0 +1,23 @@
+[Script Info]
+Title: LASTLIGHT jury demo titles
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Chapter,Segoe UI,40,&H00F3EBDF,&H00F3EBDF,&H000B1316,&H98081216,1,0,0,0,100,100,1,0,3,1,0,8,60,60,76,1
+Style: Truth,Segoe UI,18,&H00C7D5D2,&H00C7D5D2,&H00101819,&H8A081216,0,0,0,0,100,100,0,0,3,0,0,2,60,60,17,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:03.50,Chapter,,0,0,0,,THE CITY  /  THE SCHOOL
+Dialogue: 0,0:00:20.00,0:00:23.00,Chapter,,0,0,0,,THE BLACKOUT
+Dialogue: 0,0:00:24.00,0:00:28.00,Chapter,,0,0,0,,ORDINARY LIGHTS OFF  /  CRITICAL LOAD ON
+Dialogue: 0,0:00:36.00,0:00:41.00,Chapter,,0,0,0,,FIRST FAILURE  09:07:12
+Dialogue: 0,0:00:54.00,0:00:58.00,Chapter,,0,0,0,,36 kWh  /  12-HOUR TEST PASSED
+Dialogue: 0,0:01:05.00,0:01:09.00,Chapter,,0,0,0,,SMALLEST PASSING TESTED CAPACITY  32 kWh
+Dialogue: 0,0:01:19.00,0:01:23.00,Chapter,,0,0,0,,273 PHYSICS-VERIFIED FRONTIER CELLS
+Dialogue: 0,0:01:26.00,0:01:30.00,Chapter,,0,0,0,,EXPORT ASSUMPTIONS AND RESULTS
+Dialogue: 0,0:00:00.00,0:01:30.00,Truth,,0,0,0,,Synthetic school scenario / physics-verified
