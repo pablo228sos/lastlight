@@ -1,5 +1,10 @@
 # EnergyDNA-Net: measured one-hour BDG2 prototype
 
+The unified application now runs this same one-hour checkpoint in its separate
+historical research preview. [Updated cohort/12-hour evidence](../unified/FORECAST_EVIDENCE.md)
+describes the additional direct-horizon experiment; it does not replace this
+artifact, its one-hour horizon or its preferred persistence baseline.
+
 ## Intended use and measured conclusion
 
 `energydna-gru-v1-56d366ec3532` is a genuinely trained 1,377-parameter PyTorch

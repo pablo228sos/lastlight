@@ -108,3 +108,15 @@ def run_comparison(request: ComparisonRequest) -> ComparisonResult:
 def run_frontier(request: FrontierRequest) -> dict:
     """Return only official-physics cells; incompatible ML proposals stay absent."""
     return physics_frontier(request)
+
+
+# Optional repository integration. A standalone physics-only installation does
+# not copy ml_bridge; neither missing code nor missing ML wheels can break it.
+try:
+    from ml_bridge.integration import install_intelligence
+except ModuleNotFoundError as exception:
+    if exception.name != "ml_bridge":
+        raise
+    logging.getLogger(__name__).info("Optional ML bridge code is not installed")
+else:
+    install_intelligence(app)

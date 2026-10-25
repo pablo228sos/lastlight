@@ -1,5 +1,10 @@
 # FragilityNet: official-v1 research checkpoint
 
+This card records the original PR19 artifact, retained unchanged for v1 API
+compatibility. The unified website explicitly uses the separately validated
+[timing-feature upgrade](FRAGILITY_TIMING_MODEL_CARD.md); its fresh test metrics
+must not be substituted for this original model's evaluation.
+
 Model: **fragility-official-v1-8b40929366e6**. Weights: 18,621 bytes;
 SHA256 `8b40929366e68b49abda5bfa75960e4b6ae9b3c74b28a1bb8ca24aa0d3728be1`.
 This is a newly trained model, not a renamed PR #7 checkpoint.

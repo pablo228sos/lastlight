@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 
 from .adapter import DEFAULT_CHECKPOINT, assess
 from .candidates import suggest
@@ -17,13 +17,26 @@ def create_router(checkpoint_dir: Path | None = None) -> APIRouter:
         prefix="/api/v1/ml/fragility", tags=["Optional official-v1 ML bridge"]
     )
 
+    def checkpoint(request, http):
+        if request.feature_schema.endswith("-2"):
+            return Path(
+                getattr(
+                    http.app.state,
+                    "fragility_v2_checkpoint_dir",
+                    DEFAULT_CHECKPOINT.parent / "fragility-official-v1-timing",
+                )
+            )
+        return Path(getattr(http.app.state, "fragility_checkpoint_dir", directory))
+
     @router.post("/assess", response_model=Assessment)
-    def assessment(request: AssessmentRequest) -> Assessment:
-        return assess(request, directory)
+    def assessment(request: AssessmentRequest, http: Request) -> Assessment:
+        configured = checkpoint(request, http)
+        return assess(request, configured)
 
     @router.post("/candidates", response_model=CandidateResult)
-    def candidates(request: CandidateRequest) -> CandidateResult:
-        return suggest(request, directory)
+    def candidates(request: CandidateRequest, http: Request) -> CandidateResult:
+        configured = checkpoint(request, http)
+        return suggest(request, configured)
 
     return router
 

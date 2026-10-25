@@ -10,6 +10,9 @@
       "schema_version": "1.0.0",
       "source_sha256": "d776af652f8bba19b666ff9acf6cea1f801c0d57f6af033de230eb1581cc4a7a",
       "request_schema_sha256": "9c34b8a93dd12eaaf69aee15719f6894ab205daa5f053135b7462683a9f23986"
+    },
+    "fragility-official-v1-timing-1eb5857a2421": {
+      "manifest_sha256": "a146b5ebb8fdf9ab0d36509ae25092affa1e8e64829f356b7a45c696c199d84b"
     }
   }
 }

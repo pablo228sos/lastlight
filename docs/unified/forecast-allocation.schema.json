@@ -1,0 +1,145 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "const": "lastlight-forecast-allocation-research-1",
+      "default": "lastlight-forecast-allocation-research-1",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "source_building_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Source Building Id",
+      "type": "string"
+    },
+    "source_references": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Source References",
+      "type": "array"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "model_version": {
+      "minLength": 1,
+      "title": "Model Version",
+      "type": "string"
+    },
+    "forecast_origin": {
+      "format": "date-time",
+      "title": "Forecast Origin",
+      "type": "string"
+    },
+    "source_timezone": {
+      "title": "Source Timezone",
+      "type": "string"
+    },
+    "horizon_hours": {
+      "maximum": 24,
+      "minimum": 1,
+      "title": "Horizon Hours",
+      "type": "integer"
+    },
+    "interval_minutes": {
+      "const": 60,
+      "default": 60,
+      "title": "Interval Minutes",
+      "type": "integer"
+    },
+    "units": {
+      "const": "average_kw",
+      "default": "average_kw",
+      "title": "Units",
+      "type": "string"
+    },
+    "whole_building_kw": {
+      "items": {
+        "maximum": 50000,
+        "minimum": 0,
+        "type": "number"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Whole Building Kw",
+      "type": "array"
+    },
+    "lower_kw": {
+      "anyOf": [
+        {
+          "items": {
+            "maximum": 50000,
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lower Kw"
+    },
+    "upper_kw": {
+      "anyOf": [
+        {
+          "items": {
+            "maximum": 50000,
+            "minimum": 0,
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Upper Kw"
+    },
+    "missing_data_policy": {
+      "minLength": 1,
+      "title": "Missing Data Policy",
+      "type": "string"
+    },
+    "critical_fraction": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Critical Fraction",
+      "type": "number"
+    },
+    "allocation_evidence": {
+      "minLength": 1,
+      "title": "Allocation Evidence",
+      "type": "string"
+    },
+    "allocation_reviewer": {
+      "minLength": 1,
+      "title": "Allocation Reviewer",
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_building_id",
+    "source_references",
+    "source_sha256",
+    "model_version",
+    "forecast_origin",
+    "source_timezone",
+    "horizon_hours",
+    "whole_building_kw",
+    "missing_data_policy",
+    "critical_fraction",
+    "allocation_evidence",
+    "allocation_reviewer"
+  ],
+  "title": "ForecastSeries",
+  "type": "object"
+}

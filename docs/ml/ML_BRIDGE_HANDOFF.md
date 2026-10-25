@@ -1,5 +1,13 @@
 # ML bridge handoff: Beksultan and Abai
 
+**Unified branch update:** `feat/unified-ml-intelligence` / Draft PR21 now mounts
+these additive routes on the official application. The frontend explicitly uses
+the registered43-feature timing checkpoint; old v1 calls retain the original
+artifact. EnergyDNA has a separate genuine one-hour historical preview. See the
+[current launch/API guide](../unified/README.md), [judge overview](../unified/OVERVIEW.md)
+and [timing card](FRAGILITY_TIMING_MODEL_CARD.md). The original PR19 handoff below
+records the earlier isolated-router stage, not a remaining mounting blocker.
+
 This branch starts at release-candidate PR #13 `479e8d1`. It does not merge or
 rewrite PR #7, PR #14, PR #13, main, or their shared Physics Engine files.
 

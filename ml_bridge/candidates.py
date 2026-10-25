@@ -4,14 +4,15 @@ from services.simulation.engine import simulate
 from services.simulation.frontier import scenario_at
 from .adapter import DEFAULT_CHECKPOINT, analyze_neural, predictor
 from .contracts import CandidateRequest, CandidateResult, VerifiedCandidate
-from .features import features
 from .runtime import source_identity
 
 
 def suggest(request: CandidateRequest, checkpoint_dir=DEFAULT_CHECKPOINT):
     request = CandidateRequest.model_validate(request.model_dump())
     identity = source_identity()
-    availability = analyze_neural(request.scenario, checkpoint_dir)
+    availability = analyze_neural(
+        request.scenario, checkpoint_dir, request.feature_schema
+    )
     warnings = [
         *availability.warnings,
         "Research test selection has no demonstrated Frontier speed advantage. Candidate counts are not accuracy or measured events.",
@@ -28,7 +29,7 @@ def suggest(request: CandidateRequest, checkpoint_dir=DEFAULT_CHECKPOINT):
         scenario_at(request.scenario, point.initial_soc, point.duration_hours)
         for point in request.points
     ]
-    scores = model.scores([features(scenario) for scenario in scenarios])
+    scores = model.scores([model.extract(scenario) for scenario in scenarios])
     chosen = sorted(
         range(len(scores)),
         key=lambda i: (abs(float(scores[i]) - model.manifest["threshold"]), i),

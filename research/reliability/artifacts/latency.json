@@ -1,0 +1,21 @@
+{
+  "method": "100 serial CPU repetitions after warmup, input-only feature extraction plus normalized/calibrated score; no disk verification/HTTP/physics",
+  "models": {
+    "frozen_logistic": {
+      "median_ms": 0.20975000006728806,
+      "p95_ms": 0.3612000000430271
+    },
+    "frozen_mlp": {
+      "median_ms": 0.49420000141253695,
+      "p95_ms": 0.673400005325675
+    },
+    "timing_logistic": {
+      "median_ms": 0.5866999999852851,
+      "p95_ms": 0.9218000050168484
+    },
+    "timing_mlp": {
+      "median_ms": 0.8144999992509838,
+      "p95_ms": 1.332100000581704
+    }
+  }
+}

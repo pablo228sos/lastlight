@@ -1,4 +1,5 @@
 import fixture from '../data/frontier.result.json'
+import type { SimulationInput } from './contracts'
 
 export interface FrontierCell {
   initial_soc: number
@@ -67,19 +68,23 @@ export function validateFrontier(value: unknown): FrontierResult {
 
 export function verifiedFrontier() { return validateFrontier(fixture) }
 
-export async function requestFrontier(): Promise<FrontierResult> {
+export async function requestFrontier(scenario?: SimulationInput, signal?: AbortSignal): Promise<FrontierResult> {
   const base = (import.meta.env.VITE_PHYSICS_API_URL || '').replace(/\/$/, '')
   const controller = new AbortController()
   const timeout = window.setTimeout(() => controller.abort(), 10_000)
+  const cancel = () => controller.abort()
+  if (signal?.aborted) controller.abort()
+  signal?.addEventListener('abort', cancel, { once: true })
   try {
     const response = await fetch(`${base}/api/v1/frontiers`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ maximum_hours: 12, soc_points: 13, duration_points: 21 }),
+      body: JSON.stringify({ scenario, maximum_hours: Math.min(scenario?.duration_hours ?? 12, 48), soc_points: 13, duration_points: 21 }),
       signal: controller.signal,
     })
     if (!response.ok) throw new Error(`Failure Frontier API returned HTTP ${response.status}.`)
     return validateFrontier(await response.json() as unknown)
   } finally {
     window.clearTimeout(timeout)
+    signal?.removeEventListener('abort', cancel)
   }
 }
