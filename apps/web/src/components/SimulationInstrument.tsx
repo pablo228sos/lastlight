@@ -3,6 +3,7 @@ import type { usePhysicsRun } from '../app/usePhysicsRun'
 import { failureHours } from '../lib/physics'
 import { FailureFrontierPanel } from './FailureFrontierPanel'
 import { DesignSearchPanel } from './DesignSearchPanel'
+import { publicOfflineOnly } from '../lib/deployment'
 
 type Physics = ReturnType<typeof usePhysicsRun>
 const hours = (value: number) => {
@@ -17,12 +18,12 @@ export function SimulationInstrument({ physics }: { physics: Physics }) {
   if (physics.status === 'idle') return null
   if (physics.status === 'loading') return <aside className="simulation-instrument pending" aria-label="Simulation status">
     <div className="instrument-header"><span>PHYSICS / CONNECTING</span><i /></div>
-    <p>Requesting the deterministic school scenario from the local physics service.</p>
+    <p>{publicOfflineOnly ? 'Loading the verified engine-generated school replay.' : 'Requesting the deterministic school scenario from the local physics service.'}</p>
   </aside>
   if (physics.status === 'error') return <aside className="simulation-instrument pending" aria-label="Simulation status">
     <div className="instrument-header"><span>PHYSICS / UNAVAILABLE</span><i /></div>
     <p role="alert">{physics.error}</p>
-    <div className="instrument-actions"><button onClick={() => void physics.begin('live')} data-testid="retry-live">RETRY LOCAL API</button><button onClick={() => void physics.begin('offline')} data-testid="load-offline">USE VERIFIED REPLAY ↗</button></div>
+    <div className="instrument-actions">{!publicOfflineOnly && <button onClick={() => void physics.begin('live')} data-testid="retry-live">RETRY LOCAL API</button>}<button onClick={() => void physics.begin('offline')} data-testid="load-offline">USE VERIFIED REPLAY ↗</button></div>
     <small>Replay is an archived engine result, not a new calculation.</small>
   </aside>
   if (!physics.result || !physics.sample || !physics.source) return null

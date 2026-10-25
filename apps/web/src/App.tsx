@@ -9,6 +9,7 @@ import { EvidenceDrawer } from './components/EvidenceDrawer'
 import { SimulationInstrument } from './components/SimulationInstrument'
 import { sites } from './features/sites'
 import type { SiteId } from './features/sites'
+import { publicOfflineOnly } from './lib/deployment'
 import './styles/app.css'
 
 type ComponentId = 'pv' | 'battery' | 'inverter'
@@ -51,7 +52,7 @@ function App() {
   const disconnect = () => {
     if (mission.siteId !== 'school') return
     mission.disconnect()
-    if (mission.siteId === 'school') void physics.begin(new URLSearchParams(window.location.search).get('demo') === 'offline' ? 'offline' : 'live')
+    if (mission.siteId === 'school') void physics.begin(publicOfflineOnly || new URLSearchParams(window.location.search).get('demo') === 'offline' ? 'offline' : 'live')
   }
   const visual = physics.visual ?? mission.visual
   const equipmentDetail: Record<ComponentId, string> = {
@@ -106,7 +107,7 @@ function App() {
     </header>
 
     <div className="left-rule" aria-hidden="true"><span>LL / 03</span><i /><span>BISHKEK / SYNTHETIC</span></div>
-    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">{physics.source === 'live' ? 'LIVE LOCAL PHYSICS API / SYNTHETIC INPUTS' : physics.source === 'offline' ? 'VERIFIED OFFLINE REPLAY / SYNTHETIC INPUTS' : mission.siteId === 'school' ? 'ILLUSTRATIVE SCENE / NO PHYSICS RUN LOADED' : 'VISUAL SITE STUDY / NO VALIDATED ENERGY MODEL'}</span></div>
+    <div className="top-telemetry"><span className="warm-dot" /> <span data-testid="rehearsal-label">{physics.source === 'live' ? 'LIVE LOCAL PHYSICS API / SYNTHETIC INPUTS' : physics.source === 'offline' ? 'VERIFIED OFFLINE REPLAY / SYNTHETIC INPUTS' : mission.siteId === 'school' ? publicOfflineOnly ? 'PUBLIC OFFLINE DEMO / VERIFIED REPLAY AVAILABLE' : 'ILLUSTRATIVE SCENE / NO PHYSICS RUN LOADED' : 'VISUAL SITE STUDY / NO VALIDATED ENERGY MODEL'}</span></div>
     <div className="shot-index" aria-label="Camera state"><span>CAMERA / {mission.shot.toUpperCase()}</span><span className="shot-mark">{mission.phase === 'DESCENT' ? '● ━ ━' : isFacility ? '━ ━ ●' : '━ ● ━'}</span></div>
 
     {isOpening ? <section className="opening-copy">

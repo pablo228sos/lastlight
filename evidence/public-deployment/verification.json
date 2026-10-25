@@ -1,0 +1,16 @@
+{
+  "url": "https://pablo228sos.github.io/lastlight/?demo=offline",
+  "result": "passed",
+  "webgl": true,
+  "baseline_failure": "09:07:12",
+  "comparison": "36 kWh sustained 12 hours",
+  "frontier_cells": 273,
+  "report_source": "Verified engine-generated offline replay",
+  "local_requests": [],
+  "bad_responses": [],
+  "console_errors": [],
+  "tested_viewports": [
+    "1440x900",
+    "390x844"
+  ]
+}
