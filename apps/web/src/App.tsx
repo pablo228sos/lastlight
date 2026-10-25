@@ -176,7 +176,7 @@ function App() {
     </div>}
 
     <footer className="footnote"><span>NO MEASURED SITE DATA <i /> {physics.source ? 'PHYSICS INPUTS / SYNTHETIC' : 'GEOMETRY + LIGHTING / SYNTHETIC'}</span><span>CURSED · KYRGYZSTAN · 2026</span></footer>
-    {mission.evidenceOpen && <EvidenceDrawer source={physics.source} modelVersion={physics.result?.model_version} onClose={() => mission.setEvidenceOpen(false)} />}
+    {mission.evidenceOpen && <EvidenceDrawer source={physics.source} baseline={physics.baseline} comparison={physics.comparison} selectedRun={physics.selectedRun} onClose={() => mission.setEvidenceOpen(false)} />}
   </main>
 }
 export default App
