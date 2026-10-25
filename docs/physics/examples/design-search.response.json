@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "physics_model_version": "lastlight-dispatch-1.0.0",
+  "run_id": "f1588e86-ad6c-5f03-b5d1-819020d365f2",
+  "input_hash": "e2f1a6f266cdfb4ff96a46df77ec92926a910d4592c7d2672d0e608343cced79",
+  "result_hash": "e9972966db17a4a90aece8eb90d141efe291c9c8f953ad3d74fdd2d281d0cd5d",
+  "seed": 0,
+  "outage_target_hours": 12.0,
+  "provenance": {
+    "category": "synthetic",
+    "references": [
+      "docs/physics/MODEL.md"
+    ]
+  },
+  "candidate_count": 4,
+  "selected_capacity_kwh": 32.0,
+  "selection_rule": "smallest passing capacity within the explicit supplied set",
+  "physics_verified": true,
+  "candidates": [
+    {
+      "capacity_kwh": 24.0,
+      "valid": true,
+      "survived_target": false,
+      "first_critical_failure_hours": 9.12,
+      "first_critical_failure_utc": "2026-01-01T09:07:12Z",
+      "unserved_critical_kwh": 4.320000000000009,
+      "ending_soc": 0.20000000000000004,
+      "infeasibility_reasons": [
+        "critical_energy_unserved_during_target"
+      ],
+      "physics_run_id": "3055515b-6053-57cc-b40c-ec6302c24726",
+      "physics_input_hash": "b95dad3fbb9125a5e197e256c5a3003460e0df8bd5af89dd9b1b92c31f4ce1b9",
+      "comparable_cost": null
+    },
+    {
+      "capacity_kwh": 30.0,
+      "valid": true,
+      "survived_target": false,
+      "first_critical_failure_hours": 11.4,
+      "first_critical_failure_utc": "2026-01-01T11:24:00Z",
+      "unserved_critical_kwh": 0.9000000000000208,
+      "ending_soc": 0.2,
+      "infeasibility_reasons": [
+        "critical_energy_unserved_during_target"
+      ],
+      "physics_run_id": "8c74a902-6dd5-5e79-a472-7ffc3b6e1151",
+      "physics_input_hash": "b765274f774ea58c9fe99f15f3fe40c01eead662e6edbfc856fc2c71ae6666c5",
+      "comparable_cost": null
+    },
+    {
+      "capacity_kwh": 32.0,
+      "valid": true,
+      "survived_target": true,
+      "first_critical_failure_hours": null,
+      "first_critical_failure_utc": null,
+      "unserved_critical_kwh": 0.0,
+      "ending_soc": 0.20789473684210458,
+      "infeasibility_reasons": [],
+      "physics_run_id": "d864ca83-804a-5347-b6e2-09aa22a23939",
+      "physics_input_hash": "62093cb4af829cb93f2c47f548800d71cc1ccb5b3cf90ccbd69887ce2cb52fca",
+      "comparable_cost": null
+    },
+    {
+      "capacity_kwh": 36.0,
+      "valid": true,
+      "survived_target": true,
+      "first_critical_failure_hours": null,
+      "first_critical_failure_utc": null,
+      "unserved_critical_kwh": 0.0,
+      "ending_soc": 0.2736842105263151,
+      "infeasibility_reasons": [],
+      "physics_run_id": "c7be4c57-070b-5549-b56b-95d2567643ef",
+      "physics_input_hash": "28a876f325b8d5f56d943591a131fa025f8908679c12b79da0a0bde245090b79",
+      "comparable_cost": null
+    }
+  ],
+  "warnings": [
+    "A pass is censored at the exclusive outage horizon; it does not prove survival beyond the tested interval.",
+    "Selection minimizes capacity within supplied candidates, NOT price or global capacity; costs are user-provided annotations only."
+  ]
+}

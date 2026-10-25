@@ -11,6 +11,7 @@ from starlette.exceptions import HTTPException
 from . import MODEL_VERSION
 from .engine import EnergyBalanceError, compare, simulate
 from .frontier import FrontierRequest, physics_frontier
+from .design_search import DesignSearchRequest, DesignSearchResult, design_search
 from .schemas import (
     ComparisonRequest,
     ComparisonResult,
@@ -108,3 +109,9 @@ def run_comparison(request: ComparisonRequest) -> ComparisonResult:
 def run_frontier(request: FrontierRequest) -> dict:
     """Return only official-physics cells; incompatible ML proposals stay absent."""
     return physics_frontier(request)
+
+
+@app.post("/api/v1/design-search", response_model=DesignSearchResult)
+def run_design_search(request: DesignSearchRequest) -> DesignSearchResult:
+    """Select smallest surviving capacity from a bounded explicit candidate set."""
+    return design_search(request)

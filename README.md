@@ -8,7 +8,7 @@ An interactive energy resilience digital twin by CURSED, Kyrgyzstan. This releas
 
 Fly into a synthetic night district and inspect four facilities. Clinic, small business and the three-block residential parcel are visual site studies. They have no validated energy model and no outage control.
 
-The school runs the official deterministic single-bus Physics API with synthetic inputs. Disconnect the grid, play the trace, inspect the first critical failure at 9.12 hours, compare a 36 kWh battery that sustains the 12-hour window, and explore the physics-verified Failure Frontier. The frontend can replay frozen official results when the API is offline. Live calculation and offline replay are labeled separately. No measured site data or live utility connection is claimed.
+The school runs the official deterministic single-bus Physics API with synthetic inputs. Disconnect the grid, play the trace, inspect the first critical failure at 9.12 hours, compare a 36 kWh battery that sustains the 12-hour window, and explore the physics-verified Failure Frontier. In live mode, a bounded search tests 24, 30, 32 and 36 kWh with the same official engine and identifies the smallest passing member of that set. The Data & Methods drawer exports the resolved input, complete trace and calculation evidence as JSON. The frontend can replay frozen official simulation, comparison and Frontier results when the API is offline. Live calculation and offline replay are labeled separately. No measured site data or live utility connection is claimed.
 
 ## Run locally
 
@@ -46,6 +46,8 @@ From the repository root, after the API environment is installed:
 ```
 
 The Physics API workflow runs this production suite plus a fresh HTTP launcher and offline restart on Ubuntu and Windows. [Release review](evidence/phase-04/README.md) records the integration decisions, visual evidence and exact test results.
+
+The final presenter path, Windows fallback and slide-claim audit are in [`docs/demo/PRESENTER_RUNBOOK.md`](docs/demo/PRESENTER_RUNBOOK.md) and [`docs/demo/FINAL_CAPABILITY_MATRIX.md`](docs/demo/FINAL_CAPABILITY_MATRIX.md).
 
 ## Repository
 
