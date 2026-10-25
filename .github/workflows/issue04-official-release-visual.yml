@@ -1,0 +1,90 @@
+name: Issue 04 — Official physics WebGL visual acceptance
+
+on:
+  pull_request:
+    paths:
+      - 'apps/web/tests/issue04.release-acceptance.spec.ts'
+      - '.github/workflows/issue04-official-release-visual.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  official-release-visual-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout visual-review scripts from PR 15
+        uses: actions/checkout@v4
+        with:
+          path: visual-review
+
+      - name: Checkout verified official PR 13 without altering its branch
+        uses: actions/checkout@v4
+        with:
+          repository: pablo228sos/lastlight
+          ref: 479e8d1fdbb0c357f61468c8934a314f345a15ed
+          path: official
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: official/apps/web/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: official/services/simulation/requirements.lock
+
+      - name: Install official frozen production physics dependencies
+        run: python -m pip install --require-hashes -r services/simulation/requirements.lock
+        working-directory: official
+
+      - name: Install official frontend and Chromium
+        working-directory: official/apps/web
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Start official localhost physics service and verify health
+        working-directory: official
+        shell: bash
+        run: |
+          nohup python -m services.simulation.server --port 8000 > /tmp/lastlight-physics-release.log 2>&1 &
+          for i in $(seq 1 100); do
+            if curl --fail --silent http://127.0.0.1:8000/health > /tmp/lastlight-release-health.json; then
+              cat /tmp/lastlight-release-health.json
+              exit 0
+            fi
+            sleep 0.2
+          done
+          cat /tmp/lastlight-physics-release.log
+          exit 1
+
+      - name: Stage visual test ONLY in ephemeral official checkout
+        run: |
+          cp visual-review/apps/web/tests/issue04.release-acceptance.spec.ts official/apps/web/tests/issue04.release-acceptance.spec.ts
+          test "$(git -C official rev-parse HEAD)" = "479e8d1fdbb0c357f61468c8934a314f345a15ed"
+
+      - name: Real official WebGL screenshots with actual physics trace
+        working-directory: official/apps/web
+        run: npx playwright test tests/issue04.release-acceptance.spec.ts --workers=1
+        env:
+          CI: 'true'
+          LASTLIGHT_RELEASE_ACCEPTANCE: '1'
+          LASTLIGHT_OFFICIAL_RELEASE_SHA: 479e8d1fdbb0c357f61468c8934a314f345a15ed
+
+      - name: Publish reviewable screenshots, manifests and failure diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue04-pr13-physics-webgl-acceptance
+          path: |
+            official/apps/web/artifacts/issue04/official-release/
+            official/apps/web/test-results/
+            /tmp/lastlight-physics-release.log
+          if-no-files-found: warn
+          retention-days: 30
