@@ -7,9 +7,11 @@ import { useMissionState } from './app/useMissionState'
 import { usePhysicsRun } from './app/usePhysicsRun'
 import { EvidenceDrawer } from './components/EvidenceDrawer'
 import { SimulationInstrument } from './components/SimulationInstrument'
+import { ForecastPreview } from './components/ForecastPreview'
 import { sites } from './features/sites'
 import type { SiteId } from './features/sites'
 import './styles/app.css'
+import './styles/intelligence.css'
 
 type ComponentId = 'pv' | 'battery' | 'inverter'
 const components: Record<ComponentId, { title: string; subtitle: string }> = {
@@ -37,6 +39,7 @@ function App() {
   const reducedMotion = useReducedMotion()
   const lowPower = reducedMotion || navigator.hardwareConcurrency <= 4
   const [component, setComponent] = useState<ComponentId | null>(null)
+  const [forecastOpen, setForecastOpen] = useState(false)
   const selected = sites.find(item => item.id === mission.siteId)!
   const isFacility = mission.phase === 'SITE' || mission.phase === 'INSPECT' || mission.phase === 'BLACKOUT'
   const isOpening = mission.phase === 'INTRO'
@@ -102,7 +105,7 @@ function App() {
     <header className="masthead">
       <button className="wordmark" onClick={returnCity} aria-label="LASTLIGHT return to city"><span className="mark">▥</span> LASTLIGHT<span className="period">.</span></button>
       <div className="masthead-center"><span className="point" /> CURSED / ENERGY RESILIENCE LAB <span className="slash">/</span> LOGOS 2026</div>
-      <button className="text-action" onClick={() => mission.setEvidenceOpen(true)}>DATA &amp; METHODS <span>↗</span></button>
+      <div className="masthead-actions"><button className="text-action" data-testid="open-forecast" onClick={() => setForecastOpen(true)}>DEMAND RESEARCH <span>↗</span></button><button className="text-action" onClick={() => mission.setEvidenceOpen(true)}>DATA &amp; METHODS <span>↗</span></button></div>
     </header>
 
     <div className="left-rule" aria-hidden="true"><span>LL / 03</span><i /><span>BISHKEK / SYNTHETIC</span></div>
@@ -177,6 +180,7 @@ function App() {
 
     <footer className="footnote"><span>NO MEASURED SITE DATA <i /> {physics.source ? 'PHYSICS INPUTS / SYNTHETIC' : 'GEOMETRY + LIGHTING / SYNTHETIC'}</span><span>CURSED · KYRGYZSTAN · 2026</span></footer>
     {mission.evidenceOpen && <EvidenceDrawer source={physics.source} modelVersion={physics.result?.model_version} onClose={() => mission.setEvidenceOpen(false)} />}
+    {forecastOpen && <ForecastPreview onClose={() => setForecastOpen(false)} />}
   </main>
 }
 export default App

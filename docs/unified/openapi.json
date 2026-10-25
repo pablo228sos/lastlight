@@ -1,0 +1,1763 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LASTLIGHT unified physics and intelligence",
+    "description": "Official v1 physics is authoritative. ML estimates and historical forecasts have separate identities and provenance.",
+    "version": "lastlight-intelligence-1"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulations": {
+      "post": {
+        "summary": "Run Simulation",
+        "operationId": "run_simulation_api_v1_simulations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comparisons": {
+      "post": {
+        "summary": "Run Comparison",
+        "operationId": "run_comparison_api_v1_comparisons_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComparisonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComparisonResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/frontiers": {
+      "post": {
+        "summary": "Run Frontier",
+        "description": "Return only official-physics cells; incompatible ML proposals stay absent.",
+        "operationId": "run_frontier_api_v1_frontiers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FrontierRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Run Frontier Api V1 Frontiers Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/fragility/assess": {
+      "post": {
+        "tags": [
+          "Optional official-v1 ML bridge"
+        ],
+        "summary": "Assessment",
+        "operationId": "assessment_api_v1_ml_fragility_assess_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Assessment"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/fragility/candidates": {
+      "post": {
+        "tags": [
+          "Optional official-v1 ML bridge"
+        ],
+        "summary": "Candidates",
+        "operationId": "candidates_api_v1_ml_fragility_candidates_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CandidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidateResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ml/energydna/forecast": {
+      "post": {
+        "tags": [
+          "Historical research forecasting"
+        ],
+        "summary": "Preview",
+        "operationId": "preview_api_v1_ml_energydna_forecast_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForecastRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastPreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Assessment": {
+        "properties": {
+          "bridge_schema_version": {
+            "type": "string",
+            "const": "lastlight-ml-bridge-1",
+            "title": "Bridge Schema Version",
+            "default": "lastlight-ml-bridge-1"
+          },
+          "physics": {
+            "$ref": "#/components/schemas/SimulationResult"
+          },
+          "neural": {
+            "$ref": "#/components/schemas/NeuralAnalysis"
+          },
+          "physics_authoritative": {
+            "type": "boolean",
+            "const": true,
+            "title": "Physics Authoritative",
+            "default": true
+          },
+          "engineering_clearance": {
+            "type": "boolean",
+            "const": false,
+            "title": "Engineering Clearance",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "physics",
+          "neural"
+        ],
+        "title": "Assessment"
+      },
+      "AssessmentRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "physics_version": {
+            "type": "string",
+            "const": "lastlight-dispatch-1.0.0",
+            "title": "Physics Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "schema_version": {
+            "type": "string",
+            "const": "1.0.0",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "feature_schema": {
+            "type": "string",
+            "const": "lastlight-official-v1-features-1",
+            "title": "Feature Schema",
+            "default": "lastlight-official-v1-features-1"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario"
+        ],
+        "title": "AssessmentRequest"
+      },
+      "Battery": {
+        "properties": {
+          "capacity_kwh": {
+            "type": "number",
+            "maximum": 20000.0,
+            "minimum": 0.001,
+            "title": "Capacity Kwh",
+            "default": 24
+          },
+          "initial_soc": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Initial Soc",
+            "default": 0.8
+          },
+          "minimum_soc": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Minimum Soc",
+            "default": 0.2
+          },
+          "maximum_soc": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Maximum Soc",
+            "default": 1.0
+          },
+          "charge_efficiency": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.01,
+            "title": "Charge Efficiency",
+            "default": 0.95
+          },
+          "discharge_efficiency": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.01,
+            "title": "Discharge Efficiency",
+            "default": 0.95
+          },
+          "max_charge_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Max Charge Kw",
+            "default": 6.0
+          },
+          "max_discharge_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Max Discharge Kw",
+            "default": 8.0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Battery"
+      },
+      "CandidatePoint": {
+        "properties": {
+          "initial_soc": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Initial Soc"
+          },
+          "duration_hours": {
+            "type": "number",
+            "maximum": 48.0,
+            "minimum": 0.016666666666666666,
+            "title": "Duration Hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "initial_soc",
+          "duration_hours"
+        ],
+        "title": "CandidatePoint"
+      },
+      "CandidateRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "physics_version": {
+            "type": "string",
+            "const": "lastlight-dispatch-1.0.0",
+            "title": "Physics Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "schema_version": {
+            "type": "string",
+            "const": "1.0.0",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "feature_schema": {
+            "type": "string",
+            "const": "lastlight-official-v1-features-1",
+            "title": "Feature Schema",
+            "default": "lastlight-official-v1-features-1"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/CandidatePoint"
+            },
+            "type": "array",
+            "maxItems": 1600,
+            "minItems": 1,
+            "title": "Points"
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 12
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scenario",
+          "points"
+        ],
+        "title": "CandidateRequest"
+      },
+      "CandidateResult": {
+        "properties": {
+          "bridge_schema_version": {
+            "type": "string",
+            "const": "lastlight-ml-bridge-1",
+            "title": "Bridge Schema Version",
+            "default": "lastlight-ml-bridge-1"
+          },
+          "physics_version": {
+            "type": "string",
+            "const": "lastlight-dispatch-1.0.0",
+            "title": "Physics Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "schema_version": {
+            "type": "string",
+            "const": "1.0.0",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "neural_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "unavailable",
+              "incompatible_checkpoint"
+            ],
+            "title": "Neural Status"
+          },
+          "neural_model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Neural Model Version"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/VerifiedCandidate"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "neural_status",
+          "neural_model_version",
+          "candidates",
+          "warnings"
+        ],
+        "title": "CandidateResult"
+      },
+      "ComparisonDelta": {
+        "properties": {
+          "served_critical_kwh": {
+            "type": "number",
+            "title": "Served Critical Kwh"
+          },
+          "unserved_critical_kwh": {
+            "type": "number",
+            "title": "Unserved Critical Kwh"
+          },
+          "critical_survival_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Critical Survival Hours"
+          },
+          "idealized_autonomy_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idealized Autonomy Hours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "served_critical_kwh",
+          "unserved_critical_kwh",
+          "critical_survival_hours",
+          "idealized_autonomy_hours"
+        ],
+        "title": "ComparisonDelta"
+      },
+      "ComparisonRequest": {
+        "properties": {
+          "baseline": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "upgrade": {
+            "type": "string",
+            "enum": [
+              "battery_36_kwh",
+              "full_precharge"
+            ],
+            "title": "Upgrade",
+            "default": "battery_36_kwh"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ComparisonRequest"
+      },
+      "ComparisonResult": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "upgrade": {
+            "type": "string",
+            "enum": [
+              "battery_36_kwh",
+              "full_precharge"
+            ],
+            "title": "Upgrade"
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/SimulationResult"
+          },
+          "upgraded": {
+            "$ref": "#/components/schemas/SimulationResult"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/ComparisonDelta"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "upgrade",
+          "baseline",
+          "upgraded",
+          "delta"
+        ],
+        "title": "ComparisonResult"
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetail"
+            },
+            "type": "array",
+            "title": "Details"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "details"
+        ],
+        "title": "ErrorBody"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "location": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "location",
+          "message",
+          "type"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse"
+      },
+      "ForecastPreview": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "const": "lastlight-forecast-preview-1",
+            "title": "Schema Version",
+            "default": "lastlight-forecast-preview-1"
+          },
+          "example_id": {
+            "type": "string",
+            "title": "Example Id"
+          },
+          "building_id": {
+            "type": "string",
+            "title": "Building Id"
+          },
+          "forecast_origin_local": {
+            "type": "string",
+            "title": "Forecast Origin Local"
+          },
+          "history_start_local": {
+            "type": "string",
+            "title": "History Start Local"
+          },
+          "timestamp_basis": {
+            "type": "string",
+            "title": "Timestamp Basis"
+          },
+          "horizon_hours": {
+            "type": "integer",
+            "const": 1,
+            "title": "Horizon Hours",
+            "default": 1
+          },
+          "interval_hours": {
+            "type": "integer",
+            "const": 1,
+            "title": "Interval Hours",
+            "default": 1
+          },
+          "units": {
+            "type": "string",
+            "const": "whole-building average kW",
+            "title": "Units",
+            "default": "whole-building average kW"
+          },
+          "history_kw": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "maxItems": 168,
+            "minItems": 168,
+            "title": "History Kw"
+          },
+          "recorded_actual_kw": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Recorded Actual Kw"
+          },
+          "baseline_kw": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Baseline Kw"
+          },
+          "neural_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Neural Kw"
+          },
+          "neural_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "unavailable",
+              "incompatible_checkpoint"
+            ],
+            "title": "Neural Status"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "preferred_method": {
+            "type": "string",
+            "const": "persistence",
+            "title": "Preferred Method",
+            "default": "persistence"
+          },
+          "connected_to_physics": {
+            "type": "boolean",
+            "const": false,
+            "title": "Connected To Physics",
+            "default": false
+          },
+          "source_commit": {
+            "type": "string",
+            "title": "Source Commit"
+          },
+          "source_subset_sha256": {
+            "type": "string",
+            "title": "Source Subset Sha256"
+          },
+          "example_sha256": {
+            "type": "string",
+            "title": "Example Sha256"
+          },
+          "attribution": {
+            "type": "string",
+            "title": "Attribution"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          },
+          "license_url": {
+            "type": "string",
+            "title": "License Url"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "example_id",
+          "building_id",
+          "forecast_origin_local",
+          "history_start_local",
+          "timestamp_basis",
+          "history_kw",
+          "recorded_actual_kw",
+          "baseline_kw",
+          "neural_status",
+          "source_commit",
+          "source_subset_sha256",
+          "example_sha256",
+          "attribution",
+          "source_url",
+          "license_url",
+          "warnings"
+        ],
+        "title": "ForecastPreview"
+      },
+      "ForecastRequest": {
+        "properties": {
+          "example_id": {
+            "type": "string",
+            "enum": [
+              "rat-march20",
+              "silvia-march20",
+              "mouse-march20"
+            ],
+            "title": "Example Id",
+            "default": "rat-march20"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ForecastRequest"
+      },
+      "FrontierRequest": {
+        "properties": {
+          "scenario": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "soc_points": {
+            "type": "integer",
+            "maximum": 41.0,
+            "minimum": 3.0,
+            "title": "Soc Points",
+            "default": 13
+          },
+          "duration_points": {
+            "type": "integer",
+            "maximum": 49.0,
+            "minimum": 3.0,
+            "title": "Duration Points",
+            "default": 21
+          },
+          "maximum_hours": {
+            "type": "number",
+            "maximum": 48.0,
+            "minimum": 0.25,
+            "title": "Maximum Hours",
+            "default": 12
+          },
+          "include_ml": {
+            "type": "boolean",
+            "title": "Include Ml",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "FrontierRequest"
+      },
+      "Grid": {
+        "properties": {
+          "online": {
+            "type": "boolean",
+            "title": "Online",
+            "default": false
+          },
+          "profile_online": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "boolean"
+                },
+                "type": "array",
+                "maxItems": 10080
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Online"
+          },
+          "import_limit_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Import Limit Kw",
+            "default": 50.0
+          },
+          "charge_battery": {
+            "type": "boolean",
+            "title": "Charge Battery",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Grid"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status",
+            "default": "ok"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Health"
+      },
+      "Inverter": {
+        "properties": {
+          "max_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Max Kw",
+            "default": 8.0
+          },
+          "islanding_capable": {
+            "type": "boolean",
+            "title": "Islanding Capable",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Inverter"
+      },
+      "Load": {
+        "properties": {
+          "critical_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Critical Kw",
+            "default": 1.5
+          },
+          "noncritical_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Noncritical Kw",
+            "default": 2.0
+          },
+          "shed_noncritical_during_outage": {
+            "type": "boolean",
+            "title": "Shed Noncritical During Outage",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Load"
+      },
+      "NeuralAnalysis": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "unavailable",
+              "incompatible_checkpoint"
+            ],
+            "title": "Status"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "feature_schema": {
+            "type": "string",
+            "title": "Feature Schema",
+            "default": "lastlight-official-v1-features-1"
+          },
+          "source_physics_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Physics Version"
+          },
+          "estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/NeuralEstimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "warnings"
+        ],
+        "title": "NeuralAnalysis"
+      },
+      "NeuralEstimate": {
+        "properties": {
+          "predicted_failure": {
+            "type": "boolean",
+            "title": "Predicted Failure"
+          },
+          "synthetic_failure_score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Synthetic Failure Score"
+          },
+          "outside_training_domain": {
+            "type": "boolean",
+            "title": "Outside Training Domain"
+          },
+          "high_uncertainty": {
+            "type": "boolean",
+            "title": "High Uncertainty"
+          },
+          "physics_required": {
+            "type": "boolean",
+            "const": true,
+            "title": "Physics Required",
+            "default": true
+          },
+          "engineering_clearance": {
+            "type": "boolean",
+            "const": false,
+            "title": "Engineering Clearance",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "predicted_failure",
+          "synthetic_failure_score",
+          "outside_training_domain",
+          "high_uncertainty"
+        ],
+        "title": "NeuralEstimate"
+      },
+      "Provenance": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "measured",
+              "research_derived",
+              "synthetic"
+            ],
+            "title": "Category",
+            "default": "synthetic"
+          },
+          "references": {
+            "items": {
+              "type": "string",
+              "maxLength": 500,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "References"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Provenance"
+      },
+      "SimulationRequest": {
+        "properties": {
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc",
+            "description": "Timezone-aware ISO 8601 time; normalized to UTC. Fixed default for replay.",
+            "default": "2026-01-01T00:00:00Z"
+          },
+          "duration_hours": {
+            "type": "number",
+            "maximum": 168.0,
+            "minimum": 0.016666666666666666,
+            "title": "Duration Hours",
+            "default": 12
+          },
+          "step_minutes": {
+            "type": "integer",
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Step Minutes",
+            "default": 15
+          },
+          "seed": {
+            "type": "integer",
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "title": "Seed",
+            "default": 0
+          },
+          "battery": {
+            "$ref": "#/components/schemas/Battery"
+          },
+          "inverter": {
+            "$ref": "#/components/schemas/Inverter"
+          },
+          "load": {
+            "$ref": "#/components/schemas/Load"
+          },
+          "solar": {
+            "$ref": "#/components/schemas/Solar"
+          },
+          "grid": {
+            "$ref": "#/components/schemas/Grid"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SimulationRequest"
+      },
+      "SimulationResult": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SimulationSummary"
+          },
+          "trace": {
+            "items": {
+              "$ref": "#/components/schemas/SimulationTracePoint"
+            },
+            "type": "array",
+            "title": "Trace"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.0.0"
+          },
+          "input": {
+            "$ref": "#/components/schemas/SimulationRequest"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "input_hash",
+          "seed",
+          "summary",
+          "trace",
+          "provenance",
+          "input",
+          "warnings"
+        ],
+        "title": "SimulationResult"
+      },
+      "SimulationSummary": {
+        "properties": {
+          "critical_survival_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Critical Survival Hours"
+          },
+          "served_critical_fraction": {
+            "type": "number",
+            "title": "Served Critical Fraction"
+          },
+          "unserved_critical_kwh": {
+            "type": "number",
+            "title": "Unserved Critical Kwh"
+          },
+          "first_failure_utc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Failure Utc"
+          },
+          "max_balance_residual_kwh": {
+            "type": "number",
+            "title": "Max Balance Residual Kwh"
+          },
+          "observed_duration_hours": {
+            "type": "number",
+            "title": "Observed Duration Hours"
+          },
+          "survived_full_window": {
+            "type": "boolean",
+            "title": "Survived Full Window"
+          },
+          "idealized_autonomy_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idealized Autonomy Hours"
+          },
+          "total_critical_demand_kwh": {
+            "type": "number",
+            "title": "Total Critical Demand Kwh"
+          },
+          "served_critical_kwh": {
+            "type": "number",
+            "title": "Served Critical Kwh"
+          },
+          "served_noncritical_kwh": {
+            "type": "number",
+            "title": "Served Noncritical Kwh"
+          },
+          "unserved_noncritical_kwh": {
+            "type": "number",
+            "title": "Unserved Noncritical Kwh"
+          },
+          "grid_import_kwh": {
+            "type": "number",
+            "title": "Grid Import Kwh"
+          },
+          "solar_available_kwh": {
+            "type": "number",
+            "title": "Solar Available Kwh"
+          },
+          "solar_used_kwh": {
+            "type": "number",
+            "title": "Solar Used Kwh"
+          },
+          "solar_curtailed_kwh": {
+            "type": "number",
+            "title": "Solar Curtailed Kwh"
+          },
+          "battery_charge_kwh": {
+            "type": "number",
+            "title": "Battery Charge Kwh"
+          },
+          "battery_discharge_kwh": {
+            "type": "number",
+            "title": "Battery Discharge Kwh"
+          },
+          "conversion_loss_kwh": {
+            "type": "number",
+            "title": "Conversion Loss Kwh"
+          },
+          "initial_battery_energy_kwh": {
+            "type": "number",
+            "title": "Initial Battery Energy Kwh"
+          },
+          "final_battery_energy_kwh": {
+            "type": "number",
+            "title": "Final Battery Energy Kwh"
+          },
+          "usable_capacity_kwh": {
+            "type": "number",
+            "title": "Usable Capacity Kwh"
+          },
+          "ending_soc": {
+            "type": "number",
+            "title": "Ending Soc"
+          },
+          "cumulative_balance_residual_kwh": {
+            "type": "number",
+            "title": "Cumulative Balance Residual Kwh"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "critical_survival_hours",
+          "served_critical_fraction",
+          "unserved_critical_kwh",
+          "first_failure_utc",
+          "max_balance_residual_kwh",
+          "observed_duration_hours",
+          "survived_full_window",
+          "idealized_autonomy_hours",
+          "total_critical_demand_kwh",
+          "served_critical_kwh",
+          "served_noncritical_kwh",
+          "unserved_noncritical_kwh",
+          "grid_import_kwh",
+          "solar_available_kwh",
+          "solar_used_kwh",
+          "solar_curtailed_kwh",
+          "battery_charge_kwh",
+          "battery_discharge_kwh",
+          "conversion_loss_kwh",
+          "initial_battery_energy_kwh",
+          "final_battery_energy_kwh",
+          "usable_capacity_kwh",
+          "ending_soc",
+          "cumulative_balance_residual_kwh"
+        ],
+        "title": "SimulationSummary"
+      },
+      "SimulationTracePoint": {
+        "properties": {
+          "t_utc": {
+            "type": "string",
+            "title": "T Utc"
+          },
+          "grid_kw": {
+            "type": "number",
+            "title": "Grid Kw"
+          },
+          "solar_kw": {
+            "type": "number",
+            "title": "Solar Kw"
+          },
+          "battery_charge_kw": {
+            "type": "number",
+            "title": "Battery Charge Kw"
+          },
+          "battery_discharge_kw": {
+            "type": "number",
+            "title": "Battery Discharge Kw"
+          },
+          "battery_soc": {
+            "type": "number",
+            "title": "Battery Soc"
+          },
+          "critical_served_kw": {
+            "type": "number",
+            "title": "Critical Served Kw"
+          },
+          "critical_demand_kw": {
+            "type": "number",
+            "title": "Critical Demand Kw"
+          },
+          "noncritical_served_kw": {
+            "type": "number",
+            "title": "Noncritical Served Kw"
+          },
+          "unserved_critical_kw": {
+            "type": "number",
+            "title": "Unserved Critical Kw"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "islanded",
+              "degraded",
+              "critical_failure"
+            ],
+            "title": "Status"
+          },
+          "t_end_utc": {
+            "type": "string",
+            "title": "T End Utc"
+          },
+          "elapsed_hours": {
+            "type": "number",
+            "title": "Elapsed Hours"
+          },
+          "duration_hours": {
+            "type": "number",
+            "title": "Duration Hours"
+          },
+          "grid_online": {
+            "type": "boolean",
+            "title": "Grid Online"
+          },
+          "solar_available_kw": {
+            "type": "number",
+            "title": "Solar Available Kw"
+          },
+          "solar_curtailed_kw": {
+            "type": "number",
+            "title": "Solar Curtailed Kw"
+          },
+          "grid_charge_kw": {
+            "type": "number",
+            "title": "Grid Charge Kw"
+          },
+          "noncritical_demand_kw": {
+            "type": "number",
+            "title": "Noncritical Demand Kw"
+          },
+          "unserved_noncritical_kw": {
+            "type": "number",
+            "title": "Unserved Noncritical Kw"
+          },
+          "battery_soc_end": {
+            "type": "number",
+            "title": "Battery Soc End"
+          },
+          "battery_energy_kwh": {
+            "type": "number",
+            "title": "Battery Energy Kwh"
+          },
+          "battery_energy_end_kwh": {
+            "type": "number",
+            "title": "Battery Energy End Kwh"
+          },
+          "conversion_loss_kwh": {
+            "type": "number",
+            "title": "Conversion Loss Kwh"
+          },
+          "ac_balance_residual_kwh": {
+            "type": "number",
+            "title": "Ac Balance Residual Kwh"
+          },
+          "storage_balance_residual_kwh": {
+            "type": "number",
+            "title": "Storage Balance Residual Kwh"
+          },
+          "balance_residual_kwh": {
+            "type": "number",
+            "title": "Balance Residual Kwh"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "t_utc",
+          "grid_kw",
+          "solar_kw",
+          "battery_charge_kw",
+          "battery_discharge_kw",
+          "battery_soc",
+          "critical_served_kw",
+          "critical_demand_kw",
+          "noncritical_served_kw",
+          "unserved_critical_kw",
+          "status",
+          "t_end_utc",
+          "elapsed_hours",
+          "duration_hours",
+          "grid_online",
+          "solar_available_kw",
+          "solar_curtailed_kw",
+          "grid_charge_kw",
+          "noncritical_demand_kw",
+          "unserved_noncritical_kw",
+          "battery_soc_end",
+          "battery_energy_kwh",
+          "battery_energy_end_kwh",
+          "conversion_loss_kwh",
+          "ac_balance_residual_kwh",
+          "storage_balance_residual_kwh",
+          "balance_residual_kwh"
+        ],
+        "title": "SimulationTracePoint"
+      },
+      "Solar": {
+        "properties": {
+          "generation_kw": {
+            "type": "number",
+            "maximum": 50000.0,
+            "minimum": 0.0,
+            "title": "Generation Kw",
+            "default": 0.0
+          },
+          "profile_kw": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number",
+                  "maximum": 50000.0,
+                  "minimum": 0.0
+                },
+                "type": "array",
+                "maxItems": 10080
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Kw"
+          },
+          "islanding_capable": {
+            "type": "boolean",
+            "title": "Islanding Capable",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Solar"
+      },
+      "VerifiedCandidate": {
+        "properties": {
+          "initial_soc": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Initial Soc"
+          },
+          "duration_hours": {
+            "type": "number",
+            "maximum": 48.0,
+            "minimum": 0.016666666666666666,
+            "title": "Duration Hours"
+          },
+          "neural": {
+            "$ref": "#/components/schemas/NeuralEstimate"
+          },
+          "physics_verified": {
+            "type": "boolean",
+            "const": true,
+            "title": "Physics Verified",
+            "default": true
+          },
+          "physics_model_version": {
+            "type": "string",
+            "const": "lastlight-dispatch-1.0.0",
+            "title": "Physics Model Version",
+            "default": "lastlight-dispatch-1.0.0"
+          },
+          "physics_schema_version": {
+            "type": "string",
+            "const": "1.0.0",
+            "title": "Physics Schema Version",
+            "default": "1.0.0"
+          },
+          "physics_run_id": {
+            "type": "string",
+            "title": "Physics Run Id"
+          },
+          "input_hash": {
+            "type": "string",
+            "title": "Input Hash"
+          },
+          "physics_summary": {
+            "$ref": "#/components/schemas/SimulationSummary"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "initial_soc",
+          "duration_hours",
+          "neural",
+          "physics_run_id",
+          "input_hash",
+          "physics_summary",
+          "warnings"
+        ],
+        "title": "VerifiedCandidate"
+      }
+    }
+  }
+}

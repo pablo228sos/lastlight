@@ -24,11 +24,11 @@ async function post(path: string, body: SimulationRequest | ComparisonRequest, s
   }
 }
 
-export async function requestBaseline(signal?: AbortSignal) {
-  return validateSimulation(await post('/api/v1/simulations', {}, signal))
+export async function requestBaseline(signal?: AbortSignal, scenario: SimulationRequest = {}) {
+  return validateSimulation(await post('/api/v1/simulations', scenario, signal))
 }
-export async function requestComparison(signal?: AbortSignal) {
-  return validateComparison(await post('/api/v1/comparisons', { upgrade: 'battery_36_kwh' }, signal))
+export async function requestComparison(signal?: AbortSignal, baseline?: SimulationRequest) {
+  return validateComparison(await post('/api/v1/comparisons', { baseline, upgrade: 'battery_36_kwh' }, signal))
 }
 export function verifiedBaseline() { return validateSimulation(baselineFixture) }
 export function verifiedComparison() { return validateComparison(comparisonFixture) }

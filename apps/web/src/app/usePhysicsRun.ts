@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ComparisonResult, SimulationResult } from '../lib/contracts'
+import type { ComparisonResult, SimulationRequest, SimulationResult } from '../lib/contracts'
 import { requestBaseline, requestComparison, verifiedBaseline, verifiedComparison } from '../lib/physicsApi'
 import { traceInterval, validateComparison } from '../lib/physics'
 import type { VisualRehearsalState } from './useMissionState'
@@ -35,7 +35,7 @@ export function usePhysicsRun() {
     setElapsedHours(0); setPlaying(false)
   }, [])
 
-  const begin = useCallback(async (mode: PhysicsSource) => {
+  const begin = useCallback(async (mode: PhysicsSource, scenario: SimulationRequest = {}) => {
     const current = ++serial.current
     requestRef.current?.abort()
     const controller = new AbortController()
@@ -43,7 +43,7 @@ export function usePhysicsRun() {
     setStatus('loading'); setSource(null); setBaseline(null); setComparison(null)
     setSelectedRun('baseline'); setError(null); setCompareError(null); elapsedRef.current = 0; setElapsedHours(0); setPlaying(false)
     try {
-      const value = mode === 'live' ? await requestBaseline(controller.signal) : verifiedBaseline()
+      const value = mode === 'live' ? await requestBaseline(controller.signal, scenario) : verifiedBaseline()
       if (current !== serial.current) return
       setBaseline(value); setSource(mode); setStatus('ready')
       setPlaying(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -62,7 +62,7 @@ export function usePhysicsRun() {
     requestRef.current = controller
     setCompareLoading(true); setCompareError(null)
     try {
-      const value = source === 'live' ? await requestComparison(controller.signal) : verifiedComparison()
+      const value = source === 'live' ? await requestComparison(controller.signal, baseline.input) : verifiedComparison()
       validateComparison(value)
       if (value.baseline.input_hash !== baseline.input_hash) throw new Error('Comparison baseline does not match the active simulation.')
       if (current !== serial.current) return

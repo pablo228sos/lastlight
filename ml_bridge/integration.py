@@ -10,6 +10,7 @@ from fastapi.routing import APIRoute
 
 from .adapter import DEFAULT_CHECKPOINT
 from .api import create_router
+from .forecast import DEFAULT_FORECAST, create_forecast_router
 
 
 def intelligence_openapi(app: FastAPI) -> dict:
@@ -37,6 +38,10 @@ def install_intelligence(app: FastAPI) -> None:
     # Standalone physics installs copy only services/simulation. Keep their exact
     # frozen /openapi.json, while publishing the complete additive contract below.
     app.include_router(create_router(), include_in_schema=False)
+    app.state.energydna_checkpoint_dir = Path(
+        os.environ.get("LASTLIGHT_ENERGYDNA_CHECKPOINT", str(DEFAULT_FORECAST))
+    )
+    app.include_router(create_forecast_router(), include_in_schema=False)
 
     @app.get("/api/v1/intelligence/openapi.json", include_in_schema=False)
     def complete_contract() -> dict:

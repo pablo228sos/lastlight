@@ -1,0 +1,24 @@
+.intelligence-panel{width:min(1050px,100%);font-family:Manrope,sans-serif;max-height:calc(100dvh - 48px)}
+.intelligence-panel p,.intelligence-panel li{font-size:14px;line-height:1.6;color:#c7d5cc}
+.intelligence-panel h2{font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-.045em}
+.intelligence-panel h3{font-size:24px;line-height:1.2;letter-spacing:-.025em;margin:12px 0 20px}
+.intelligence-panel .frontier-intro{font-size:15px;max-width:760px}
+.intelligence-panel small,.model-identity{font-family:'IBM Plex Mono',monospace;font-size:11px!important;line-height:1.6;overflow-wrap:anywhere;color:#a5c9bc}
+.analysis-columns{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:24px 0}
+.analysis-physical{border-top:3px solid #73b6a4;padding-top:12px}.analysis-neural{border-top:3px solid #e5ae6e;padding-top:12px}
+.intelligence-panel .analysis-kicker{font:11px 'IBM Plex Mono',monospace;letter-spacing:.13em;color:#e1c298}
+.analysis-facts{margin:0}.analysis-facts>div{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid #435b57}.analysis-facts dt{font-size:14px;color:#c7d5cc}.analysis-facts dd{margin:0;font:15px 'IBM Plex Mono',monospace;color:#f4ede1}
+.analysis-score strong{display:block;font:36px Manrope,sans-serif;color:#edb777;letter-spacing:-.04em;margin-top:3px}
+.analysis-button{border:1px solid #8fbdae;background:#18302e;color:#e8f2eb;font:11px 'IBM Plex Mono',monospace;letter-spacing:.04em;min-height:44px;padding:11px 15px;margin:6px 8px 6px 0;cursor:pointer}.analysis-button:hover{background:#2e4840}.analysis-button:disabled{opacity:.6;cursor:wait}
+.analysis-notice{padding-left:12px;border-left:2px solid #e5ae6e}.analysis-agreement{color:#e6d6bc!important}
+.intelligence-panel .score-explanation{border-top:1px solid #435b57;padding-top:15px;color:#b4c7be;font-size:13px}
+.intelligence-panel details{margin-top:16px;font-size:13px;overflow-wrap:anywhere}.intelligence-panel summary{cursor:pointer;min-height:32px;color:#e6c194}
+.intelligence-panel .frontier-layout{grid-template-columns:minmax(0,1fr) 220px}.intelligence-panel .frontier-plot{height:265px;gap:2px}.frontier-plot .ai-checked{position:relative}.frontier-plot .ai-checked:after{content:'';position:absolute;inset:5%;border:2px solid #fff;border-radius:50%;box-shadow:0 0 3px #14282d}
+.intelligence-panel .frontier-legend{font-size:10px;flex-wrap:wrap;gap:12px}.intelligence-panel .frontier-reading p{font-size:13px}.intelligence-panel .frontier-reading small{font-size:10px!important}
+.frontier-y-ticks{position:absolute;left:0;top:0;bottom:24px;display:flex;justify-content:space-between;flex-direction:column;font:10px 'IBM Plex Mono',monospace;color:#b6c9c0}.intelligence-panel .frontier-axis-y{left:-17px;font-size:10px}.intelligence-panel .frontier-axis-x{font-size:10px}
+.candidate-section{border-top:1px solid #435b57;margin-top:20px;padding-top:8px}.candidate-section h3{margin-bottom:8px}.candidate-list{padding-left:20px}.candidate-list li{padding:7px 0}.candidate-list small{display:block}
+.masthead-actions{display:flex;gap:20px}.forecast-selector{display:flex;flex-wrap:wrap;align-items:center;gap:12px;color:#c7d5cc;font-size:14px}.forecast-selector select{padding:10px;background:#18302e;border:1px solid #8fbdae;color:#eef2e7;font:14px Manrope,sans-serif}.forecast-chart{display:block;width:100%;height:auto;max-height:250px;margin:18px 0;color:#b6c8c0}.forecast-chart text{fill:currentColor;font:12px 'IBM Plex Mono',monospace}.forecast-values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.forecast-values>section{border-top:2px solid #73b6a4;padding-top:8px}.forecast-values>section:first-child{border-color:#b5c2ec}.forecast-values>section:nth-child(2){border-color:#e6bf80}.forecast-values h3{margin-bottom:8px}.intelligence-panel a{color:#b5e4d6}
+@media(max-width:1000px){.masthead-center{display:none}.masthead-actions{gap:12px}}
+@media(max-width:600px){.forecast-values{grid-template-columns:1fr}.masthead-actions .text-action{font-size:8px}}
+@media(max-width:760px){.analysis-columns{grid-template-columns:1fr;gap:22px}.intelligence-panel .frontier-layout{grid-template-columns:1fr}.intelligence-panel{padding:18px;max-height:calc(100dvh - 20px)}.intelligence-panel .frontier-plot{height:230px}.intelligence-panel h3{font-size:22px}}
+@media(max-height:800px) and (min-width:761px){.intelligence-panel{padding:18px 27px}.intelligence-panel h2{font-size:34px;margin-top:14px}.analysis-columns{margin:16px 0}.intelligence-panel .frontier-plot{height:220px}}
