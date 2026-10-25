@@ -1,0 +1,110 @@
+{
+  "Bull_lodging_Leonard": {
+    "usage": "lodging",
+    "observed": 2150,
+    "zero_count": 78,
+    "missing_fraction": 0.004629629629629629,
+    "mean_kw": 36.647441860465115,
+    "p99_kw": 51.0,
+    "largest_one_hour_change_kw": 114.0
+  },
+  "Eagle_health_Amy": {
+    "usage": "health",
+    "observed": 2160,
+    "zero_count": 4,
+    "missing_fraction": 0.0,
+    "mean_kw": 76.78739481481482,
+    "p99_kw": 132.67848799999987,
+    "largest_one_hour_change_kw": 106.8578
+  },
+  "Fox_warehouse_Lorretta": {
+    "usage": "warehouse",
+    "observed": 2150,
+    "zero_count": 5,
+    "missing_fraction": 0.004629629629629629,
+    "mean_kw": 23.279427906976743,
+    "p99_kw": 191.79579999999962,
+    "largest_one_hour_change_kw": 143.65
+  },
+  "Hog_education_Cathleen": {
+    "usage": "education",
+    "observed": 2160,
+    "zero_count": 2160,
+    "missing_fraction": 0.0,
+    "mean_kw": 0.0,
+    "p99_kw": 0.0,
+    "largest_one_hour_change_kw": 0.0
+  },
+  "Lamb_education_Emery": {
+    "usage": "education",
+    "observed": 2160,
+    "zero_count": 0,
+    "missing_fraction": 0.0,
+    "mean_kw": 62.55138888888889,
+    "p99_kw": 172.941,
+    "largest_one_hour_change_kw": 59.80000000000001
+  },
+  "Mouse_science_Micheal": {
+    "usage": "science",
+    "observed": 2160,
+    "zero_count": 0,
+    "missing_fraction": 0.0,
+    "mean_kw": 336.37071837962964,
+    "p99_kw": 336.4486,
+    "largest_one_hour_change_kw": 168.2243
+  },
+  "Panther_parking_Lorriane": {
+    "usage": "parking",
+    "observed": 2160,
+    "zero_count": 2154,
+    "missing_fraction": 0.0,
+    "mean_kw": 0.007918194444444445,
+    "p99_kw": 0.0,
+    "largest_one_hour_change_kw": 3.7207
+  },
+  "Peacock_lodging_Mathew": {
+    "usage": "lodging",
+    "observed": 2158,
+    "zero_count": 0,
+    "missing_fraction": 0.000925925925925926,
+    "mean_kw": 64.51182516218722,
+    "p99_kw": 89.96001899999995,
+    "largest_one_hour_change_kw": 28.4666
+  },
+  "Rat_assembly_Francine": {
+    "usage": "assembly",
+    "observed": 2159,
+    "zero_count": 0,
+    "missing_fraction": 0.000462962962962963,
+    "mean_kw": 40.17299675775822,
+    "p99_kw": 55.826800000000006,
+    "largest_one_hour_change_kw": 17.24
+  },
+  "Rat_assembly_Silvia": {
+    "usage": "assembly",
+    "observed": 2159,
+    "zero_count": 0,
+    "missing_fraction": 0.000462962962962963,
+    "mean_kw": 11.775428439092172,
+    "p99_kw": 36.2368,
+    "largest_one_hour_change_kw": 24.27
+  },
+  "Robin_lodging_Celia": {
+    "usage": "lodging",
+    "observed": 2160,
+    "zero_count": 0,
+    "missing_fraction": 0.0,
+    "mean_kw": 59.54583333333334,
+    "p99_kw": 109.04099999999998,
+    "largest_one_hour_change_kw": 36.3
+  },
+  "Swan_unknown_Isaiah": {
+    "usage": "unknown",
+    "observed": 0,
+    "zero_count": 0,
+    "missing_fraction": 1.0,
+    "mean_kw": null,
+    "p99_kw": null,
+    "largest_one_hour_change_kw": null
+  }
+}

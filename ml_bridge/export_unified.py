@@ -7,6 +7,7 @@ from pathlib import Path
 from services.simulation.api import app
 from ml_bridge.export_contract import name, ts
 from ml_bridge.integration import intelligence_openapi
+from research.energydna.profile_contract import ForecastSeries
 
 
 def main():
@@ -26,6 +27,10 @@ def main():
     outputs = {
         root / "docs/unified/openapi.json": json.dumps(document, indent=2) + "\n",
         root / "apps/web/src/lib/intelligenceContracts.ts": content,
+        root / "docs/unified/forecast-allocation.schema.json": json.dumps(
+            ForecastSeries.model_json_schema(), indent=2
+        )
+        + "\n",
     }
     for path, value in outputs.items():
         if args.check:

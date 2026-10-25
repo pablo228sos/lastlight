@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 from typing import Literal
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import Field
 
 from services.simulation.schemas import Contract
@@ -15,6 +15,7 @@ from services.simulation.schemas import Contract
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_FORECAST = ROOT / "research/energydna/artifacts/gru-v1"
 EXAMPLES = ROOT / "research/energydna/examples/historical.json"
+EXAMPLES_SHA256 = "fe74da34de5e17f522b3c4fbaee08115d67495e28da23a1e5ae7f2d2f1ac9c0f"
 
 
 class ForecastRequest(Contract):
@@ -62,7 +63,16 @@ def load_forecaster(directory: Path, digest: str):
 def forecast(
     request: ForecastRequest, directory: Path = DEFAULT_FORECAST
 ) -> ForecastPreview:
-    content = EXAMPLES.read_bytes()
+    try:
+        content = EXAMPLES.read_bytes()
+    except OSError as error:
+        raise HTTPException(
+            503, "Packaged historical research examples are not installed"
+        ) from error
+    if hashlib.sha256(content).hexdigest() != EXAMPLES_SHA256:
+        raise HTTPException(
+            503, "Historical example checksum failed; research preview is unavailable"
+        )
     package = json.loads(content)
     example = next(
         item for item in package["examples"] if item["example_id"] == request.example_id
