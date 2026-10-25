@@ -17,7 +17,9 @@ class AssessmentRequest(Contract):
     scenario: SimulationRequest
     physics_version: Literal["lastlight-dispatch-1.0.0"] = "lastlight-dispatch-1.0.0"
     schema_version: Literal["1.0.0"] = "1.0.0"
-    feature_schema: Literal["lastlight-official-v1-features-1"] = FEATURE_SCHEMA
+    feature_schema: Literal[
+        "lastlight-official-v1-features-1", "lastlight-official-v1-features-2"
+    ] = FEATURE_SCHEMA
 
 
 class NeuralEstimate(Contract):

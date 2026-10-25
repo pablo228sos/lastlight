@@ -35,6 +35,15 @@ def install_intelligence(app: FastAPI) -> None:
     app.state.fragility_checkpoint_dir = Path(
         os.environ.get("LASTLIGHT_FRAGILITY_CHECKPOINT", str(DEFAULT_CHECKPOINT))
     )
+    app.state.fragility_v2_checkpoint_dir = Path(
+        os.environ.get(
+            "LASTLIGHT_FRAGILITY_TIMING_CHECKPOINT",
+            os.environ.get(
+                "LASTLIGHT_FRAGILITY_CHECKPOINT",
+                str(DEFAULT_CHECKPOINT.parent / "fragility-official-v1-timing"),
+            ),
+        )
+    )
     # Standalone physics installs copy only services/simulation. Keep their exact
     # frozen /openapi.json, while publishing the complete additive contract below.
     app.include_router(create_router(), include_in_schema=False)

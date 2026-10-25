@@ -18,11 +18,33 @@ from .features import (
 from .runtime import source_identity
 
 
+def feature_contract(schema):
+    if schema == FEATURE_SCHEMA:
+        return (
+            FEATURE_NAMES,
+            FEATURE_SCHEMA,
+            FEATURE_SHA256,
+            feature_source_sha256(),
+            features,
+        )
+    from .timing_features import (
+        NAMES,
+        FEATURE_SCHEMA as TIMING_SCHEMA,
+        FEATURE_SHA256 as TIMING_HASH,
+        feature_source_sha256 as timing_source,
+        timing_features,
+    )
+
+    if schema != TIMING_SCHEMA:
+        raise ValueError("Unsupported feature schema")
+    return NAMES, TIMING_SCHEMA, TIMING_HASH, timing_source(), timing_features
+
+
 class FragilityNet(nn.Module):
-    def __init__(self):
+    def __init__(self, input_size=len(FEATURE_NAMES)):
         super().__init__()
         self.layers = nn.Sequential(
-            nn.Linear(len(FEATURE_NAMES), 64),
+            nn.Linear(input_size, 64),
             nn.ReLU(),
             nn.Linear(64, 32),
             nn.ReLU(),
@@ -40,16 +62,20 @@ class FragilityPredictor:
             np.asarray(manifest["mean"]),
             np.asarray(manifest["scale"]),
         )
+        self.feature_names, _, _, _, self.extract = feature_contract(
+            manifest["feature_schema"]
+        )
 
     @classmethod
     def load(cls, directory: Path, *, require_catalog=True):
         meta = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
+        names, schema, digest, source, _ = feature_contract(meta["feature_schema"])
         for key, expected in {
             **source_identity(),
-            "feature_schema": FEATURE_SCHEMA,
-            "feature_sha256": FEATURE_SHA256,
-            "feature_names": FEATURE_NAMES,
-            "feature_source_sha256": feature_source_sha256(),
+            "feature_schema": schema,
+            "feature_sha256": digest,
+            "feature_names": names,
+            "feature_source_sha256": source,
         }.items():
             if meta.get(key) != expected:
                 raise ValueError(f"Checkpoint does not match {key}")
@@ -81,7 +107,7 @@ class FragilityPredictor:
             "baseline_coefficients",
         ]:
             values = np.asarray(meta[key], dtype=np.float64)
-            if values.shape != (len(FEATURE_NAMES),) or not np.isfinite(values).all():
+            if values.shape != (len(names),) or not np.isfinite(values).all():
                 raise ValueError(
                     "Invalid checkpoint preprocessing dimensions or values"
                 )
@@ -101,10 +127,12 @@ class FragilityPredictor:
         digest = hashlib.sha256(weights.read_bytes()).hexdigest()
         if (
             digest != meta["checkpoint_sha256"]
-            or meta["model_version"] != f"fragility-official-v1-{digest[:12]}"
+            or meta["model_version"]
+            != f"fragility-official-v1-{'timing-' if schema.endswith('-2') else ''}{digest[:12]}"
         ):
             raise ValueError("Checkpoint integrity/identity mismatch")
-        model = FragilityNet()
+        torch.set_num_threads(1)
+        model = FragilityNet(len(names))
         model.load_state_dict(
             torch.load(weights, map_location="cpu", weights_only=True)
         )
@@ -116,7 +144,7 @@ class FragilityPredictor:
 
     def scores(self, matrix, baseline=False):
         raw = np.atleast_2d(matrix).astype(np.float64)
-        if raw.shape[1] != len(FEATURE_NAMES) or not np.isfinite(raw).all():
+        if raw.shape[1] != len(self.feature_names) or not np.isfinite(raw).all():
             raise ValueError("Input feature contract mismatch")
         normalized = (raw - self.mean) / self.scale
         if baseline:
@@ -136,7 +164,7 @@ class FragilityPredictor:
         return 1 / (1 + np.exp(-np.clip(logits / temp, -40, 40)))
 
     def predict(self, scenario):
-        vector = np.asarray(features(scenario))
+        vector = np.asarray(self.extract(scenario))
         score = float(self.scores(vector)[0])
         outside = bool(
             np.any(vector < np.asarray(self.manifest["domain_min"]) - 1e-6)

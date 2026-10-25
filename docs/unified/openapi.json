@@ -401,7 +401,10 @@
           },
           "feature_schema": {
             "type": "string",
-            "const": "lastlight-official-v1-features-1",
+            "enum": [
+              "lastlight-official-v1-features-1",
+              "lastlight-official-v1-features-2"
+            ],
             "title": "Feature Schema",
             "default": "lastlight-official-v1-features-1"
           }
@@ -518,7 +521,10 @@
           },
           "feature_schema": {
             "type": "string",
-            "const": "lastlight-official-v1-features-1",
+            "enum": [
+              "lastlight-official-v1-features-1",
+              "lastlight-official-v1-features-2"
+            ],
             "title": "Feature Schema",
             "default": "lastlight-official-v1-features-1"
           },

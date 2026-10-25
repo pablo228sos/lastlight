@@ -1,0 +1,26 @@
+{
+  "preregistration_commit": "70db480",
+  "generator_seed": 20261025,
+  "generated_rows": 6000,
+  "retained_rows": 1800,
+  "retained_splits": {
+    "generalization": 1200,
+    "test": 600
+  },
+  "retained_capacity_groups": {
+    "generalization": [
+      30.0,
+      42.0,
+      60.0
+    ],
+    "test": [
+      36.0
+    ]
+  },
+  "input_hash_sequence_sha256": "f6639ecaed92e5c7d309555bc777efa0e0b105c332267d5e6db294276e485d04",
+  "no_original_physical_signature_overlap": true,
+  "physics_version": "lastlight-dispatch-1.0.0",
+  "schema_version": "1.0.0",
+  "source_sha256": "d776af652f8bba19b666ff9acf6cea1f801c0d57f6af033de230eb1581cc4a7a",
+  "request_schema_sha256": "9c34b8a93dd12eaaf69aee15719f6894ab205daa5f053135b7462683a9f23986"
+}

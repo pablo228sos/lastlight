@@ -32,10 +32,14 @@ def predictor(directory: Path, source_sha256: str):
     return _predictor(directory, source_sha256, digest.hexdigest())
 
 
-def analyze_neural(scenario, checkpoint_dir: Path) -> NeuralAnalysis:
+def analyze_neural(
+    scenario, checkpoint_dir: Path, expected_feature_schema=None
+) -> NeuralAnalysis:
     if not (checkpoint_dir / "manifest.json").is_file():
         return NeuralAnalysis(
             status="unavailable",
+            feature_schema=expected_feature_schema
+            or "lastlight-official-v1-features-1",
             warnings=[
                 SCORE_WARNING,
                 "No matching neural checkpoint is installed; official physics remains available.",
@@ -44,10 +48,16 @@ def analyze_neural(scenario, checkpoint_dir: Path) -> NeuralAnalysis:
     try:
         identity = source_identity()
         model = predictor(checkpoint_dir.resolve(), identity["source_sha256"])
+        if (
+            expected_feature_schema is not None
+            and model.manifest["feature_schema"] != expected_feature_schema
+        ):
+            raise ValueError("Requested feature contract differs from checkpoint")
         estimate, warnings = model.predict(scenario)
         return NeuralAnalysis(
             status="available",
             model_version=model.manifest["model_version"],
+            feature_schema=model.manifest["feature_schema"],
             source_physics_version=model.manifest["physics_version"],
             estimate=estimate,
             warnings=[SCORE_WARNING, *warnings],
@@ -55,6 +65,8 @@ def analyze_neural(scenario, checkpoint_dir: Path) -> NeuralAnalysis:
     except (ImportError, OSError):
         return NeuralAnalysis(
             status="unavailable",
+            feature_schema=expected_feature_schema
+            or "lastlight-official-v1-features-1",
             warnings=[
                 SCORE_WARNING,
                 "Neural runtime/checkpoint is unavailable; use the official physics result.",
@@ -63,6 +75,8 @@ def analyze_neural(scenario, checkpoint_dir: Path) -> NeuralAnalysis:
     except (ValueError, RuntimeError, KeyError, TypeError):
         return NeuralAnalysis(
             status="incompatible_checkpoint",
+            feature_schema=expected_feature_schema
+            or "lastlight-official-v1-features-1",
             warnings=[
                 SCORE_WARNING,
                 "Checkpoint failed its version, feature, source or integrity checks; use the official physics result.",
@@ -77,5 +91,6 @@ def assess(
     source_identity()
     physics = simulate(request.scenario)
     return Assessment(
-        physics=physics, neural=analyze_neural(request.scenario, checkpoint_dir)
+        physics=physics,
+        neural=analyze_neural(request.scenario, checkpoint_dir, request.feature_schema),
     )

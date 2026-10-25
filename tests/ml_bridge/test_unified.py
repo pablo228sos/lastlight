@@ -77,3 +77,49 @@ def test_changed_checkpoint_invalidates_a_previously_warm_cache(tmp_path, monkey
         ).json()
         assert second["neural"]["status"] == "incompatible_checkpoint"
         assert second["physics"] == first["physics"]
+
+
+def test_explicit_timing_contract_loads_fresh_holdout_verified_model_and_candidates():
+    with TestClient(app) as client:
+        request = {
+            "scenario": {"duration_hours": 16},
+            "feature_schema": "lastlight-official-v1-features-2",
+        }
+        body = client.post("/api/v1/ml/fragility/assess", json=request).json()
+        assert (
+            body["neural"]["model_version"]
+            == "fragility-official-v1-timing-1eb5857a2421"
+        )
+        assert body["neural"]["feature_schema"] == request["feature_schema"]
+        assert (
+            body["physics"]
+            == client.post("/api/v1/simulations", json=request["scenario"]).json()
+        )
+        cases = client.post(
+            "/api/v1/ml/fragility/candidates",
+            json={
+                **request,
+                "points": [
+                    {"initial_soc": 0.8, "duration_hours": 9.12},
+                    {"initial_soc": 0.8, "duration_hours": 9.120001},
+                ],
+                "limit": 2,
+            },
+        ).json()
+        assert cases["neural_model_version"] == body["neural"]["model_version"]
+        assert len(cases["candidates"]) == 2
+        assert {
+            cell["physics_summary"]["survived_full_window"]
+            for cell in cases["candidates"]
+        } == {True, False}
+
+
+def test_timing_contract_cannot_silently_load_original_feature_checkpoint(monkeypatch):
+    monkeypatch.setattr(app.state, "fragility_v2_checkpoint_dir", DEFAULT_CHECKPOINT)
+    with TestClient(app) as client:
+        body = client.post(
+            "/api/v1/ml/fragility/assess",
+            json={"scenario": {}, "feature_schema": "lastlight-official-v1-features-2"},
+        ).json()
+        assert body["neural"]["status"] == "incompatible_checkpoint"
+        assert body["physics"]["summary"]["critical_survival_hours"] == 9.12
